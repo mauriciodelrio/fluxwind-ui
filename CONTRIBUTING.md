@@ -485,6 +485,7 @@ pnpm pr:generate:main
 ```
 
 The script will:
+
 - Analyze your branch name and extract type, scope, and description
 - List all commits on your branch
 - Categorize changed files
