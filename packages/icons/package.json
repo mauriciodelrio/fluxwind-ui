@@ -1,7 +1,14 @@
 {
-  "name": "@fluxwind/utils",
+  "name": "@fluxwind/icons",
   "version": "0.0.0",
-  "description": "Utility functions for Fluxwind UI",
+  "description": "Icon system for Fluxwind UI - Lucide icons wrapper",
+  "keywords": [
+    "icons",
+    "lucide",
+    "react",
+    "ui",
+    "fluxwind"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -26,10 +33,19 @@
     "test:ui": "vitest --ui",
     "clean": "rm -rf dist .turbo node_modules"
   },
+  "dependencies": {
+    "lucide-react": "^0.553.0"
+  },
   "devDependencies": {
-    "tsup": "^8.0.1",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
+    "tsup": "^8.5.0",
     "typescript": "^5.3.3",
     "vitest": "^4.0.7"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
   },
   "publishConfig": {
     "access": "public"
