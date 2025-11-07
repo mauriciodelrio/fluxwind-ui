@@ -28,21 +28,27 @@ print_info "Current branch: $BRANCH_NAME"
 # Determine base branch
 if [ "$BRANCH_NAME" = "develop" ]; then
   BASE_BRANCH="main"
+  BASE_REMOTE="origin/main"
   print_info "Detected develop branch - PR will target main"
 elif [ "$BRANCH_NAME" = "main" ]; then
   print_error "Cannot create PR from main branch"
   exit 1
 else
   BASE_BRANCH=${1:-develop}
+  BASE_REMOTE="origin/$BASE_BRANCH"
   print_info "PR will target $BASE_BRANCH"
 fi
 
-# Validate base branch exists
-! git rev-parse --verify "$BASE_BRANCH" >/dev/null 2>&1 && print_error "Base branch '$BASE_BRANCH' does not exist" && exit 1
+# Fetch latest from remote to ensure accurate comparison
+print_info "Fetching latest changes from remote..."
+git fetch origin "$BASE_BRANCH" --quiet 2>/dev/null || print_warning "Could not fetch remote branch"
 
-# Check for commits
-COMMIT_COUNT=$(git rev-list --count --no-merges "$BASE_BRANCH..HEAD" 2>/dev/null || echo "0")
-[ "$COMMIT_COUNT" = "0" ] && print_error "No commits found between $BASE_BRANCH and $BRANCH_NAME" && exit 1
+# Validate base branch exists (check remote)
+! git rev-parse --verify "$BASE_REMOTE" >/dev/null 2>&1 && print_error "Remote branch '$BASE_REMOTE' does not exist" && exit 1
+
+# Check for commits (compare against remote)
+COMMIT_COUNT=$(git rev-list --count --no-merges "$BASE_REMOTE..HEAD" 2>/dev/null || echo "0")
+[ "$COMMIT_COUNT" = "0" ] && print_error "No commits found between $BASE_REMOTE and $BRANCH_NAME" && exit 1
 print_success "Found $COMMIT_COUNT commit(s) to include in PR"
 
 # Parse branch name for PR title
@@ -80,22 +86,22 @@ else
   print_info "Copilot CLI not found - using template generator"
 fi
 
-# Get file stats
-SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
+# Get file stats (compare against remote)
+SHORTSTAT=$(git diff --shortstat "$BASE_REMOTE..HEAD" 2>/dev/null || echo "")
 ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
 DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
 [ -z "$ADDITIONS" ] && ADDITIONS="0"
 [ -z "$DELETIONS" ] && DELETIONS="0"
 
-CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
+CHANGED_FILES=$(git diff --name-only "$BASE_REMOTE..HEAD" 2>/dev/null)
 FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
 
 if [ "$USE_COPILOT" = true ]; then
   # Use Copilot CLI in programmatic mode
   print_info "Generating description with Copilot AI..."
   
-  # Get commit details
-  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_BRANCH..HEAD" 2>/dev/null | head -20)
+  # Get commit details (compare against remote)
+  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_REMOTE..HEAD" 2>/dev/null | head -20)
   
   # Detect changed packages
   PACKAGES=$(echo "$CHANGED_FILES" | grep -E "^packages/" | sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | tr '\n' ', ' | sed 's/,$//')
@@ -124,6 +130,13 @@ Requirements:
 8. Use emojis appropriately
 9. Be professional and concise
 
+CRITICAL FORMATTING RULES:
+- Always add blank lines before and after headers (##, ###)
+- Always add blank lines before and after tables
+- Always add blank lines before and after code blocks
+- Always add blank lines before and after lists
+- Proper spacing ensures GitHub renders everything correctly
+
 IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or markdown fences. Do NOT use \`\`\`markdown blocks. GitHub PRs render Markdown natively."
   
   # Try to generate with Copilot (allow shell tool for git commands)
@@ -149,8 +162,7 @@ IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or ma
       sed '/^Total duration/d' | \
       sed '/^Total code changes/d' | \
       sed 's/^```markdown$//' | \
-      sed 's/^```$//' | \
-      sed '/^[[:space:]]*$/N;/^\n$/d' > "$TEMP_FILE"
+      sed 's/^```$//' > "$TEMP_FILE"
     print_success "Copilot description generated"
   else
     print_warning "Copilot failed, falling back to template generator"
@@ -186,7 +198,7 @@ if [ "$USE_COPILOT" = false ]; then
       echo "<summary>View all commits</summary>"
       echo ""
       echo '```'
-      git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null
+      git log --no-merges --pretty=format:"%s" "$BASE_REMOTE..HEAD" 2>/dev/null
       echo ""
       echo '```'
       echo "</details>"
