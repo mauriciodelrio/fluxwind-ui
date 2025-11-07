@@ -1,0 +1,96 @@
+name: Copilot PR Review
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  copilot-review:
+    runs-on: ubuntu-latest
+    name: GitHub Copilot Review
+    if: |
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/copilot-review')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            return pr.data;
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          git fetch origin ${{ fromJSON(steps.pr.outputs.result).base.ref }}
+          git diff origin/${{ fromJSON(steps.pr.outputs.result).base.ref }}...${{ fromJSON(steps.pr.outputs.result).head.ref }} > pr.diff
+
+      - name: Request Copilot Review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const diff = fs.readFileSync('pr.diff', 'utf8');
+
+            const prompt = `You are a senior code reviewer for a React component library called Fluxwind UI. 
+
+            Review this pull request focusing on:
+            - Code quality and best practices
+            - TypeScript type safety
+            - React best practices and performance
+            - Accessibility (a11y) considerations
+            - Test coverage and quality
+            - Component API design
+            - Documentation completeness
+
+            PR Title: ${{ fromJSON(steps.pr.outputs.result).title }}
+            PR Description: ${{ fromJSON(steps.pr.outputs.result).body }}
+
+            Changes:
+            ${diff}
+
+            Provide a structured review with:
+            1. Summary of changes
+            2. Strengths
+            3. Issues found (if any) with severity (critical/major/minor)
+            4. Suggestions for improvement
+            5. Overall assessment`;
+
+            // Note: This is a placeholder - GitHub Copilot API integration
+            // would need to be implemented here or use GitHub's native PR review features
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🤖 **GitHub Copilot Review Requested**
+              
+              Note: GitHub Copilot for Pull Requests is currently in beta and requires enabling in your repository settings.
+              
+              **Alternative**: Use GitHub's native code review features with Copilot enabled in your IDE for inline suggestions.
+              
+              To enable Copilot for PRs:
+              1. Go to repository Settings → Code security and analysis
+              2. Enable "GitHub Copilot" features
+              3. Or use the GitHub Copilot CLI: \`gh copilot review\`
+              
+              For now, you can use:
+              - \`/describe\` - PR description (requires OpenAI credits)
+              - \`/review\` - Code review (requires OpenAI credits)
+              - Manual review with Copilot suggestions in your IDE`
+            });
