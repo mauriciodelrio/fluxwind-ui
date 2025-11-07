@@ -28,27 +28,29 @@ print_info "Current branch: $BRANCH_NAME"
 # Determine base branch
 if [ "$BRANCH_NAME" = "develop" ]; then
   BASE_BRANCH="main"
-  BASE_REMOTE="origin/main"
   print_info "Detected develop branch - PR will target main"
 elif [ "$BRANCH_NAME" = "main" ]; then
   print_error "Cannot create PR from main branch"
   exit 1
 else
   BASE_BRANCH=${1:-develop}
-  BASE_REMOTE="origin/$BASE_BRANCH"
   print_info "PR will target $BASE_BRANCH"
 fi
 
-# Fetch latest from remote to ensure accurate comparison
-print_info "Fetching latest changes from remote..."
-git fetch origin "$BASE_BRANCH" --quiet 2>/dev/null || print_warning "Could not fetch remote branch"
+# Update local base branch to match remote
+print_info "Updating local $BASE_BRANCH branch..."
+CURRENT_BRANCH="$BRANCH_NAME"
+git fetch origin "$BASE_BRANCH:$BASE_BRANCH" --force 2>/dev/null || {
+  print_warning "Could not update local $BASE_BRANCH, fetching remote..."
+  git fetch origin "$BASE_BRANCH" --quiet 2>/dev/null
+}
 
-# Validate base branch exists (check remote)
-! git rev-parse --verify "$BASE_REMOTE" >/dev/null 2>&1 && print_error "Remote branch '$BASE_REMOTE' does not exist" && exit 1
+# Validate base branch exists
+! git rev-parse --verify "$BASE_BRANCH" >/dev/null 2>&1 && print_error "Base branch '$BASE_BRANCH' does not exist" && exit 1
 
-# Check for commits (compare against remote)
-COMMIT_COUNT=$(git rev-list --count --no-merges "$BASE_REMOTE..HEAD" 2>/dev/null || echo "0")
-[ "$COMMIT_COUNT" = "0" ] && print_error "No commits found between $BASE_REMOTE and $BRANCH_NAME" && exit 1
+# Check for commits (compare against updated local branch)
+COMMIT_COUNT=$(git rev-list --count --no-merges "$BASE_BRANCH..HEAD" 2>/dev/null || echo "0")
+[ "$COMMIT_COUNT" = "0" ] && print_error "No commits found between $BASE_BRANCH and $BRANCH_NAME" && exit 1
 print_success "Found $COMMIT_COUNT commit(s) to include in PR"
 
 # Parse branch name for PR title
@@ -86,28 +88,28 @@ else
   print_info "Copilot CLI not found - using template generator"
 fi
 
-# Get file stats (compare against remote)
-SHORTSTAT=$(git diff --shortstat "$BASE_REMOTE..HEAD" 2>/dev/null || echo "")
+# Get file stats (compare against updated local base)
+SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
 ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
 DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
 [ -z "$ADDITIONS" ] && ADDITIONS="0"
 [ -z "$DELETIONS" ] && DELETIONS="0"
 
-CHANGED_FILES=$(git diff --name-only "$BASE_REMOTE..HEAD" 2>/dev/null)
+CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
 FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
 
 if [ "$USE_COPILOT" = true ]; then
   # Use Copilot CLI in programmatic mode
   print_info "Generating description with Copilot AI..."
   
-  # Get commit details (compare against remote)
-  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_REMOTE..HEAD" 2>/dev/null | head -20)
+  # Get commit details (compare against updated local base)
+  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_BRANCH..HEAD" 2>/dev/null | head -20)
   
   # Detect changed packages
   PACKAGES=$(echo "$CHANGED_FILES" | grep -E "^packages/" | sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | tr '\n' ', ' | sed 's/,$//')
   
   # Create comprehensive prompt for Copilot
-  COPILOT_PROMPT="Generate a GitHub Pull Request description in Markdown format for direct use in GitHub.
+  COPILOT_PROMPT="You are generating a GitHub Pull Request description. Output ONLY the Markdown content, no explanations or meta-commentary.
 
 Context:
 - Branch: $BRANCH_NAME → $BASE_BRANCH  
@@ -119,25 +121,46 @@ Context:
 Recent commits:
 $COMMITS_SUMMARY
 
-Requirements:
-1. Start with ## 📋 Overview - brief summary
-2. Add ### 🎯 What's Included - key highlights
-3. If packages are affected, add ### 📦 Packages section highlighting each package
-4. Add ## 📝 Commits section with collapsible <details> showing commit list
-5. Add ## 📊 Impact table with files/additions/deletions
-6. Add ## ✅ Checklist with standard items
-7. End with branch info footer
-8. Use emojis appropriately
-9. Be professional and concise
+Structure required:
+1. ## 📋 Overview - brief 2-3 sentence summary
+2. ### 🎯 What's Included - bullet list of key changes
+3. ### 📦 Packages (if packages affected) - highlight each package
+4. ## 📝 Commits - collapsible <details> with commit list
+5. ## 📊 Impact - table with metrics (commits/files/additions/deletions)
+6. ## ✅ Checklist - standard PR checklist
+7. Footer with branch info
 
-CRITICAL FORMATTING RULES:
-- Always add blank lines before and after headers (##, ###)
-- Always add blank lines before and after tables
-- Always add blank lines before and after code blocks
-- Always add blank lines before and after lists
-- Proper spacing ensures GitHub renders everything correctly
+CRITICAL FORMATTING (GitHub Markdown requires proper spacing):
 
-IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or markdown fences. Do NOT use \`\`\`markdown blocks. GitHub PRs render Markdown natively."
+✅ CORRECT spacing example:
+## Header
+
+Content here.
+
+### Subheader
+
+More content.
+
+| Column | Value |
+|--------|-------|
+| Data   | 123   |
+
+❌ WRONG (no spacing):
+## Header
+Content here.
+### Subheader
+More content.
+|Column|Value|
+
+Rules:
+- Blank line before EVERY header
+- Blank line after EVERY header  
+- Blank line before tables
+- Blank line after tables
+- Blank line before/after code blocks
+- Blank line before/after lists
+
+Output raw Markdown only. No \`\`\`markdown fences. No explanations. Start directly with ## 📋 Overview."
   
   # Try to generate with Copilot (allow shell tool for git commands)
   print_info "Using Copilot CLI to generate description..."
@@ -146,7 +169,7 @@ IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or ma
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
     # Filter out all Copilot CLI logs, usage statistics, and markdown code blocks
-    # Keep only lines that start with # (headers) or are content lines
+    # Extract only the Markdown content between first ## and end
     echo "$COPILOT_OUTPUT" | \
       grep -v "^✓" | \
       grep -v "^✗" | \
@@ -154,9 +177,13 @@ IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or ma
       grep -v "^↪" | \
       grep -v "^   \$" | \
       grep -v "^   ↪" | \
+      grep -v "git --no-pager" | \
+      grep -v "main..develop" | \
       grep -v "||" | \
       grep -v "^I'll analyze" | \
       grep -v "^Now I'll generate" | \
+      grep -v "^Let me" | \
+      grep -v "^First" | \
       sed '/^Total usage est:/,/^Usage by model:/d' | \
       sed '/^[[:space:]]*claude-sonnet/d' | \
       sed '/^Total duration/d' | \
@@ -198,7 +225,7 @@ if [ "$USE_COPILOT" = false ]; then
       echo "<summary>View all commits</summary>"
       echo ""
       echo '```'
-      git log --no-merges --pretty=format:"%s" "$BASE_REMOTE..HEAD" 2>/dev/null
+      git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null
       echo ""
       echo '```'
       echo "</details>"
