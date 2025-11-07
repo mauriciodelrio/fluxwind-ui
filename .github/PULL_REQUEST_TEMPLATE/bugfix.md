@@ -8,6 +8,7 @@ labels: bug
 ## 🐛 Bug Description
 
 <!-- Clearly describe the bug being fixed -->
+<!-- 🤖 Tip: Comment `/describe` to auto-generate detailed description with PR Agent -->
 
 ## 🔗 Related Issue
 
@@ -81,3 +82,12 @@ Closes #<!-- issue number -->
 - [ ] Documentation updated (if needed)
 - [ ] Changesets added (`pnpm changeset`)
 - [ ] Related issues linked
+
+## 🤖 AI Assistant
+
+PR Agent commands:
+
+- `/describe` - Auto-generate PR description
+- `/review` - Get AI code review
+- `/improve` - Get improvement suggestions
+- `/ask <question>` - Ask about the changes

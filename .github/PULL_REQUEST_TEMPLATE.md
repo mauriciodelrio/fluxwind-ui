@@ -1,6 +1,7 @@
 ## Description
 
 <!-- Provide a brief description of the changes in this PR -->
+<!-- 🤖 Tip: Comment `/describe` to auto-generate this section with PR Agent -->
 
 ## Type of Change
 
@@ -77,6 +78,16 @@ N/A
 ## Additional Notes
 
 <!-- Add any additional notes, context, or concerns about this PR -->
+
+## 🤖 AI Assistant Commands
+
+PR Agent is available to help with this pull request. Comment with:
+
+- `/describe` - Generate comprehensive PR description
+- `/review` - Get AI code review with suggestions
+- `/improve` - Get code improvement suggestions
+- `/ask <question>` - Ask questions about the code changes
+- `/update_changelog` - Update changelog based on changes
 
 ## Reviewers
 

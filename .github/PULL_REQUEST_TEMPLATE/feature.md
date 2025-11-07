@@ -8,6 +8,7 @@ labels: enhancement
 ## ✨ Feature Description
 
 <!-- Clearly describe the new feature or enhancement -->
+<!-- 🤖 Tip: Comment `/describe` to auto-generate detailed description with PR Agent -->
 
 ## 🎯 Motivation
 
@@ -86,3 +87,12 @@ labels: enhancement
 - [ ] React hooks exposed externally
 - [ ] TypeScript types exported
 - [ ] Changesets added (`pnpm changeset`)
+
+## 🤖 AI Assistant
+
+PR Agent commands:
+
+- `/describe` - Auto-generate PR description
+- `/review` - Get AI code review
+- `/improve` - Get improvement suggestions
+- `/ask <question>` - Ask about the changes

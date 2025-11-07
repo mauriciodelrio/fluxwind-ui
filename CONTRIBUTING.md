@@ -206,11 +206,13 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) with **enfor
 Scopes are **required** and must be one of the following:
 
 **Package scopes:**
+
 - `core` - @fluxwind-ui/core (React components)
 - `themes` - @fluxwind-ui/themes (Design tokens and themes)
 - `utils` - @fluxwind-ui/utils (Utility functions)
 
 **Component scopes** (when working on specific components):
+
 - `button`, `input`, `select`, `checkbox`, `radio`, `switch`, `slider`
 - `dropdown`, `modal`, `dialog`, `tooltip`, `popover`, `toast`, `alert`
 - `badge`, `avatar`, `card`, `table`, `tabs`, `accordion`
@@ -219,6 +221,7 @@ Scopes are **required** and must be one of the following:
 - `progress`, `spinner`, `skeleton`
 
 **Feature/Area scopes:**
+
 - `a11y` - Accessibility improvements
 - `i18n` - Internationalization
 - `animation` - Animation system
@@ -230,6 +233,7 @@ Scopes are **required** and must be one of the following:
 - `layout` - Layout components
 
 **Infrastructure scopes:**
+
 - `deps` - Dependencies
 - `dx` - Developer experience
 - `config` - Configuration files
@@ -239,6 +243,7 @@ Scopes are **required** and must be one of the following:
 - `security` - Security fixes/improvements
 
 **Documentation scopes:**
+
 - `docs` - General documentation
 - `storybook` - Storybook stories
 - `examples` - Example applications
@@ -248,6 +253,7 @@ Scopes are **required** and must be one of the following:
 - `changelog` - CHANGELOG files
 
 **Monorepo scopes:**
+
 - `monorepo` - Monorepo configuration
 - `workspace` - Workspace configuration
 
@@ -294,6 +300,51 @@ pnpm changeset
 ```
 
 Follow the prompts to describe your changes. This helps with versioning and changelog generation.
+
+### Using PR Agent (AI Assistant)
+
+We use [PR Agent](https://github.com/Codium-ai/pr-agent) to help with pull request descriptions and code reviews.
+
+**Available Commands** (comment on your PR):
+
+- `/describe` - Auto-generate comprehensive PR description
+  - Analyzes all code changes
+  - Categorizes changes (Added/Modified/Removed)
+  - Identifies affected packages
+  - Suggests labels and type
+
+- `/review` - Get AI code review
+  - Security analysis
+  - Performance suggestions
+  - Best practices check
+  - Accessibility review
+  - Estimates review effort
+
+- `/improve` - Get code improvement suggestions
+  - React patterns optimization
+  - TypeScript improvements
+  - Performance enhancements
+  - Accessibility fixes
+
+- `/ask <question>` - Ask questions about the changes
+  - Example: `/ask how does this affect bundle size?`
+  - Example: `/ask what are the accessibility implications?`
+
+- `/update_changelog` - Update changelog based on changes
+
+**Automatic Features:**
+
+- ✅ Auto-description on PR open (if not draft)
+- ✅ Auto-review when PR is ready for review
+- ✅ Labels suggested based on changes
+- ✅ Breaking change detection
+
+**Best Practices:**
+
+1. Open PR as **draft** initially to prevent auto-review
+2. Use `/describe` after pushing all commits
+3. Review AI suggestions before requesting human review
+4. Use `/ask` for clarification on complex changes
 
 ## Component Guidelines
 
