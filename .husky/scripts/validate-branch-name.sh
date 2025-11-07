@@ -15,7 +15,7 @@ BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
 
 # Branches that are always allowed (permanent branches and automated branches)
 PROTECTED_BRANCHES=("main" "develop")
-AUTOMATED_PREFIXES=("copilot/" "dependabot/" "renovate/")
+AUTOMATED_PREFIXES=("copilot/" "dependabot/" "renovate/" "changeset-release/")
 
 # Check if current branch is protected
 for protected in "${PROTECTED_BRANCHES[@]}"; do
