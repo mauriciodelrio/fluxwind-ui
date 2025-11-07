@@ -178,7 +178,10 @@ Output raw Markdown only. No \`\`\`markdown fences. No explanations. Start direc
       grep -v "^   \$" | \
       grep -v "^   ↪" | \
       grep -v "git --no-pager" | \
+      grep -v "\-\-no-pager" | \
       grep -v "main..develop" | \
+      grep -v "main...develop" | \
+      grep -v "Get commit" | \
       grep -v "||" | \
       grep -v "^I'll analyze" | \
       grep -v "^Now I'll generate" | \
