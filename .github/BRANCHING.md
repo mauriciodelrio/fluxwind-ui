@@ -76,18 +76,23 @@ pnpm branch:validate
 ### Required Scopes
 
 **Package scopes:**
+
 - `core`, `themes`, `utils`
 
 **Component scopes:**
+
 - `button`, `input`, `dropdown`, `modal`, etc.
 
 **Feature scopes:**
+
 - `a11y`, `animation`, `tokens`, `signals`, `hooks`, etc.
 
 **Infrastructure scopes:**
+
 - `deps`, `ci`, `config`, `dx`, etc.
 
 **Documentation scopes:**
+
 - `docs`, `storybook`, `readme`, `contributing`, etc.
 
 ### Examples
