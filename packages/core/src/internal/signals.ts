@@ -1,7 +1,7 @@
 /**
  * Bridge utilities to connect Preact Signals with React
  * This allows us to use signals internally while exposing standard React hooks
- * 
+ *
  * Note: This file intentionally mutates signal values, which is the core API of signals.
  * The React hooks linter rules are disabled for signal mutations as they conflict with
  * the signals programming model where mutation is the intended behavior.
@@ -52,7 +52,7 @@ export function useSignalState<T>(initialValue: T): [T, (value: T | ((prev: T) =
         signal.value = newValue;
       }
     },
-    [signal],
+    [signal]
   );
 
   return [value, setValue];
@@ -67,7 +67,7 @@ export function useSignalState<T>(initialValue: T): [T, (value: T | ((prev: T) =
 export function useComputed<T>(compute: () => T): T {
   // Create a computed signal once and subscribe to it
   const [computed] = useState(() => signalComputed(compute));
-  
+
   return useSignal(computed);
 }
 

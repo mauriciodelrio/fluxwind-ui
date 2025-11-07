@@ -1,6 +1,6 @@
 /**
  * Fluxwind UI - Utilities Package
- * 
+ *
  * Shared utility functions
  */
 

@@ -13,7 +13,17 @@ const compat = new FlatCompat({
 
 module.exports = [
   {
-    ignores: ['dist', 'node_modules', '.turbo', 'storybook-static', 'build', '.next', 'out', '**/*.config.cjs', '**/*.config.js'],
+    ignores: [
+      'dist',
+      'node_modules',
+      '.turbo',
+      'storybook-static',
+      'build',
+      '.next',
+      'out',
+      '**/*.config.cjs',
+      '**/*.config.js',
+    ],
   },
   js.configs.recommended,
   ...typescriptEslint.configs.recommended,

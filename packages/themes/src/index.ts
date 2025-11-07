@@ -1,6 +1,6 @@
 /**
  * Fluxwind UI - Themes Package
- * 
+ *
  * Design tokens and Tailwind configurations
  */
 

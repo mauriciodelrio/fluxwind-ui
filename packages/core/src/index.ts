@@ -1,6 +1,6 @@
 /**
  * Fluxwind UI - Core Components
- * 
+ *
  * A modern, minimal React component library built on Tailwind CSS
  * with signals-based reactivity for optimal performance.
  */
