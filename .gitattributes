@@ -1,0 +1,28 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Force LF for shell scripts (critical for Husky hooks)
+*.sh text eol=lf
+.husky/* text eol=lf
+
+# Force LF for common config files
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+# TypeScript/JavaScript
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+
+# CSS
+*.css text eol=lf
+*.scss text eol=lf
+
+# Exclude files from export
+.gitattributes export-ignore
+.gitignore export-ignore
