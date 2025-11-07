@@ -129,7 +129,7 @@ Generate only the Markdown description, no explanations."
   # Try to generate with Copilot (allow shell tool for git commands)
   print_info "Using Copilot CLI to generate description..."
   
-  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>&1 || echo "")
+  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
     # Filter out usage statistics and keep only the Markdown content
