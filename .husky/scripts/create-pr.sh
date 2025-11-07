@@ -71,159 +71,120 @@ TEMP_FILE=$(mktemp)
 
 print_header "📝 Generating PR description..."
 
-# Analyze commits
-FEAT_COMMITS=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -c "^feat" || echo "0")
-FIX_COMMITS=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -c "^fix" || echo "0")
-DOCS_COMMITS=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -c "^docs" || echo "0")
-CHORE_COMMITS=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -c "^chore" || echo "0")
-
-# Detect major features
-HAS_I18N=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -i "i18n\|internationalization" | head -1)
-HAS_ICONS=$(git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null | grep -i "icon" | head -1)
+# Check if Copilot CLI is available
+USE_COPILOT=false
+if command -v copilot &> /dev/null; then
+  USE_COPILOT=true
+  print_success "GitHub Copilot CLI detected - using AI generation"
+else
+  print_info "Copilot CLI not found - using template generator"
+fi
 
 # Get file stats
-CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
-FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
 SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
 ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
 DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
 [ -z "$ADDITIONS" ] && ADDITIONS="0"
 [ -z "$DELETIONS" ] && DELETIONS="0"
 
-# Categorize files
-I18N_FILES=""
-ICONS_FILES=""
-CORE_FILES=""
-THEMES_FILES=""
-UTILS_FILES=""
-DOCS_FILES=""
-PLAYGROUND_FILES=""
-TEST_FILES=""
-CICD_FILES=""
-CONFIG_FILES=""
-OTHER_FILES=""
+CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
+FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
 
-while IFS= read -r file; do
-  [ -z "$file" ] && continue
-  case "$file" in
-    packages/i18n/*) I18N_FILES="${I18N_FILES}- \`$file\`\n" ;;
-    packages/icons/*) ICONS_FILES="${ICONS_FILES}- \`$file\`\n" ;;
-    packages/core/*) CORE_FILES="${CORE_FILES}- \`$file\`\n" ;;
-    packages/themes/*) THEMES_FILES="${THEMES_FILES}- \`$file\`\n" ;;
-    packages/utils/*) UTILS_FILES="${UTILS_FILES}- \`$file\`\n" ;;
-    apps/docs/*) DOCS_FILES="${DOCS_FILES}- \`$file\`\n" ;;
-    apps/playground/*) PLAYGROUND_FILES="${PLAYGROUND_FILES}- \`$file\`\n" ;;
-    *test.ts|*test.tsx|*spec.ts|*spec.tsx) TEST_FILES="${TEST_FILES}- \`$file\`\n" ;;
-    .github/*|.husky/*|.changeset/*) CICD_FILES="${CICD_FILES}- \`$file\`\n" ;;
-    *.json|*.yaml|*.yml|*config.*) CONFIG_FILES="${CONFIG_FILES}- \`$file\`\n" ;;
-    *.md) DOCS_FILES="${DOCS_FILES}- \`$file\`\n" ;;
-    *) OTHER_FILES="${OTHER_FILES}- \`$file\`\n" ;;
-  esac
-done <<< "$CHANGED_FILES"
-
-# Generate PR description
-{
-  echo "## 📋 Overview"
-  echo ""
+if [ "$USE_COPILOT" = true ]; then
+  # Use Copilot CLI in programmatic mode
+  print_info "Generating description with Copilot AI..."
   
-  if [ "$BRANCH_NAME" = "develop" ]; then
-    echo "This PR promotes **develop** to **main** for release."
-    echo ""
-    echo "### 🎯 What's Included"
-    echo ""
-    [ "$FEAT_COMMITS" -gt 0 ] && echo "- ✨ **$FEAT_COMMITS** new feature(s)"
-    [ "$FIX_COMMITS" -gt 0 ] && echo "- 🐛 **$FIX_COMMITS** bug fix(es)"
-    [ "$DOCS_COMMITS" -gt 0 ] && echo "- 📚 **$DOCS_COMMITS** documentation update(s)"
-    [ "$CHORE_COMMITS" -gt 0 ] && echo "- 🔧 **$CHORE_COMMITS** maintenance task(s)"
-    echo ""
-    
-    if [ -n "$HAS_I18N" ]; then
-      echo "### 🌍 Highlighted: Internationalization Package"
-      echo ""
-      echo "New **@fluxwind/i18n** package with:"
-      echo "- 🔄 Signals-based reactivity (zero re-renders)"
-      echo "- 🌍 6 default locales: English, Spanish, French, German, Chinese, Japanese"
-      echo "- 📝 Interpolation & pluralization support"
-      echo "- 🎯 Full TypeScript support with autocomplete"
-      echo "- ✅ 97.36% test coverage (58 tests passing)"
-      echo ""
-    fi
-    
-    if [ -n "$HAS_ICONS" ]; then
-      echo "### 🎨 Highlighted: Universal Icon System"
-      echo ""
-      echo "Comprehensive icon support with multiple library integrations and full test coverage."
-      echo ""
-    fi
+  # Get commit details
+  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_BRANCH..HEAD" 2>/dev/null | head -20)
+  
+  # Detect changed packages
+  PACKAGES=$(echo "$CHANGED_FILES" | grep -E "^packages/" | sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | tr '\n' ', ' | sed 's/,$//')
+  
+  # Create comprehensive prompt for Copilot
+  COPILOT_PROMPT="Generate a GitHub Pull Request description in Markdown format.
+
+Context:
+- Branch: $BRANCH_NAME → $BASE_BRANCH  
+- Commits: $COMMIT_COUNT
+- Files changed: $FILES_COUNT
+- Changes: +$ADDITIONS/-$DELETIONS lines
+- Packages affected: ${PACKAGES:-none}
+
+Recent commits:
+$COMMITS_SUMMARY
+
+Requirements:
+1. Start with ## 📋 Overview - brief summary
+2. Add ### 🎯 What's Included - key highlights
+3. If packages are affected, add ### 📦 Packages section highlighting each package
+4. Add ## 📝 Commits section with collapsible <details> showing commit list
+5. Add ## 📊 Impact table with files/additions/deletions
+6. Add ## ✅ Checklist with standard items
+7. End with branch info footer
+8. Use emojis appropriately
+9. Be professional and concise
+
+Generate only the Markdown description, no explanations."
+  
+  # Try to generate with Copilot (allow shell tool for git commands)
+  print_info "Using Copilot CLI to generate description..."
+  
+  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
+  
+  if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
+    # Filter out usage statistics and keep only the Markdown content
+    echo "$COPILOT_OUTPUT" | sed '/^Total usage est:/,/^Usage by model:/d' | sed '/^[[:space:]]*claude-sonnet/d' | sed '/^Total duration/d' | sed '/^Total code changes/d' | sed '/^[[:space:]]*$/N;/^\n$/d' > "$TEMP_FILE"
+    print_success "Copilot description generated"
   else
-    echo "### Summary"
-    echo ""
-    case "$BRANCH_TYPE" in
-      feature) echo "Introduces a new feature: **$TITLE**" ;;
-      fix) echo "Fixes an issue: **$TITLE**" ;;
-      docs) echo "Updates documentation: **$TITLE**" ;;
-      refactor) echo "Refactors code: **$TITLE**" ;;
-      *) echo "Changes: **$TITLE**" ;;
-    esac
-    echo ""
+    print_warning "Copilot failed, falling back to template generator"
+    USE_COPILOT=false
   fi
+fi
+
+if [ "$USE_COPILOT" = false ]; then
+  # Fall back to our AI-style template generator
+  print_info "Using template generator..."
   
-  echo "## 📝 Commits"
-  echo ""
-  echo "<details>"
-  echo "<summary>📋 View all $COMMIT_COUNT commit(s)</summary>"
-  echo ""
-  echo "\`\`\`"
-  git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null
-  echo ""
-  echo "\`\`\`"
-  echo "</details>"
-  echo ""
-  
-  echo "## 📊 Impact"
-  echo ""
-  echo "| Metric | Value |"
-  echo "| --- | --- |"
-  echo "| **Files changed** | $FILES_COUNT |"
-  echo "| **Lines added** | +$ADDITIONS |"
-  echo "| **Lines removed** | -$DELETIONS |"
-  echo "| **Net change** | $((ADDITIONS - DELETIONS)) |"
-  echo ""
-  
-  echo "<details>"
-  echo "<summary>📁 View changed files by category</summary>"
-  echo ""
-  
-  [ -n "$I18N_FILES" ] && echo "#### 🌍 i18n Package" && echo "" && echo -e "$I18N_FILES"
-  [ -n "$ICONS_FILES" ] && echo "#### 🎨 Icons Package" && echo "" && echo -e "$ICONS_FILES"
-  [ -n "$CORE_FILES" ] && echo "#### 🧩 Core Components" && echo "" && echo -e "$CORE_FILES"
-  [ -n "$THEMES_FILES" ] && echo "#### 🎨 Themes & Tokens" && echo "" && echo -e "$THEMES_FILES"
-  [ -n "$UTILS_FILES" ] && echo "#### 🔧 Utilities" && echo "" && echo -e "$UTILS_FILES"
-  [ -n "$TEST_FILES" ] && echo "#### ✅ Tests" && echo "" && echo -e "$TEST_FILES"
-  [ -n "$DOCS_FILES" ] && echo "#### 📚 Documentation" && echo "" && echo -e "$DOCS_FILES"
-  [ -n "$PLAYGROUND_FILES" ] && echo "#### 🎮 Playground" && echo "" && echo -e "$PLAYGROUND_FILES"
-  [ -n "$CICD_FILES" ] && echo "#### ⚙️ CI/CD & Scripts" && echo "" && echo -e "$CICD_FILES"
-  [ -n "$CONFIG_FILES" ] && echo "#### 📋 Configuration" && echo "" && echo -e "$CONFIG_FILES"
-  [ -n "$OTHER_FILES" ] && echo "#### 📦 Other" && echo "" && echo -e "$OTHER_FILES"
-  
-  echo "</details>"
-  echo ""
-  
-  echo "## ✅ Checklist"
-  echo ""
-  echo "- [ ] Code follows project style guidelines"
-  echo "- [ ] Self-review completed"
-  echo "- [ ] Tests added/updated and passing"
-  echo "- [ ] Documentation updated"
-  echo "- [ ] No new warnings or errors"
-  echo "- [ ] Changeset created (if applicable)"
-  echo ""
-  
-  echo "---"
-  echo ""
-  echo "_**Base:** \`$BASE_BRANCH\` | **Head:** \`$BRANCH_NAME\`_"
-  
-} > "$TEMP_FILE"
+  AI_SCRIPT=".husky/scripts/generate-ai-pr-description.sh"
+  if [ -f "$AI_SCRIPT" ] && [ -x "$AI_SCRIPT" ]; then
+    "$AI_SCRIPT" "$BASE_BRANCH" "$BRANCH_NAME" "$COMMIT_COUNT" "$FILES_COUNT" "$ADDITIONS" "$DELETIONS" > "$TEMP_FILE"
+    print_success "Description generated"
+  else
+    print_warning "Generator script not found, using minimal template..."
+    
+    {
+      echo "## 📋 Overview"
+      echo ""
+      echo "This PR contains changes from \`$BRANCH_NAME\` to \`$BASE_BRANCH\`."
+      echo ""
+      echo "### 🎯 Summary"
+      echo ""
+      echo "- **$COMMIT_COUNT** commit(s)"
+      echo "- **$FILES_COUNT** file(s) changed"
+      echo "- **+$ADDITIONS/-$DELETIONS** lines"
+      echo ""
+      echo "## 📝 Commits"
+      echo ""
+      echo "<details>"
+      echo "<summary>View all commits</summary>"
+      echo ""
+      echo '```'
+      git log --no-merges --pretty=format:"%s" "$BASE_BRANCH..HEAD" 2>/dev/null
+      echo ""
+      echo '```'
+      echo "</details>"
+      echo ""
+      echo "## ✅ Checklist"
+      echo ""
+      echo "- [ ] Tests pass"
+      echo "- [ ] Documentation updated"
+      echo "- [ ] Changeset created"
+      echo ""
+      echo "---"
+      echo "_**Base:** \`$BASE_BRANCH\` | **Head:** \`$BRANCH_NAME\`_"
+    } > "$TEMP_FILE"
+  fi
+fi
 
 print_success "Description generated"
 
