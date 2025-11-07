@@ -28,9 +28,9 @@ Relates to #
 
 <!-- List the main changes made in this PR -->
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Screenshots/Videos
 
@@ -50,9 +50,9 @@ Relates to #
 
 <!-- Provide step-by-step instructions to test this PR -->
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Checklist
 

@@ -4,5 +4,17 @@
  * Design tokens and Tailwind configurations
  */
 
-export { colors, spacing, borderRadius, fluxwindConfig } from './tailwind.config';
+/**
+ * Fluxwind UI Themes Package
+ * Complete design system with tokens, themes, and Tailwind configuration
+ */
+
+// Export Tailwind configuration
+export { fluxwindConfig } from './tailwind.config';
+
+// Export all design tokens
+export * from './tokens';
+
+// Export all themes
+export * from './themes';
 export type { Config } from 'tailwindcss';

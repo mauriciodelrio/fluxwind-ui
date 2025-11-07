@@ -19,20 +19,21 @@ labels: enhancement
 
 ### Components Added/Modified
 
-- 
-- 
+-
+-
 
 ### API Changes
 
 <!-- List any new props, hooks, or API changes -->
 
-- 
+-
 
 ## 🎨 UI/UX Changes
 
 <!-- Screenshots or videos of the new feature -->
 
 ### Before
+
 <!-- If modifying existing feature -->
 
 ### After

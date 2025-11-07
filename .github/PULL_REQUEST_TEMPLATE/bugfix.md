@@ -23,23 +23,23 @@ Closes #<!-- issue number -->
 
 ## 📋 Changes Made
 
-- 
-- 
-- 
+-
+-
+-
 
 ## 🧪 Testing
 
 ### Reproduction Steps (Before Fix)
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ### Verification Steps (After Fix)
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ### Test Coverage
 

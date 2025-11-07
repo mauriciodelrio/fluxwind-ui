@@ -47,10 +47,7 @@ import type { Config } from 'tailwindcss';
 import { fluxwindConfig } from '@fluxwind/themes';
 
 const config: Config = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/@fluxwind/core/dist/**/*.js',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@fluxwind/core/dist/**/*.js'],
   ...fluxwindConfig,
 };
 
@@ -63,11 +60,7 @@ export default config;
 import { cn } from '@fluxwind/core';
 
 function App() {
-  return (
-    <div className={cn('text-primary-600', 'font-bold')}>
-      Hello Fluxwind!
-    </div>
-  );
+  return <div className={cn('text-primary-600', 'font-bold')}>Hello Fluxwind!</div>;
 }
 ```
 
@@ -152,6 +145,7 @@ MIT © [Mauricio Del Rio](https://github.com/mauriciodelrio)
 ## 🙏 Acknowledgments
 
 Built with inspiration from:
+
 - [Radix UI](https://www.radix-ui.com/)
 - [Shadcn UI](https://ui.shadcn.com/)
 - [Headless UI](https://headlessui.com/)
