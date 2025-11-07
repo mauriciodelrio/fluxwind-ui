@@ -8,6 +8,7 @@ labels: enhancement
 ## ✨ Feature Description
 
 <!-- Clearly describe the new feature or enhancement -->
+<!-- 🤖 Tip: Comment `/describe` to auto-generate detailed description with PR Agent -->
 
 ## 🎯 Motivation
 
@@ -19,20 +20,21 @@ labels: enhancement
 
 ### Components Added/Modified
 
-- 
-- 
+-
+-
 
 ### API Changes
 
 <!-- List any new props, hooks, or API changes -->
 
-- 
+-
 
 ## 🎨 UI/UX Changes
 
 <!-- Screenshots or videos of the new feature -->
 
 ### Before
+
 <!-- If modifying existing feature -->
 
 ### After
@@ -85,3 +87,12 @@ labels: enhancement
 - [ ] React hooks exposed externally
 - [ ] TypeScript types exported
 - [ ] Changesets added (`pnpm changeset`)
+
+## 🤖 AI Assistant
+
+PR Agent commands:
+
+- `/describe` - Auto-generate PR description
+- `/review` - Get AI code review
+- `/improve` - Get improvement suggestions
+- `/ask <question>` - Ask about the changes

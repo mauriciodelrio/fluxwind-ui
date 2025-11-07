@@ -14,10 +14,144 @@ Thank you for your interest in contributing to Fluxwind UI! 🎉
    ```bash
    pnpm install
    ```
-4. **Create a branch**:
-   ```bash
-   git checkout -b feat/my-new-feature
-   ```
+4. **Create a branch** following our naming convention (see [Branching Strategy](#branching-strategy))
+
+## Branching Strategy
+
+We follow a **simplified Git Flow** with semantic branch naming.
+
+### Branch Structure
+
+#### Permanent Branches
+
+- **`main`** - Production-ready code, always stable
+  - Protected: requires PR approval
+  - Tagged with version numbers (`v1.0.0`, `v1.1.0`, etc.)
+  - Only accepts merges from `develop`
+
+- **`develop`** - Integration branch for features
+  - Latest development state
+  - All feature branches start from here
+  - Merged into `main` for releases
+
+#### Temporary Branches
+
+All temporary branches must follow this naming pattern:
+
+```
+<prefix>/<descriptive-name>
+```
+
+**Valid prefixes:**
+
+| Prefix      | Purpose                       | Example                       |
+| ----------- | ----------------------------- | ----------------------------- |
+| `feature/`  | New features and enhancements | `feature/button-component`    |
+| `fix/`      | Bug fixes                     | `fix/dropdown-keyboard-nav`   |
+| `docs/`     | Documentation changes         | `docs/contributing-guide`     |
+| `refactor/` | Code refactoring              | `refactor/signal-performance` |
+| `test/`     | Adding or updating tests      | `test/button-accessibility`   |
+| `chore/`    | Maintenance tasks             | `chore/upgrade-deps`          |
+| `perf/`     | Performance improvements      | `perf/reduce-bundle-size`     |
+| `ci/`       | CI/CD configuration           | `ci/add-lighthouse`           |
+| `revert/`   | Reverting previous changes    | `revert/broken-feature`       |
+
+**Naming rules:**
+
+- Use lowercase letters, numbers, and hyphens
+- Start and end with alphanumeric characters
+- Be descriptive and specific
+- Avoid generic names like `feature/new-stuff` or `fix/bug`
+
+**Examples:**
+
+```bash
+✓ feature/button-component
+✓ feature/dropdown-with-keyboard-nav
+✓ fix/tooltip-positioning
+✓ docs/animation-tokens
+✓ refactor/use-cva-for-variants
+✓ test/button-a11y
+✓ chore/upgrade-react-19
+
+✗ feature/new-feature
+✗ fix/bug
+✗ Feature/Button (uppercase)
+✗ button-component (no prefix)
+```
+
+### Workflow
+
+#### Starting a New Feature
+
+```bash
+# Option 1: Manual workflow
+# 1. Ensure you're on develop and it's up to date
+git checkout develop
+git pull origin develop
+
+# 2. Create your branch
+git checkout -b feature/my-awesome-feature
+
+# Option 2: Using helper scripts (recommended)
+pnpm branch:feature my-awesome-feature
+# This automatically checks out develop, pulls latest, and creates feature/my-awesome-feature
+
+# Available branch helpers:
+# pnpm branch:feature <name>    - Create feature branches
+# pnpm branch:fix <name>         - Create fix branches
+# pnpm branch:docs <name>        - Create documentation branches
+# pnpm branch:refactor <name>    - Create refactor branches
+# pnpm branch:test <name>        - Create test branches
+# pnpm branch:chore <name>       - Create chore branches
+
+# 3. Make your changes and commit
+git add .
+git commit -m "feat(core): add awesome feature"
+
+# 4. Push your branch
+git push origin feature/my-awesome-feature
+
+# 5. Open a Pull Request to `develop`
+```
+
+#### Validating Your Branch Name
+
+You can manually validate your branch name:
+
+```bash
+pnpm branch:validate
+```
+
+This will check if your current branch follows our naming convention.
+
+#### Creating a Release
+
+```bash
+# 1. Merge develop into main
+git checkout main
+git merge develop --no-ff
+
+# 2. Create a version tag
+git tag -a v1.0.0 -m "Release v1.0.0"
+
+# 3. Push to remote
+git push origin main --tags
+```
+
+### Branch Validation
+
+We use **Husky hooks** to enforce branch naming automatically:
+
+- **Pre-push hook** validates branch name before pushing
+- Invalid branch names will show helpful error messages
+- Protected branches (`main`, `develop`) are always allowed
+
+If you have an invalid branch name, rename it:
+
+```bash
+git branch -m old-branch-name feature/new-valid-name
+```
 
 ## Development Workflow
 
@@ -43,7 +177,7 @@ pnpm --filter @fluxwind/playground dev # Playground
 
 ### Commit Guidelines
 
-We use [Conventional Commits](https://www.conventionalcommits.org/):
+We use [Conventional Commits](https://www.conventionalcommits.org/) with **enforced scopes**:
 
 ```
 <type>(<scope>): <description>
@@ -53,7 +187,8 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 [optional footer]
 ```
 
-**Types:**
+#### Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -61,16 +196,100 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 - `refactor`: Code refactoring
 - `perf`: Performance improvements
 - `test`: Adding or updating tests
-- `chore`: Maintenance tasks
+- `build`: Build system changes
 - `ci`: CI/CD changes
+- `chore`: Maintenance tasks
+- `revert`: Revert previous changes
 
-**Examples:**
-```
+#### Scopes
+
+Scopes are **required** and must be one of the following:
+
+**Package scopes:**
+
+- `core` - @fluxwind-ui/core (React components)
+- `themes` - @fluxwind-ui/themes (Design tokens and themes)
+- `utils` - @fluxwind-ui/utils (Utility functions)
+
+**Component scopes** (when working on specific components):
+
+- `button`, `input`, `select`, `checkbox`, `radio`, `switch`, `slider`
+- `dropdown`, `modal`, `dialog`, `tooltip`, `popover`, `toast`, `alert`
+- `badge`, `avatar`, `card`, `table`, `tabs`, `accordion`
+- `breadcrumb`, `pagination`, `menu`, `sidebar`, `navbar`, `footer`
+- `form`, `datepicker`, `timepicker`, `calendar`
+- `progress`, `spinner`, `skeleton`
+
+**Feature/Area scopes:**
+
+- `a11y` - Accessibility improvements
+- `i18n` - Internationalization
+- `animation` - Animation system
+- `tokens` - Design tokens
+- `signals` - Signal system
+- `hooks` - React hooks
+- `types` - TypeScript types
+- `icons` - Icon system
+- `layout` - Layout components
+
+**Infrastructure scopes:**
+
+- `deps` - Dependencies
+- `dx` - Developer experience
+- `config` - Configuration files
+- `scripts` - Build/dev scripts
+- `ci` - CI/CD
+- `release` - Release process
+- `security` - Security fixes/improvements
+
+**Documentation scopes:**
+
+- `docs` - General documentation
+- `storybook` - Storybook stories
+- `examples` - Example applications
+- `playground` - Playground app
+- `contributing` - Contributing guide
+- `readme` - README files
+- `changelog` - CHANGELOG files
+
+**Monorepo scopes:**
+
+- `monorepo` - Monorepo configuration
+- `workspace` - Workspace configuration
+
+#### Examples
+
+```bash
+# Package scopes
 feat(core): add Button component
-fix(themes): resolve color contrast issue
-docs(core): update Button documentation
-test(core): add Button accessibility tests
+feat(themes): add sepia theme variant
+fix(utils): correct debounce timing
+
+# Component scopes (for granularity)
+feat(button): add loading state with spinner
+feat(button): add icon support
+fix(dropdown): resolve keyboard navigation issue
+test(modal): add accessibility tests
+
+# Feature/Area scopes
+feat(a11y): add ARIA labels to all interactive components
+feat(animation): implement spring physics system
+refactor(signals): improve performance with batching
+docs(tokens): document color token usage
+
+# Infrastructure scopes
+chore(deps): upgrade React to v19
+ci(release): add automated changelog generation
+build(config): optimize bundle size
 ```
+
+#### Commit Message Rules
+
+- Use **present tense** ("add feature" not "added feature")
+- Use **imperative mood** ("move cursor to..." not "moves cursor to...")
+- Keep first line under **72 characters**
+- Reference issues/PRs when applicable: `fixes #123`
+- Add breaking changes in footer: `BREAKING CHANGE: removed old API`
 
 ### Creating a Changeset
 
@@ -81,6 +300,51 @@ pnpm changeset
 ```
 
 Follow the prompts to describe your changes. This helps with versioning and changelog generation.
+
+### Using PR Agent (AI Assistant)
+
+We use [PR Agent](https://github.com/Codium-ai/pr-agent) to help with pull request descriptions and code reviews.
+
+**Available Commands** (comment on your PR):
+
+- `/describe` - Auto-generate comprehensive PR description
+  - Analyzes all code changes
+  - Categorizes changes (Added/Modified/Removed)
+  - Identifies affected packages
+  - Suggests labels and type
+
+- `/review` - Get AI code review
+  - Security analysis
+  - Performance suggestions
+  - Best practices check
+  - Accessibility review
+  - Estimates review effort
+
+- `/improve` - Get code improvement suggestions
+  - React patterns optimization
+  - TypeScript improvements
+  - Performance enhancements
+  - Accessibility fixes
+
+- `/ask <question>` - Ask questions about the changes
+  - Example: `/ask how does this affect bundle size?`
+  - Example: `/ask what are the accessibility implications?`
+
+- `/update_changelog` - Update changelog based on changes
+
+**Automatic Features:**
+
+- ✅ Auto-description on PR open (if not draft)
+- ✅ Auto-review when PR is ready for review
+- ✅ Labels suggested based on changes
+- ✅ Breaking change detection
+
+**Best Practices:**
+
+1. Open PR as **draft** initially to prevent auto-review
+2. Use `/describe` after pushing all commits
+3. Review AI suggestions before requesting human review
+4. Use `/ask` for clarification on complex changes
 
 ## Component Guidelines
 
@@ -103,11 +367,11 @@ import type { ComponentPropsWithoutRef } from 'react';
 // Internal state management with signals
 class ButtonState {
   private _pressed = signal(false);
-  
+
   get pressed() {
     return this._pressed.value;
   }
-  
+
   setPressed(value: boolean) {
     this._pressed.value = value;
   }
@@ -117,19 +381,11 @@ export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: 'primary' | 'secondary';
 }
 
-export function Button({ 
-  variant = 'primary', 
-  className,
-  ...props 
-}: ButtonProps) {
+export function Button({ variant = 'primary', className, ...props }: ButtonProps) {
   // Component implementation
   return (
     <button
-      className={cn(
-        'base-styles',
-        variant === 'primary' && 'primary-styles',
-        className
-      )}
+      className={cn('base-styles', variant === 'primary' && 'primary-styles', className)}
       {...props}
     />
   );
@@ -154,7 +410,7 @@ describe('Button', () => {
     render(<Button>Click me</Button>);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
-  
+
   it('is accessible', () => {
     const { container } = render(<Button>Click me</Button>);
     // Add accessibility tests

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+. "$(dirname "$0")/_/husky.sh"
+
+# Validate branch name before pushing
+bash .husky/scripts/validate-branch-name.sh || exit 1

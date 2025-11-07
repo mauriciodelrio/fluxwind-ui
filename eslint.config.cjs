@@ -23,6 +23,8 @@ module.exports = [
       'out',
       '**/*.config.cjs',
       '**/*.config.js',
+      '**/*.bundled_*.mjs', // Ignore tsup bundled files
+      '**/tsup.config.bundled_*.mjs', // Ignore tsup temporary files
     ],
   },
   js.configs.recommended,
