@@ -1,0 +1,58 @@
+{
+  "name": "@fluxwind/i18n",
+  "version": "0.0.1",
+  "description": "Internationalization system for Fluxwind UI with signals-based reactivity",
+  "author": "Mauricio Del Rio",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --max-warnings 0",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "@preact/signals-core": "^1.8.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/node": "^22.9.0",
+    "@vitest/coverage-v8": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1",
+    "vitest": "^4.0.8"
+  },
+  "keywords": [
+    "fluxwind",
+    "i18n",
+    "internationalization",
+    "localization",
+    "translations",
+    "signals",
+    "reactive",
+    "react"
+  ]
+}
