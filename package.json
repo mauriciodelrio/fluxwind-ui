@@ -45,6 +45,8 @@
     "branch:validate": ".husky/scripts/validate-branch-name.sh",
     "pr:generate": ".husky/scripts/generate-pr-description.sh",
     "pr:generate:main": ".husky/scripts/generate-pr-description.sh main",
+    "pr:create": ".husky/scripts/create-pr.sh",
+    "pr:create:main": ".husky/scripts/create-pr.sh main",
     "branch:feature": "git checkout develop && git pull && git checkout -b feature/",
     "branch:fix": "git checkout develop && git pull && git checkout -b fix/",
     "branch:docs": "git checkout develop && git pull && git checkout -b docs/",
