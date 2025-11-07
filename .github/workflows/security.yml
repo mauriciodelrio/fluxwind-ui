@@ -13,6 +13,9 @@ jobs:
   audit:
     name: Dependency Audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +42,7 @@ jobs:
         run: pnpm outdated || true
 
       - name: Run Snyk Security Scan
-        if: secrets.SNYK_TOKEN != ''
+        if: ${{ vars.ENABLE_SNYK == 'true' || github.repository == 'mauriciodelrio/fluxwind-ui' }}
         uses: snyk/actions/node@master
         continue-on-error: true
         env:
@@ -49,7 +52,7 @@ jobs:
           command: test
 
       - name: Upload Snyk results to GitHub Code Scanning
-        if: secrets.SNYK_TOKEN != '' && hashFiles('snyk.sarif') != ''
+        if: ${{ (vars.ENABLE_SNYK == 'true' || github.repository == 'mauriciodelrio/fluxwind-ui') && hashFiles('snyk.sarif') != '' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
@@ -78,4 +81,4 @@ jobs:
       - name: Check licenses
         run: |
           pnpm add -D -w license-checker
-          npx license-checker --summary --production --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD"
+          npx license-checker --summary --production --excludePrivatePackages --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD"
