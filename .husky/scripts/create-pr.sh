@@ -127,7 +127,9 @@ Requirements:
 Generate only the Markdown description, no explanations."
   
   # Try to generate with Copilot (allow shell tool for git commands)
-  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-tool 'shell(git)' 2>&1 || echo "")
+  print_info "Using Copilot CLI to generate description..."
+  
+  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>&1 || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
     echo "$COPILOT_OUTPUT" > "$TEMP_FILE"
