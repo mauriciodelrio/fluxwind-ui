@@ -45,8 +45,15 @@ if [ -z "$BRANCH_NAME" ]; then
   exit 1
 fi
 
-# Get the base branch (default to develop, fallback to main, then to parent commit)
-BASE_BRANCH=${1:-develop}
+# Get the base branch
+# Special case: if we're on develop, PR goes to main
+# Otherwise: feature/fix/etc branches PR to develop (or provided base)
+if [ "$BRANCH_NAME" = "develop" ]; then
+  BASE_BRANCH="main"
+  print_info "Detected develop branch - PR will target main"
+else
+  BASE_BRANCH=${1:-develop}
+fi
 
 # Check if base branch exists
 if ! git rev-parse --verify "$BASE_BRANCH" >/dev/null 2>&1; then
