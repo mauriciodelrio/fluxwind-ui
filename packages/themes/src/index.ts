@@ -17,4 +17,9 @@ export * from './tokens';
 
 // Export all themes
 export * from './themes';
+
+// Export CSS variables utilities and types
+export * from './variables.utils';
+export * from './types/variables.types';
+
 export type { Config } from 'tailwindcss';
