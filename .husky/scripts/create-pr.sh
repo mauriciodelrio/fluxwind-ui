@@ -71,89 +71,84 @@ TEMP_FILE=$(mktemp)
 
 print_header "📝 Generating PR description..."
 
-# Check if GitHub Copilot CLI is available
+# Check if Copilot CLI is available
 USE_COPILOT=false
-if command -v gh &> /dev/null; then
-  if gh copilot --version &> /dev/null 2>&1; then
-    USE_COPILOT=true
-    print_success "GitHub Copilot CLI detected - using AI-powered description generation"
-  else
-    print_warning "GitHub Copilot CLI not available - using template-based generation"
-    print_info "Install with: gh extension install github/gh-copilot"
-  fi
+if command -v copilot &> /dev/null; then
+  USE_COPILOT=true
+  print_success "GitHub Copilot CLI detected - using AI generation"
+else
+  print_info "Copilot CLI not found - using template generator"
 fi
 
+# Get file stats
+SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
+ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
+DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
+[ -z "$ADDITIONS" ] && ADDITIONS="0"
+[ -z "$DELETIONS" ] && DELETIONS="0"
+
+CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
+FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
+
 if [ "$USE_COPILOT" = true ]; then
-  # Use GitHub Copilot to generate intelligent PR description
-  print_info "Analyzing commits and changes with AI..."
+  # Use Copilot CLI in programmatic mode
+  print_info "Generating description with Copilot AI..."
   
-  # Prepare context for Copilot
-  COMMIT_MESSAGES=$(git log --no-merges --pretty=format:"%s%n%b" "$BASE_BRANCH..HEAD" 2>/dev/null)
-  DIFF_STAT=$(git diff --stat "$BASE_BRANCH..HEAD" 2>/dev/null)
+  # Get commit details
+  COMMITS_SUMMARY=$(git log --no-merges --pretty=format:"- %s" "$BASE_BRANCH..HEAD" 2>/dev/null | head -20)
   
-  # Create prompt for Copilot
-  COPILOT_PROMPT="Generate a comprehensive GitHub Pull Request description for the following changes.
+  # Detect changed packages
+  PACKAGES=$(echo "$CHANGED_FILES" | grep -E "^packages/" | sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | tr '\n' ', ' | sed 's/,$//')
+  
+  # Create comprehensive prompt for Copilot
+  COPILOT_PROMPT="Generate a GitHub Pull Request description in Markdown format.
 
-Branch: $BRANCH_NAME -> $BASE_BRANCH
-Type: $PR_TITLE
+Context:
+- Branch: $BRANCH_NAME → $BASE_BRANCH  
+- Commits: $COMMIT_COUNT
+- Files changed: $FILES_COUNT
+- Changes: +$ADDITIONS/-$DELETIONS lines
+- Packages affected: ${PACKAGES:-none}
 
-Commits ($COMMIT_COUNT total):
-$COMMIT_MESSAGES
-
-File Changes:
-$DIFF_STAT
+Recent commits:
+$COMMITS_SUMMARY
 
 Requirements:
-1. Start with ## 📋 Overview section explaining what this PR does
-2. Add ### 🎯 What's Included section with key highlights
-3. If this is a package (i18n, a11y, etc), add a ### Highlighted section with:
-   - Package name and purpose
-   - Key features (5-8 bullet points with emojis)
-   - Test coverage percentage if mentioned in commits
-4. Add ## 📝 Commits section with a collapsible details block
-5. Add ## 📊 Impact section with a table showing files changed, additions, deletions
-6. Add ## ✅ Checklist section with standard checkboxes
-7. Keep the tone professional but friendly
+1. Start with ## 📋 Overview - brief summary
+2. Add ### 🎯 What's Included - key highlights
+3. If packages are affected, add ### 📦 Packages section highlighting each package
+4. Add ## 📝 Commits section with collapsible <details> showing commit list
+5. Add ## 📊 Impact table with files/additions/deletions
+6. Add ## ✅ Checklist with standard items
+7. End with branch info footer
 8. Use emojis appropriately
-9. Format in GitHub Flavored Markdown
+9. Be professional and concise
 
-Generate the description:"
-
-  # Generate with Copilot
-  COPILOT_RESULT=$(echo "$COPILOT_PROMPT" | gh copilot suggest -t shell 2>/dev/null || echo "")
+Generate only the Markdown description, no explanations."
   
-  if [ -n "$COPILOT_RESULT" ] && [ "$COPILOT_RESULT" != "Error"* ]; then
-    echo "$COPILOT_RESULT" > "$TEMP_FILE"
-    print_success "AI-generated description created"
+  # Try to generate with Copilot (allow shell tool for git commands)
+  COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-tool 'shell(git)' 2>&1 || echo "")
+  
+  if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
+    echo "$COPILOT_OUTPUT" > "$TEMP_FILE"
+    print_success "Copilot description generated"
   else
-    print_warning "Copilot generation failed, falling back to template"
+    print_warning "Copilot failed, falling back to template generator"
     USE_COPILOT=false
   fi
 fi
 
 if [ "$USE_COPILOT" = false ]; then
-  # Fall back to AI-powered description generator
-  print_info "Using AI-powered description generator..."
+  # Fall back to our AI-style template generator
+  print_info "Using template generator..."
   
-  # Get file stats for the generator
-  SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
-  ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
-  DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
-  [ -z "$ADDITIONS" ] && ADDITIONS="0"
-  [ -z "$DELETIONS" ] && DELETIONS="0"
-  
-  CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
-  FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
-  
-  # Call the AI generator script
   AI_SCRIPT=".husky/scripts/generate-ai-pr-description.sh"
   if [ -f "$AI_SCRIPT" ] && [ -x "$AI_SCRIPT" ]; then
     "$AI_SCRIPT" "$BASE_BRANCH" "$BRANCH_NAME" "$COMMIT_COUNT" "$FILES_COUNT" "$ADDITIONS" "$DELETIONS" > "$TEMP_FILE"
-    print_success "AI description generated"
+    print_success "Description generated"
   else
-    print_warning "AI generator script not found or not executable, using basic template..."
+    print_warning "Generator script not found, using minimal template..."
     
-    # Minimal fallback if AI script is missing
     {
       echo "## 📋 Overview"
       echo ""
@@ -183,11 +178,14 @@ if [ "$USE_COPILOT" = false ]; then
       echo "- [ ] Changeset created"
       echo ""
       echo "---"
+      echo "_**Base:** \`$BASE_BRANCH\` | **Head:** \`$BRANCH_NAME\`_"
     } > "$TEMP_FILE"
   fi
 fi
 
-print_success "Description generated"# Show preview
+print_success "Description generated"
+
+# Show preview
 print_header "📄 PR Description Preview"
 cat "$TEMP_FILE"
 
