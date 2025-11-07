@@ -101,7 +101,7 @@ if [ "$USE_COPILOT" = true ]; then
   PACKAGES=$(echo "$CHANGED_FILES" | grep -E "^packages/" | sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | tr '\n' ', ' | sed 's/,$//')
   
   # Create comprehensive prompt for Copilot
-  COPILOT_PROMPT="Generate a GitHub Pull Request description in Markdown format.
+  COPILOT_PROMPT="Generate a GitHub Pull Request description in Markdown format for direct use in GitHub.
 
 Context:
 - Branch: $BRANCH_NAME → $BASE_BRANCH  
@@ -124,7 +124,7 @@ Requirements:
 8. Use emojis appropriately
 9. Be professional and concise
 
-Generate only the Markdown description, no explanations."
+IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or markdown fences. Do NOT use \`\`\`markdown blocks. GitHub PRs render Markdown natively."
   
   # Try to generate with Copilot (allow shell tool for git commands)
   print_info "Using Copilot CLI to generate description..."
@@ -132,16 +132,19 @@ Generate only the Markdown description, no explanations."
   COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
-    # Filter out Copilot CLI logs and usage statistics, keep only Markdown content
+    # Filter out Copilot CLI logs, usage statistics, and markdown code blocks
     echo "$COPILOT_OUTPUT" | \
       grep -v "^✓" | \
       grep -v "^✗" | \
       grep -v "^\$" | \
       grep -v "^↪" | \
+      grep -v "||" | \
       sed '/^Total usage est:/,/^Usage by model:/d' | \
       sed '/^[[:space:]]*claude-sonnet/d' | \
       sed '/^Total duration/d' | \
       sed '/^Total code changes/d' | \
+      sed 's/^```markdown$//' | \
+      sed 's/^```$//' | \
       sed '/^[[:space:]]*$/N;/^\n$/d' > "$TEMP_FILE"
     print_success "Copilot description generated"
   else
