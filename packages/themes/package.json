@@ -1,0 +1,38 @@
+{
+  "name": "@fluxwind/themes",
+  "version": "0.0.0",
+  "description": "Design tokens and Tailwind configurations for Fluxwind UI",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./tailwind": "./src/tailwind.config.ts"
+  },
+  "files": [
+    "dist",
+    "src/tailwind.config.ts"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint . --config ../../eslint.config.cjs",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

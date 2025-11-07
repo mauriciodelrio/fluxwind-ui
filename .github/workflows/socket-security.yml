@@ -1,0 +1,28 @@
+name: Socket Security
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  socket-security:
+    name: Socket.dev Supply Chain Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Socket Security Analysis
+        uses: SocketDev/socket-action@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-pr: true
+          fail-on-issues: false
+          severity-threshold: medium

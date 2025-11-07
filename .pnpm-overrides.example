@@ -1,0 +1,12 @@
+# Allowed/Blocked Packages Configuration
+# https://pnpm.io/package_json#pnpmoverrides
+
+# Use this to override vulnerable sub-dependencies
+# Example:
+# {
+#   "pnpm": {
+#     "overrides": {
+#       "vulnerable-package@<2.0.0": ">=2.0.0"
+#     }
+#   }
+# }
