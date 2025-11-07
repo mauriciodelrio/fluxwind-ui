@@ -1,0 +1,293 @@
+/**
+ * Fluxwind Design System - CSS Variables
+ * 
+ * Global CSS custom properties for the design system.
+ * These variables serve as the foundation for theming and component styling.
+ * 
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
+ */
+
+:root {
+  /* ========================================
+     COLOR SYSTEM
+     Base colors for theming
+     ======================================== */
+
+  /* Primary Color */
+  --fw-color-primary: #3b82f6;
+  --fw-color-primary-hover: #2563eb;
+  --fw-color-primary-active: #1d4ed8;
+  --fw-color-primary-light: #60a5fa;
+  --fw-color-primary-dark: #1e40af;
+
+  /* Secondary Color */
+  --fw-color-secondary: #8b5cf6;
+  --fw-color-secondary-hover: #7c3aed;
+  --fw-color-secondary-active: #6d28d9;
+
+  /* Semantic Colors */
+  --fw-color-success: #22c55e;
+  --fw-color-success-hover: #16a34a;
+  --fw-color-warning: #f59e0b;
+  --fw-color-warning-hover: #d97706;
+  --fw-color-error: #ef4444;
+  --fw-color-error-hover: #dc2626;
+  --fw-color-info: #3b82f6;
+  --fw-color-info-hover: #2563eb;
+
+  /* Neutral Colors */
+  --fw-color-white: #ffffff;
+  --fw-color-black: #000000;
+  --fw-color-gray-50: #f9fafb;
+  --fw-color-gray-100: #f3f4f6;
+  --fw-color-gray-200: #e5e7eb;
+  --fw-color-gray-300: #d1d5db;
+  --fw-color-gray-400: #9ca3af;
+  --fw-color-gray-500: #6b7280;
+  --fw-color-gray-600: #4b5563;
+  --fw-color-gray-700: #374151;
+  --fw-color-gray-800: #1f2937;
+  --fw-color-gray-900: #111827;
+
+  /* Background Colors */
+  --fw-color-bg-primary: var(--fw-color-white);
+  --fw-color-bg-secondary: var(--fw-color-gray-50);
+  --fw-color-bg-tertiary: var(--fw-color-gray-100);
+  --fw-color-bg-inverse: var(--fw-color-gray-900);
+
+  /* Text Colors */
+  --fw-color-text-primary: var(--fw-color-gray-900);
+  --fw-color-text-secondary: var(--fw-color-gray-600);
+  --fw-color-text-tertiary: var(--fw-color-gray-500);
+  --fw-color-text-inverse: var(--fw-color-white);
+  --fw-color-text-disabled: var(--fw-color-gray-400);
+
+  /* Border Colors */
+  --fw-color-border-primary: var(--fw-color-gray-300);
+  --fw-color-border-secondary: var(--fw-color-gray-200);
+  --fw-color-border-focus: var(--fw-color-primary);
+  --fw-color-border-error: var(--fw-color-error);
+
+  /* ========================================
+     SPACING SYSTEM
+     Consistent spacing scale
+     ======================================== */
+
+  --fw-spacing-0: 0;
+  --fw-spacing-1: 0.25rem; /* 4px */
+  --fw-spacing-2: 0.5rem; /* 8px */
+  --fw-spacing-3: 0.75rem; /* 12px */
+  --fw-spacing-4: 1rem; /* 16px */
+  --fw-spacing-5: 1.25rem; /* 20px */
+  --fw-spacing-6: 1.5rem; /* 24px */
+  --fw-spacing-8: 2rem; /* 32px */
+  --fw-spacing-10: 2.5rem; /* 40px */
+  --fw-spacing-12: 3rem; /* 48px */
+  --fw-spacing-16: 4rem; /* 64px */
+  --fw-spacing-20: 5rem; /* 80px */
+  --fw-spacing-24: 6rem; /* 96px */
+
+  /* Component Spacing */
+  --fw-spacing-component-gap: var(--fw-spacing-4);
+  --fw-spacing-component-padding-x: var(--fw-spacing-4);
+  --fw-spacing-component-padding-y: var(--fw-spacing-2);
+  --fw-spacing-section-gap: var(--fw-spacing-8);
+
+  /* ========================================
+     TYPOGRAPHY SYSTEM
+     Font families, sizes, and weights
+     ======================================== */
+
+  /* Font Families */
+  --fw-font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fw-font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --fw-font-size-xs: 0.75rem; /* 12px */
+  --fw-font-size-sm: 0.875rem; /* 14px */
+  --fw-font-size-base: 1rem; /* 16px */
+  --fw-font-size-lg: 1.125rem; /* 18px */
+  --fw-font-size-xl: 1.25rem; /* 20px */
+  --fw-font-size-2xl: 1.5rem; /* 24px */
+  --fw-font-size-3xl: 1.875rem; /* 30px */
+  --fw-font-size-4xl: 2.25rem; /* 36px */
+
+  /* Font Weights */
+  --fw-font-weight-light: 300;
+  --fw-font-weight-normal: 400;
+  --fw-font-weight-medium: 500;
+  --fw-font-weight-semibold: 600;
+  --fw-font-weight-bold: 700;
+
+  /* Line Heights */
+  --fw-line-height-tight: 1.25;
+  --fw-line-height-normal: 1.5;
+  --fw-line-height-relaxed: 1.75;
+
+  /* ========================================
+     ANIMATION SYSTEM
+     Durations, easings, and defaults
+     ======================================== */
+
+  /* Durations */
+  --fw-duration-instant: 75ms;
+  --fw-duration-fast: 150ms;
+  --fw-duration-base: 250ms;
+  --fw-duration-moderate: 400ms;
+  --fw-duration-slow: 600ms;
+
+  /* Easings */
+  --fw-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --fw-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --fw-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Default Animation */
+  --fw-transition-base: all var(--fw-duration-base) var(--fw-easing-standard);
+  --fw-transition-fast: all var(--fw-duration-fast) var(--fw-easing-standard);
+  --fw-transition-color: color var(--fw-duration-fast) var(--fw-easing-standard);
+  --fw-transition-transform: transform var(--fw-duration-base) var(--fw-easing-standard);
+
+  /* ========================================
+     BORDER SYSTEM
+     Radius and widths
+     ======================================== */
+
+  /* Border Radius */
+  --fw-radius-none: 0;
+  --fw-radius-sm: 0.125rem; /* 2px */
+  --fw-radius-base: 0.25rem; /* 4px */
+  --fw-radius-md: 0.375rem; /* 6px */
+  --fw-radius-lg: 0.5rem; /* 8px */
+  --fw-radius-xl: 0.75rem; /* 12px */
+  --fw-radius-2xl: 1rem; /* 16px */
+  --fw-radius-full: 9999px;
+
+  /* Border Widths */
+  --fw-border-width-0: 0;
+  --fw-border-width-1: 1px;
+  --fw-border-width-2: 2px;
+  --fw-border-width-4: 4px;
+  --fw-border-width-8: 8px;
+
+  /* Default Border */
+  --fw-border-base: var(--fw-border-width-1) solid var(--fw-color-border-primary);
+
+  /* ========================================
+     SHADOW SYSTEM
+     Elevation and depth
+     ======================================== */
+
+  --fw-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --fw-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --fw-shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --fw-shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --fw-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --fw-shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --fw-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --fw-shadow-none: none;
+
+  /* Focus Shadow */
+  --fw-shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  --fw-shadow-focus-error: 0 0 0 3px rgba(239, 68, 68, 0.5);
+
+  /* ========================================
+     Z-INDEX SYSTEM
+     Layering and stacking context
+     ======================================== */
+
+  --fw-z-base: 0;
+  --fw-z-dropdown: 1000;
+  --fw-z-sticky: 1100;
+  --fw-z-fixed: 1200;
+  --fw-z-modal-backdrop: 1300;
+  --fw-z-modal: 1400;
+  --fw-z-popover: 1500;
+  --fw-z-tooltip: 1600;
+  --fw-z-toast: 1700;
+  --fw-z-max: 9999;
+
+  /* ========================================
+     SIZE SYSTEM
+     Common component sizes
+     ======================================== */
+
+  /* Icon Sizes */
+  --fw-size-icon-xs: 1rem; /* 16px */
+  --fw-size-icon-sm: 1.25rem; /* 20px */
+  --fw-size-icon-base: 1.5rem; /* 24px */
+  --fw-size-icon-lg: 2rem; /* 32px */
+  --fw-size-icon-xl: 2.5rem; /* 40px */
+
+  /* Container Max Widths */
+  --fw-container-sm: 640px;
+  --fw-container-md: 768px;
+  --fw-container-lg: 1024px;
+  --fw-container-xl: 1280px;
+  --fw-container-2xl: 1536px;
+
+  /* ========================================
+     OPACITY SYSTEM
+     Transparency levels
+     ======================================== */
+
+  --fw-opacity-0: 0;
+  --fw-opacity-5: 0.05;
+  --fw-opacity-10: 0.1;
+  --fw-opacity-20: 0.2;
+  --fw-opacity-25: 0.25;
+  --fw-opacity-30: 0.3;
+  --fw-opacity-40: 0.4;
+  --fw-opacity-50: 0.5;
+  --fw-opacity-60: 0.6;
+  --fw-opacity-70: 0.7;
+  --fw-opacity-75: 0.75;
+  --fw-opacity-80: 0.8;
+  --fw-opacity-90: 0.9;
+  --fw-opacity-95: 0.95;
+  --fw-opacity-100: 1;
+
+  /* Common Opacity Use Cases */
+  --fw-opacity-disabled: var(--fw-opacity-50);
+  --fw-opacity-hover: var(--fw-opacity-90);
+  --fw-opacity-overlay: var(--fw-opacity-75);
+}
+
+/* ========================================
+   DARK MODE OVERRIDES
+   Variables for dark theme
+   ======================================== */
+
+[data-theme='dark'] {
+  /* Background Colors */
+  --fw-color-bg-primary: var(--fw-color-gray-900);
+  --fw-color-bg-secondary: var(--fw-color-gray-800);
+  --fw-color-bg-tertiary: var(--fw-color-gray-700);
+  --fw-color-bg-inverse: var(--fw-color-white);
+
+  /* Text Colors */
+  --fw-color-text-primary: var(--fw-color-gray-50);
+  --fw-color-text-secondary: var(--fw-color-gray-300);
+  --fw-color-text-tertiary: var(--fw-color-gray-400);
+  --fw-color-text-inverse: var(--fw-color-gray-900);
+  --fw-color-text-disabled: var(--fw-color-gray-600);
+
+  /* Border Colors */
+  --fw-color-border-primary: var(--fw-color-gray-700);
+  --fw-color-border-secondary: var(--fw-color-gray-800);
+}
+
+/* ========================================
+   PREFERS REDUCED MOTION
+   Respect user's motion preferences
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fw-duration-instant: 0ms;
+    --fw-duration-fast: 0ms;
+    --fw-duration-base: 0ms;
+    --fw-duration-moderate: 0ms;
+    --fw-duration-slow: 0ms;
+  }
+}
