@@ -13,13 +13,22 @@ NC='\033[0m' # No Color
 # Get current branch name
 BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
 
-# Branches that are always allowed (permanent branches)
+# Branches that are always allowed (permanent branches and automated branches)
 PROTECTED_BRANCHES=("main" "develop")
+AUTOMATED_PREFIXES=("copilot/" "dependabot/" "renovate/")
 
 # Check if current branch is protected
 for protected in "${PROTECTED_BRANCHES[@]}"; do
   if [ "$BRANCH_NAME" = "$protected" ]; then
     echo -e "${GREEN}✓${NC} Branch '${BLUE}$BRANCH_NAME${NC}' is a protected branch"
+    exit 0
+  fi
+done
+
+# Check if current branch is an automated branch
+for prefix in "${AUTOMATED_PREFIXES[@]}"; do
+  if [[ "$BRANCH_NAME" == "$prefix"* ]]; then
+    echo -e "${GREEN}✓${NC} Branch '${BLUE}$BRANCH_NAME${NC}' is an automated branch"
     exit 0
   fi
 done
