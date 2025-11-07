@@ -45,8 +45,15 @@ if [ -z "$BRANCH_NAME" ]; then
   exit 1
 fi
 
-# Get the base branch (default to develop, fallback to main, then to parent commit)
-BASE_BRANCH=${1:-develop}
+# Get the base branch
+# Special case: if we're on develop, PR goes to main
+# Otherwise: feature/fix/etc branches PR to develop (or provided base)
+if [ "$BRANCH_NAME" = "develop" ]; then
+  BASE_BRANCH="main"
+  print_info "Detected develop branch - PR will target main"
+else
+  BASE_BRANCH=${1:-develop}
+fi
 
 # Check if base branch exists
 if ! git rev-parse --verify "$BASE_BRANCH" >/dev/null 2>&1; then
@@ -143,43 +150,59 @@ COMMIT_COUNT=$(git rev-list --count --no-merges "$BASE_BRANCH..HEAD" 2>/dev/null
 CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH..HEAD" 2>/dev/null)
 FILES_COUNT=$(echo "$CHANGED_FILES" | grep -c '^' 2>/dev/null || echo "0")
 
-# Categorize changed files
-declare -A FILE_CATEGORIES
+# Categorize changed files (simplified for compatibility)
+CORE_FILES=""
+THEMES_FILES=""
+UTILS_FILES=""
+I18N_FILES=""
+DOCS_FILES=""
+PLAYGROUND_FILES=""
+TEST_FILES=""
+CICD_FILES=""
+OTHER_FILES=""
+
 while IFS= read -r file; do
+  [ -z "$file" ] && continue
   case "$file" in
     packages/core/*)
-      FILE_CATEGORIES["Core Components"]+="- \`$file\`\n"
+      CORE_FILES="${CORE_FILES}- \`$file\`\n"
       ;;
     packages/themes/*)
-      FILE_CATEGORIES["Themes & Tokens"]+="- \`$file\`\n"
+      THEMES_FILES="${THEMES_FILES}- \`$file\`\n"
       ;;
     packages/utils/*)
-      FILE_CATEGORIES["Utilities"]+="- \`$file\`\n"
+      UTILS_FILES="${UTILS_FILES}- \`$file\`\n"
+      ;;
+    packages/i18n/*)
+      I18N_FILES="${I18N_FILES}- \`$file\`\n"
       ;;
     apps/docs/*)
-      FILE_CATEGORIES["Documentation"]+="- \`$file\`\n"
+      DOCS_FILES="${DOCS_FILES}- \`$file\`\n"
       ;;
     apps/playground/*)
-      FILE_CATEGORIES["Playground"]+="- \`$file\`\n"
+      PLAYGROUND_FILES="${PLAYGROUND_FILES}- \`$file\`\n"
       ;;
     *.test.ts|*.test.tsx|*.spec.ts|*.spec.tsx)
-      FILE_CATEGORIES["Tests"]+="- \`$file\`\n"
+      TEST_FILES="${TEST_FILES}- \`$file\`\n"
       ;;
-    .github/*)
-      FILE_CATEGORIES["CI/CD"]+="- \`$file\`\n"
+    .github/*|.husky/*)
+      CICD_FILES="${CICD_FILES}- \`$file\`\n"
       ;;
     *.md)
-      FILE_CATEGORIES["Documentation"]+="- \`$file\`\n"
+      DOCS_FILES="${DOCS_FILES}- \`$file\`\n"
       ;;
     *)
-      FILE_CATEGORIES["Other"]+="- \`$file\`\n"
+      OTHER_FILES="${OTHER_FILES}- \`$file\`\n"
       ;;
   esac
 done <<< "$CHANGED_FILES"
 
-# Get file statistics
-ADDITIONS=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null | grep -oP '\d+ insertion' | grep -oP '\d+' || echo "0")
-DELETIONS=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null | grep -oP '\d+ deletion' | grep -oP '\d+' || echo "0")
+# Get file statistics (macOS compatible)
+SHORTSTAT=$(git diff --shortstat "$BASE_BRANCH..HEAD" 2>/dev/null || echo "")
+ADDITIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) insertion.*/\1/p')
+DELETIONS=$(echo "$SHORTSTAT" | sed -n 's/.* \([0-9]*\) deletion.*/\1/p')
+[ -z "$ADDITIONS" ] && ADDITIONS="0"
+[ -z "$DELETIONS" ] && DELETIONS="0"
 
 # Generate PR description
 echo "# PR Description Generated"
@@ -238,15 +261,64 @@ echo ""
 echo "## Changes Made"
 echo ""
 
-if [ ${#FILE_CATEGORIES[@]} -gt 0 ]; then
+if [ "$FILES_COUNT" -gt 0 ]; then
   echo "This PR modifies **$FILES_COUNT file(s)** with **+$ADDITIONS/-$DELETIONS** lines changed:"
   echo ""
   
-  for category in "${!FILE_CATEGORIES[@]}"; do
-    echo "### $category"
+  # Print categories that have files
+  if [ -n "$I18N_FILES" ]; then
+    echo "### i18n Package"
     echo ""
-    echo -e "${FILE_CATEGORIES[$category]}"
-  done
+    echo -e "$I18N_FILES"
+  fi
+  
+  if [ -n "$CORE_FILES" ]; then
+    echo "### Core Components"
+    echo ""
+    echo -e "$CORE_FILES"
+  fi
+  
+  if [ -n "$THEMES_FILES" ]; then
+    echo "### Themes & Tokens"
+    echo ""
+    echo -e "$THEMES_FILES"
+  fi
+  
+  if [ -n "$UTILS_FILES" ]; then
+    echo "### Utilities"
+    echo ""
+    echo -e "$UTILS_FILES"
+  fi
+  
+  if [ -n "$DOCS_FILES" ]; then
+    echo "### Documentation"
+    echo ""
+    echo -e "$DOCS_FILES"
+  fi
+  
+  if [ -n "$PLAYGROUND_FILES" ]; then
+    echo "### Playground"
+    echo ""
+    echo -e "$PLAYGROUND_FILES"
+  fi
+  
+  if [ -n "$TEST_FILES" ]; then
+    echo "### Tests"
+    echo ""
+    echo -e "$TEST_FILES"
+  fi
+  
+  if [ -n "$CICD_FILES" ]; then
+    echo "### CI/CD & Scripts"
+    echo ""
+    echo -e "$CICD_FILES"
+  fi
+  
+  if [ -n "$OTHER_FILES" ]; then
+    echo "### Other"
+    echo ""
+    echo -e "$OTHER_FILES"
+  fi
 else
   echo "- _No changes detected or changes are in comparison to $BASE_BRANCH_"
 fi

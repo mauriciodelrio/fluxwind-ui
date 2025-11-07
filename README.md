@@ -24,6 +24,7 @@ This monorepo contains the following packages:
 
 - **[@fluxwind/core](./packages/core)** - Core UI components
 - **[@fluxwind/themes](./packages/themes)** - Design tokens and Tailwind configurations
+- **[@fluxwind/icons](./packages/icons)** - Icon system with Lucide React and custom icon support
 - **[@fluxwind/utils](./packages/utils)** - Shared utilities
 
 ## 🚀 Getting Started
