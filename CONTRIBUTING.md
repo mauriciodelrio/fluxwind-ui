@@ -44,17 +44,17 @@ All temporary branches must follow this naming pattern:
 
 **Valid prefixes:**
 
-| Prefix | Purpose | Example |
-|--------|---------|---------|
-| `feature/` | New features and enhancements | `feature/button-component` |
-| `fix/` | Bug fixes | `fix/dropdown-keyboard-nav` |
-| `docs/` | Documentation changes | `docs/contributing-guide` |
-| `refactor/` | Code refactoring | `refactor/signal-performance` |
-| `test/` | Adding or updating tests | `test/button-accessibility` |
-| `chore/` | Maintenance tasks | `chore/upgrade-deps` |
-| `perf/` | Performance improvements | `perf/reduce-bundle-size` |
-| `ci/` | CI/CD configuration | `ci/add-lighthouse` |
-| `revert/` | Reverting previous changes | `revert/broken-feature` |
+| Prefix      | Purpose                       | Example                       |
+| ----------- | ----------------------------- | ----------------------------- |
+| `feature/`  | New features and enhancements | `feature/button-component`    |
+| `fix/`      | Bug fixes                     | `fix/dropdown-keyboard-nav`   |
+| `docs/`     | Documentation changes         | `docs/contributing-guide`     |
+| `refactor/` | Code refactoring              | `refactor/signal-performance` |
+| `test/`     | Adding or updating tests      | `test/button-accessibility`   |
+| `chore/`    | Maintenance tasks             | `chore/upgrade-deps`          |
+| `perf/`     | Performance improvements      | `perf/reduce-bundle-size`     |
+| `ci/`       | CI/CD configuration           | `ci/add-lighthouse`           |
+| `revert/`   | Reverting previous changes    | `revert/broken-feature`       |
 
 **Naming rules:**
 

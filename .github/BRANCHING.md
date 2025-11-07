@@ -19,17 +19,17 @@ For complete contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 #### Valid Prefixes
 
-| Prefix | Purpose | Example |
-|--------|---------|---------|
-| `feature/` | New features | `feature/button-component` |
-| `fix/` | Bug fixes | `fix/dropdown-keyboard-nav` |
-| `docs/` | Documentation | `docs/contributing-guide` |
-| `refactor/` | Refactoring | `refactor/signal-performance` |
-| `test/` | Tests | `test/button-accessibility` |
-| `chore/` | Maintenance | `chore/upgrade-deps` |
-| `perf/` | Performance | `perf/reduce-bundle-size` |
-| `ci/` | CI/CD | `ci/add-lighthouse` |
-| `revert/` | Reverts | `revert/broken-feature` |
+| Prefix      | Purpose       | Example                       |
+| ----------- | ------------- | ----------------------------- |
+| `feature/`  | New features  | `feature/button-component`    |
+| `fix/`      | Bug fixes     | `fix/dropdown-keyboard-nav`   |
+| `docs/`     | Documentation | `docs/contributing-guide`     |
+| `refactor/` | Refactoring   | `refactor/signal-performance` |
+| `test/`     | Tests         | `test/button-accessibility`   |
+| `chore/`    | Maintenance   | `chore/upgrade-deps`          |
+| `perf/`     | Performance   | `perf/reduce-bundle-size`     |
+| `ci/`       | CI/CD         | `ci/add-lighthouse`           |
+| `revert/`   | Reverts       | `revert/broken-feature`       |
 
 #### Naming Rules
 
