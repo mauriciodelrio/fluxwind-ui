@@ -168,31 +168,24 @@ Output raw Markdown only. No \`\`\`markdown fences. No explanations. Start direc
   COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
-    # Filter out all Copilot CLI logs, usage statistics, and markdown code blocks
-    # Extract only the Markdown content between first ## and end
-    echo "$COPILOT_OUTPUT" | \
-      grep -v "^✓" | \
-      grep -v "^✗" | \
-      grep -v "^\$" | \
-      grep -v "^↪" | \
-      grep -v "^   \$" | \
-      grep -v "^   ↪" | \
-      grep -v "git --no-pager" | \
-      grep -v "\-\-no-pager" | \
-      grep -v "main..develop" | \
-      grep -v "main...develop" | \
-      grep -v "Get commit" | \
-      grep -v "||" | \
-      grep -v "^I'll analyze" | \
-      grep -v "^Now I'll generate" | \
-      grep -v "^Let me" | \
-      grep -v "^First" | \
-      sed '/^Total usage est:/,/^Usage by model:/d' | \
-      sed '/^[[:space:]]*claude-sonnet/d' | \
-      sed '/^Total duration/d' | \
-      sed '/^Total code changes/d' | \
-      sed 's/^```markdown$//' | \
-      sed 's/^```$//' > "$TEMP_FILE"
+    # Extract Markdown content starting from first ## header
+    # Use awk to start output from first line with ## and keep everything after
+    echo "$COPILOT_OUTPUT" | awk '
+      /^## / { found=1 }
+      found {
+        # Skip log lines even after ## found
+        if ($0 ~ /^✓/ || $0 ~ /^✗/ || $0 ~ /^\$/ || $0 ~ /^↪/) next;
+        if ($0 ~ /^   \$/ || $0 ~ /^   ↪/) next;
+        if ($0 ~ /git --no-pager/ || $0 ~ /--no-pager/) next;
+        if ($0 ~ /main\.\.\.?develop/) next;
+        if ($0 ~ /^Get commit/ || $0 ~ /^\|\|/) next;
+        if ($0 ~ /^I'\''ll analyze/ || $0 ~ /^Now I'\''ll/ || $0 ~ /^Let me/ || $0 ~ /^First/) next;
+        if ($0 ~ /^Total usage/ || $0 ~ /^Total duration/ || $0 ~ /^Total code/) next;
+        if ($0 ~ /claude-sonnet/) next;
+        if ($0 ~ /^```markdown$/ || $0 == "```") next;
+        print
+      }
+    ' > "$TEMP_FILE"
     print_success "Copilot description generated"
   else
     print_warning "Copilot failed, falling back to template generator"
