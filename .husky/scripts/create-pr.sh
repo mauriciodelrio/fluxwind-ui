@@ -132,8 +132,17 @@ Generate only the Markdown description, no explanations."
   COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
-    # Filter out usage statistics and keep only the Markdown content
-    echo "$COPILOT_OUTPUT" | sed '/^Total usage est:/,/^Usage by model:/d' | sed '/^[[:space:]]*claude-sonnet/d' | sed '/^Total duration/d' | sed '/^Total code changes/d' | sed '/^[[:space:]]*$/N;/^\n$/d' > "$TEMP_FILE"
+    # Filter out Copilot CLI logs and usage statistics, keep only Markdown content
+    echo "$COPILOT_OUTPUT" | \
+      grep -v "^✓" | \
+      grep -v "^✗" | \
+      grep -v "^\$" | \
+      grep -v "^↪" | \
+      sed '/^Total usage est:/,/^Usage by model:/d' | \
+      sed '/^[[:space:]]*claude-sonnet/d' | \
+      sed '/^Total duration/d' | \
+      sed '/^Total code changes/d' | \
+      sed '/^[[:space:]]*$/N;/^\n$/d' > "$TEMP_FILE"
     print_success "Copilot description generated"
   else
     print_warning "Copilot failed, falling back to template generator"
