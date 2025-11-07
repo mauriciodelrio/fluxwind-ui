@@ -132,13 +132,18 @@ IMPORTANT: Output raw Markdown directly without wrapping it in code blocks or ma
   COPILOT_OUTPUT=$(copilot -p "$COPILOT_PROMPT" --allow-all-tools 2>/dev/null || echo "")
   
   if [ -n "$COPILOT_OUTPUT" ] && echo "$COPILOT_OUTPUT" | grep -q "## "; then
-    # Filter out Copilot CLI logs, usage statistics, and markdown code blocks
+    # Filter out all Copilot CLI logs, usage statistics, and markdown code blocks
+    # Keep only lines that start with # (headers) or are content lines
     echo "$COPILOT_OUTPUT" | \
       grep -v "^✓" | \
       grep -v "^✗" | \
       grep -v "^\$" | \
       grep -v "^↪" | \
+      grep -v "^   \$" | \
+      grep -v "^   ↪" | \
       grep -v "||" | \
+      grep -v "^I'll analyze" | \
+      grep -v "^Now I'll generate" | \
       sed '/^Total usage est:/,/^Usage by model:/d' | \
       sed '/^[[:space:]]*claude-sonnet/d' | \
       sed '/^Total duration/d' | \
