@@ -226,9 +226,6 @@ echo "- [ ] ✅ Test update"
 echo "- [ ] 🔧 Build/CI configuration change"
 echo "- [ ] 🔒 Security fix"
 
-# Remove the selected checkbox from the list
-echo "" | grep -v "$TYPE_CHECKBOX" >/dev/null 2>&1
-
 echo ""
 echo "## Related Issues"
 echo ""
