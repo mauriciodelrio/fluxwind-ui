@@ -4,6 +4,7 @@
  */
 
 export * from './colors';
+export * from './colors-extended';
 export * from './spacing';
 export * from './typography';
 export * from './shadows';
