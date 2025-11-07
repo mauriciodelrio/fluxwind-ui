@@ -465,8 +465,33 @@ All components must:
 2. **Add changeset**: `pnpm changeset`
 3. **Ensure tests pass**: `pnpm test`
 4. **Ensure linting passes**: `pnpm lint`
-5. **Submit PR** with clear description
-6. **Wait for review** from maintainers
+5. **Generate PR description**: `pnpm pr:generate` (optional but recommended)
+6. **Submit PR** with clear description
+7. **Wait for review** from maintainers
+
+### Generating PR Descriptions
+
+We provide a handy script to automatically generate comprehensive PR descriptions based on your branch name and changes:
+
+```bash
+# Generate PR description comparing to develop (default)
+pnpm pr:generate
+
+# Generate PR description comparing to main
+pnpm pr:generate:main
+
+# Or run directly with custom base branch
+.husky/scripts/generate-pr-description.sh my-base-branch
+```
+
+The script will:
+- Analyze your branch name and extract type, scope, and description
+- List all commits on your branch
+- Categorize changed files
+- Generate statistics about your changes
+- Create a well-structured PR description following our template
+
+Simply copy the generated output and paste it into your PR description!
 
 ## Questions?
 
