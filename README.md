@@ -114,6 +114,11 @@ pnpm format           # Format code with Prettier
 pnpm format:check     # Check formatting
 pnpm type-check       # Run TypeScript type checking
 
+# Branch Management & PR Tools
+pnpm branch:validate  # Validate current branch name
+pnpm pr:generate      # Generate PR description from branch info and changes
+pnpm pr:generate:main # Generate PR description comparing to main branch
+
 # Versioning
 pnpm changeset        # Create a changeset
 pnpm version-packages # Version packages
