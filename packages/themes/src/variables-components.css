@@ -330,6 +330,63 @@
 }
 
 /* ========================================
+   SEPIA MODE OVERRIDES
+   ======================================== */
+
+[data-theme='sepia'] {
+  /* Button - Sepia Mode */
+  --fw-button-bg: #d97706; /* amber-600 */
+  --fw-button-bg-hover: #b45309; /* amber-700 */
+  --fw-button-bg-active: #92400e; /* amber-800 */
+  --fw-button-bg-disabled: #d6d3d1; /* stone-300 */
+  --fw-button-color-disabled: #78716c; /* stone-500 */
+
+  /* Input - Sepia Mode */
+  --fw-input-bg: #fffbeb; /* amber-50 */
+  --fw-input-color: #78350f; /* amber-900 */
+  --fw-input-border: #d6d3d1; /* stone-300 */
+  --fw-input-bg-disabled: #fef3c7; /* amber-100 */
+  --fw-input-color-disabled: #78716c; /* stone-500 */
+  --fw-input-border-disabled: #e7e5e4; /* stone-200 */
+
+  /* Select - Sepia Mode */
+  --fw-select-bg: var(--fw-input-bg);
+  --fw-select-color: var(--fw-input-color);
+  --fw-select-border: var(--fw-input-border);
+  --fw-select-dropdown-bg: #fffbeb; /* amber-50 */
+  --fw-select-dropdown-border: #d6d3d1; /* stone-300 */
+  --fw-select-option-hover-bg: #fef3c7; /* amber-100 */
+  --fw-select-option-selected-bg: #fde68a; /* amber-200 */
+  --fw-select-option-selected-color: #78350f; /* amber-900 */
+
+  /* Checkbox - Sepia Mode */
+  --fw-checkbox-bg: #fffbeb; /* amber-50 */
+  --fw-checkbox-border: #d6d3d1; /* stone-300 */
+  --fw-checkbox-bg-checked: #d97706; /* amber-600 */
+  --fw-checkbox-border-checked: #d97706; /* amber-600 */
+  --fw-checkbox-bg-disabled: #fef3c7; /* amber-100 */
+  --fw-checkbox-border-disabled: #e7e5e4; /* stone-200 */
+  --fw-checkbox-bg-indeterminate: #d97706; /* amber-600 */
+  --fw-checkbox-border-indeterminate: #d97706; /* amber-600 */
+
+  /* Radio - Sepia Mode */
+  --fw-radio-bg: #fffbeb; /* amber-50 */
+  --fw-radio-border: #d6d3d1; /* stone-300 */
+  --fw-radio-bg-checked: #d97706; /* amber-600 */
+  --fw-radio-border-checked: #d97706; /* amber-600 */
+  --fw-radio-bg-disabled: #fef3c7; /* amber-100 */
+  --fw-radio-border-disabled: #e7e5e4; /* stone-200 */
+
+  /* Switch - Sepia Mode */
+  --fw-switch-track-bg: #d6d3d1; /* stone-300 */
+  --fw-switch-track-bg-checked: #d97706; /* amber-600 */
+  --fw-switch-track-bg-hover: #a8a29e; /* stone-400 */
+  --fw-switch-track-bg-checked-hover: #b45309; /* amber-700 */
+  --fw-switch-track-bg-disabled: #e7e5e4; /* stone-200 */
+  --fw-switch-thumb-bg-disabled: #d6d3d1; /* stone-300 */
+}
+
+/* ========================================
    REDUCED MOTION SUPPORT
    ======================================== */
 

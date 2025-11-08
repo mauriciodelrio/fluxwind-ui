@@ -12,7 +12,11 @@ import {
   hasCSSVariable,
   getCSSVariableWithFallback,
 } from '../variables.utils';
-import type { FluxwindCSSVariable, ComponentCSSVariable } from '../types/variables.types';
+import type {
+  FluxwindCSSVariable,
+  ComponentCSSVariable,
+  AllCSSVariables,
+} from '../types/variables.types';
 
 describe('CSS Variables System', () => {
   let testElement: HTMLDivElement;
@@ -622,6 +626,227 @@ describe('Component CSS Variables System', () => {
 
       expect(primaryColor).toBe('#primary');
       expect(buttonBg).toBe('#button-bg');
+    });
+  });
+});
+
+describe('Theme Switching System', () => {
+  let testElement: HTMLDivElement;
+
+  beforeEach(async () => {
+    await import('../variables.utils');
+    testElement = document.createElement('div');
+    document.body.appendChild(testElement);
+
+    // Set up default (light) theme variables
+    testElement.style.setProperty('--fw-color-primary', '#3b82f6');
+    testElement.style.setProperty('--fw-color-bg-primary', '#ffffff');
+    testElement.style.setProperty('--fw-color-text-primary', '#111827');
+    testElement.style.setProperty('--fw-button-bg', '#3b82f6');
+    testElement.style.setProperty('--fw-input-bg', '#ffffff');
+  });
+
+  afterEach(() => {
+    document.body.removeChild(testElement);
+  });
+
+  describe('Dark Theme', () => {
+    it('should apply dark theme attribute', () => {
+      testElement.setAttribute('data-theme', 'dark');
+      expect(testElement.getAttribute('data-theme')).toBe('dark');
+    });
+
+    it('should update variables when dark theme is applied', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Simulate dark theme CSS being applied
+      testElement.setAttribute('data-theme', 'dark');
+      setVariable('--fw-color-primary', '#60a5fa', testElement); // Dark mode primary
+      setVariable('--fw-color-bg-primary', '#111827', testElement); // Dark bg
+      setVariable('--fw-color-text-primary', '#f9fafb', testElement); // Light text
+
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#60a5fa');
+      expect(getVariable('--fw-color-bg-primary', testElement)).toBe('#111827');
+      expect(getVariable('--fw-color-text-primary', testElement)).toBe('#f9fafb');
+    });
+
+    it('should update component variables in dark theme', async () => {
+      const { getComponentVariable, setComponentVariable } = await import('../variables.utils');
+
+      testElement.setAttribute('data-theme', 'dark');
+      setComponentVariable('--fw-button-bg', '#2563eb', testElement); // Darker button
+      setComponentVariable('--fw-input-bg', '#1f2937', testElement); // Dark input bg
+
+      expect(getComponentVariable('--fw-button-bg', testElement)).toBe('#2563eb');
+      expect(getComponentVariable('--fw-input-bg', testElement)).toBe('#1f2937');
+    });
+  });
+
+  describe('Sepia Theme', () => {
+    it('should apply sepia theme attribute', () => {
+      testElement.setAttribute('data-theme', 'sepia');
+      expect(testElement.getAttribute('data-theme')).toBe('sepia');
+    });
+
+    it('should update variables when sepia theme is applied', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Simulate sepia theme CSS being applied
+      testElement.setAttribute('data-theme', 'sepia');
+      setVariable('--fw-color-primary', '#d97706', testElement); // Amber primary
+      setVariable('--fw-color-bg-primary', '#fef3c7', testElement); // Warm bg
+      setVariable('--fw-color-text-primary', '#78350f', testElement); // Dark brown text
+
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#d97706');
+      expect(getVariable('--fw-color-bg-primary', testElement)).toBe('#fef3c7');
+      expect(getVariable('--fw-color-text-primary', testElement)).toBe('#78350f');
+    });
+
+    it('should update component variables in sepia theme', async () => {
+      const { getComponentVariable, setComponentVariable } = await import('../variables.utils');
+
+      testElement.setAttribute('data-theme', 'sepia');
+      setComponentVariable('--fw-button-bg', '#d97706', testElement); // Amber button
+      setComponentVariable('--fw-input-bg', '#fffbeb', testElement); // Warm input bg
+      setComponentVariable('--fw-checkbox-bg', '#fffbeb', testElement); // Warm checkbox
+
+      expect(getComponentVariable('--fw-button-bg', testElement)).toBe('#d97706');
+      expect(getComponentVariable('--fw-input-bg', testElement)).toBe('#fffbeb');
+      expect(getComponentVariable('--fw-checkbox-bg', testElement)).toBe('#fffbeb');
+    });
+  });
+
+  describe('Theme Transitions', () => {
+    it('should switch from light to dark theme', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Start with light theme
+      setVariable('--fw-color-bg-primary', '#ffffff', testElement);
+      expect(getVariable('--fw-color-bg-primary', testElement)).toBe('#ffffff');
+
+      // Switch to dark
+      testElement.setAttribute('data-theme', 'dark');
+      setVariable('--fw-color-bg-primary', '#111827', testElement);
+      expect(getVariable('--fw-color-bg-primary', testElement)).toBe('#111827');
+    });
+
+    it('should switch from dark to sepia theme', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Start with dark theme
+      testElement.setAttribute('data-theme', 'dark');
+      setVariable('--fw-color-primary', '#60a5fa', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#60a5fa');
+
+      // Switch to sepia
+      testElement.setAttribute('data-theme', 'sepia');
+      setVariable('--fw-color-primary', '#d97706', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#d97706');
+    });
+
+    it('should switch from sepia back to light theme', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Start with sepia
+      testElement.setAttribute('data-theme', 'sepia');
+      setVariable('--fw-color-primary', '#d97706', testElement);
+
+      // Switch back to light
+      testElement.removeAttribute('data-theme');
+      setVariable('--fw-color-primary', '#3b82f6', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#3b82f6');
+    });
+
+    it('should handle rapid theme switching', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Light
+      setVariable('--fw-color-primary', '#3b82f6', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#3b82f6');
+
+      // Dark
+      testElement.setAttribute('data-theme', 'dark');
+      setVariable('--fw-color-primary', '#60a5fa', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#60a5fa');
+
+      // Sepia
+      testElement.setAttribute('data-theme', 'sepia');
+      setVariable('--fw-color-primary', '#d97706', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#d97706');
+
+      // Back to light
+      testElement.removeAttribute('data-theme');
+      setVariable('--fw-color-primary', '#3b82f6', testElement);
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#3b82f6');
+    });
+  });
+
+  describe('Theme-aware Component Behavior', () => {
+    it('should maintain component state across theme changes', async () => {
+      const { getComponentVariable, setComponentVariable } = await import('../variables.utils');
+
+      // Set button state in light theme
+      setComponentVariable('--fw-button-bg', '#3b82f6', testElement);
+      setComponentVariable('--fw-button-color', '#ffffff', testElement);
+
+      // Switch to dark
+      testElement.setAttribute('data-theme', 'dark');
+      setComponentVariable('--fw-button-bg', '#2563eb', testElement);
+
+      // Button color should still be accessible
+      expect(getComponentVariable('--fw-button-color', testElement)).toBe('#ffffff');
+      expect(getComponentVariable('--fw-button-bg', testElement)).toBe('#2563eb');
+    });
+
+    it('should update multiple components when theme changes', async () => {
+      const { setComponentVariables, getComponentVariables } = await import('../variables.utils');
+
+      // Set components in sepia theme
+      testElement.setAttribute('data-theme', 'sepia');
+      setComponentVariables(
+        {
+          '--fw-button-bg': '#d97706',
+          '--fw-input-bg': '#fffbeb',
+          '--fw-checkbox-bg': '#fffbeb',
+          '--fw-switch-track-bg': '#d6d3d1',
+        },
+        testElement
+      );
+
+      const variables = getComponentVariables(
+        ['--fw-button-bg', '--fw-input-bg', '--fw-checkbox-bg', '--fw-switch-track-bg'],
+        testElement
+      );
+
+      expect(variables['--fw-button-bg']).toBe('#d97706');
+      expect(variables['--fw-input-bg']).toBe('#fffbeb');
+      expect(variables['--fw-checkbox-bg']).toBe('#fffbeb');
+      expect(variables['--fw-switch-track-bg']).toBe('#d6d3d1');
+    });
+  });
+
+  describe('Theme Validation', () => {
+    it('should handle invalid theme attribute gracefully', async () => {
+      const { getVariable } = await import('../variables.utils');
+
+      testElement.setAttribute('data-theme', 'invalid-theme');
+      testElement.style.setProperty('--fw-color-primary', '#3b82f6');
+
+      // Should still return the set value
+      expect(getVariable('--fw-color-primary', testElement)).toBe('#3b82f6');
+    });
+
+    it('should preserve user-defined variables across theme changes', async () => {
+      const { getVariable, setVariable } = await import('../variables.utils');
+
+      // Set custom variable
+      setVariable('--fw-custom-color' as AllCSSVariables, '#custom', testElement);
+
+      // Change theme
+      testElement.setAttribute('data-theme', 'dark');
+
+      // Custom variable should persist
+      expect(getVariable('--fw-custom-color' as AllCSSVariables, testElement)).toBe('#custom');
     });
   });
 });
