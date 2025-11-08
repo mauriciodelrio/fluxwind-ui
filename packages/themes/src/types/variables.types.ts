@@ -17,7 +17,8 @@ export type CSSVariableCategory =
   | 'shadow'
   | 'zIndex'
   | 'size'
-  | 'opacity';
+  | 'opacity'
+  | 'component';
 
 /**
  * All available CSS variable names in the design system
@@ -184,6 +185,180 @@ export type FluxwindCSSVariable =
   | '--fw-opacity-overlay';
 
 /**
+ * Component-specific CSS variable names
+ */
+export type ComponentCSSVariable =
+  // Button
+  | '--fw-button-bg'
+  | '--fw-button-color'
+  | '--fw-button-border'
+  | '--fw-button-border-width'
+  | '--fw-button-border-radius'
+  | '--fw-button-padding-x'
+  | '--fw-button-padding-y'
+  | '--fw-button-font-size'
+  | '--fw-button-font-weight'
+  | '--fw-button-line-height'
+  | '--fw-button-shadow'
+  | '--fw-button-transition'
+  | '--fw-button-bg-hover'
+  | '--fw-button-color-hover'
+  | '--fw-button-border-hover'
+  | '--fw-button-shadow-hover'
+  | '--fw-button-scale-hover'
+  | '--fw-button-bg-active'
+  | '--fw-button-color-active'
+  | '--fw-button-border-active'
+  | '--fw-button-shadow-active'
+  | '--fw-button-scale-active'
+  | '--fw-button-outline-focus'
+  | '--fw-button-outline-offset-focus'
+  | '--fw-button-bg-disabled'
+  | '--fw-button-color-disabled'
+  | '--fw-button-border-disabled'
+  | '--fw-button-opacity-disabled'
+  | '--fw-button-cursor-disabled'
+  | '--fw-button-opacity-loading'
+  | '--fw-button-cursor-loading'
+  // Input
+  | '--fw-input-bg'
+  | '--fw-input-color'
+  | '--fw-input-border'
+  | '--fw-input-border-width'
+  | '--fw-input-border-radius'
+  | '--fw-input-padding-x'
+  | '--fw-input-padding-y'
+  | '--fw-input-font-size'
+  | '--fw-input-font-weight'
+  | '--fw-input-line-height'
+  | '--fw-input-shadow'
+  | '--fw-input-transition'
+  | '--fw-input-placeholder-color'
+  | '--fw-input-border-hover'
+  | '--fw-input-shadow-hover'
+  | '--fw-input-border-focus'
+  | '--fw-input-outline-focus'
+  | '--fw-input-outline-offset-focus'
+  | '--fw-input-shadow-focus'
+  | '--fw-input-bg-disabled'
+  | '--fw-input-color-disabled'
+  | '--fw-input-border-disabled'
+  | '--fw-input-cursor-disabled'
+  | '--fw-input-opacity-disabled'
+  | '--fw-input-border-error'
+  | '--fw-input-outline-error'
+  | '--fw-input-color-error'
+  | '--fw-input-border-success'
+  | '--fw-input-outline-success'
+  | '--fw-input-color-success'
+  // Select
+  | '--fw-select-bg'
+  | '--fw-select-color'
+  | '--fw-select-border'
+  | '--fw-select-border-width'
+  | '--fw-select-border-radius'
+  | '--fw-select-padding-x'
+  | '--fw-select-padding-y'
+  | '--fw-select-font-size'
+  | '--fw-select-shadow'
+  | '--fw-select-transition'
+  | '--fw-select-icon-color'
+  | '--fw-select-icon-size'
+  | '--fw-select-icon-spacing'
+  | '--fw-select-border-hover'
+  | '--fw-select-shadow-hover'
+  | '--fw-select-border-focus'
+  | '--fw-select-outline-focus'
+  | '--fw-select-shadow-focus'
+  | '--fw-select-bg-disabled'
+  | '--fw-select-color-disabled'
+  | '--fw-select-border-disabled'
+  | '--fw-select-cursor-disabled'
+  | '--fw-select-dropdown-bg'
+  | '--fw-select-dropdown-border'
+  | '--fw-select-dropdown-border-radius'
+  | '--fw-select-dropdown-shadow'
+  | '--fw-select-dropdown-max-height'
+  | '--fw-select-option-padding-x'
+  | '--fw-select-option-padding-y'
+  | '--fw-select-option-hover-bg'
+  | '--fw-select-option-selected-bg'
+  | '--fw-select-option-selected-color'
+  // Checkbox
+  | '--fw-checkbox-size'
+  | '--fw-checkbox-bg'
+  | '--fw-checkbox-border'
+  | '--fw-checkbox-border-width'
+  | '--fw-checkbox-border-radius'
+  | '--fw-checkbox-transition'
+  | '--fw-checkbox-shadow'
+  | '--fw-checkbox-check-color'
+  | '--fw-checkbox-check-size'
+  | '--fw-checkbox-check-stroke-width'
+  | '--fw-checkbox-border-hover'
+  | '--fw-checkbox-shadow-hover'
+  | '--fw-checkbox-bg-checked'
+  | '--fw-checkbox-border-checked'
+  | '--fw-checkbox-outline-focus'
+  | '--fw-checkbox-outline-offset-focus'
+  | '--fw-checkbox-bg-disabled'
+  | '--fw-checkbox-border-disabled'
+  | '--fw-checkbox-cursor-disabled'
+  | '--fw-checkbox-opacity-disabled'
+  | '--fw-checkbox-bg-indeterminate'
+  | '--fw-checkbox-border-indeterminate'
+  | '--fw-checkbox-icon-indeterminate'
+  // Radio
+  | '--fw-radio-size'
+  | '--fw-radio-bg'
+  | '--fw-radio-border'
+  | '--fw-radio-border-width'
+  | '--fw-radio-border-radius'
+  | '--fw-radio-transition'
+  | '--fw-radio-shadow'
+  | '--fw-radio-dot-size'
+  | '--fw-radio-dot-color'
+  | '--fw-radio-border-hover'
+  | '--fw-radio-shadow-hover'
+  | '--fw-radio-bg-checked'
+  | '--fw-radio-border-checked'
+  | '--fw-radio-outline-focus'
+  | '--fw-radio-outline-offset-focus'
+  | '--fw-radio-bg-disabled'
+  | '--fw-radio-border-disabled'
+  | '--fw-radio-cursor-disabled'
+  | '--fw-radio-opacity-disabled'
+  // Switch
+  | '--fw-switch-track-width'
+  | '--fw-switch-track-height'
+  | '--fw-switch-track-bg'
+  | '--fw-switch-track-border-radius'
+  | '--fw-switch-track-transition'
+  | '--fw-switch-track-shadow'
+  | '--fw-switch-track-bg-checked'
+  | '--fw-switch-track-bg-hover'
+  | '--fw-switch-track-bg-checked-hover'
+  | '--fw-switch-thumb-size'
+  | '--fw-switch-thumb-bg'
+  | '--fw-switch-thumb-shadow'
+  | '--fw-switch-thumb-transition'
+  | '--fw-switch-thumb-offset'
+  | '--fw-switch-thumb-translate-checked'
+  | '--fw-switch-outline-focus'
+  | '--fw-switch-outline-offset-focus'
+  | '--fw-switch-track-bg-disabled'
+  | '--fw-switch-thumb-bg-disabled'
+  | '--fw-switch-cursor-disabled'
+  | '--fw-switch-opacity-disabled'
+  | '--fw-switch-opacity-loading'
+  | '--fw-switch-cursor-loading';
+
+/**
+ * All CSS variables (base + component)
+ */
+export type AllCSSVariables = FluxwindCSSVariable | ComponentCSSVariable;
+
+/**
  * Helper type for CSS variable values
  */
 export type CSSVariableValue = string;
@@ -201,6 +376,19 @@ export interface CSSVariableMap {
   zIndex: Record<string, CSSVariableValue>;
   size: Record<string, CSSVariableValue>;
   opacity: Record<string, CSSVariableValue>;
+  component: Record<string, CSSVariableValue>;
+}
+
+/**
+ * Component-specific variable map by component name
+ */
+export interface ComponentVariableMap {
+  button: Record<string, CSSVariableValue>;
+  input: Record<string, CSSVariableValue>;
+  select: Record<string, CSSVariableValue>;
+  checkbox: Record<string, CSSVariableValue>;
+  radio: Record<string, CSSVariableValue>;
+  switch: Record<string, CSSVariableValue>;
 }
 
 /**
@@ -222,3 +410,26 @@ export type GetCSSVariable = (variableName: FluxwindCSSVariable) => CSSVariableV
  * ```
  */
 export type SetCSSVariable = (variableName: FluxwindCSSVariable, value: CSSVariableValue) => void;
+
+/**
+ * Utility function type for getting component CSS variable value
+ *
+ * @example
+ * ```ts
+ * const buttonBg = getComponentVariable('--fw-button-bg');
+ * ```
+ */
+export type GetComponentVariable = (variableName: ComponentCSSVariable) => CSSVariableValue;
+
+/**
+ * Utility function type for setting component CSS variable value
+ *
+ * @example
+ * ```ts
+ * setComponentVariable('--fw-button-bg', '#ff0000');
+ * ```
+ */
+export type SetComponentVariable = (
+  variableName: ComponentCSSVariable,
+  value: CSSVariableValue
+) => void;

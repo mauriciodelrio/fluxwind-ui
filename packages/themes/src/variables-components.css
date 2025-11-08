@@ -1,0 +1,352 @@
+/**
+ * Fluxwind Design System - Component CSS Variables
+ * 
+ * Component-specific CSS custom properties for consistent styling across all UI elements.
+ * Each component defines variables for its various states and visual properties.
+ * 
+ * Components covered:
+ * - Button
+ * - Input
+ * - Select
+ * - Checkbox
+ * - Radio
+ * - Switch
+ * 
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
+ */
+
+:root {
+  /* ========================================
+     BUTTON COMPONENT
+     ======================================== */
+
+  /* Button - Base */
+  --fw-button-bg: var(--fw-color-primary);
+  --fw-button-color: var(--fw-color-white);
+  --fw-button-border: transparent;
+  --fw-button-border-width: 1px;
+  --fw-button-border-radius: var(--fw-radius-md);
+  --fw-button-padding-x: var(--fw-spacing-4);
+  --fw-button-padding-y: var(--fw-spacing-2);
+  --fw-button-font-size: var(--fw-font-size-base);
+  --fw-button-font-weight: var(--fw-font-weight-medium);
+  --fw-button-line-height: var(--fw-line-height-normal);
+  --fw-button-shadow: var(--fw-shadow-sm);
+  --fw-button-transition: var(--fw-transition-base);
+
+  /* Button - Hover State */
+  --fw-button-bg-hover: var(--fw-color-primary-hover);
+  --fw-button-color-hover: var(--fw-color-white);
+  --fw-button-border-hover: transparent;
+  --fw-button-shadow-hover: var(--fw-shadow-md);
+  --fw-button-scale-hover: 1.02;
+
+  /* Button - Active/Pressed State */
+  --fw-button-bg-active: var(--fw-color-primary-active);
+  --fw-button-color-active: var(--fw-color-white);
+  --fw-button-border-active: transparent;
+  --fw-button-shadow-active: var(--fw-shadow-sm);
+  --fw-button-scale-active: 0.98;
+
+  /* Button - Focus State */
+  --fw-button-outline-focus: 2px solid var(--fw-color-primary);
+  --fw-button-outline-offset-focus: 2px;
+
+  /* Button - Disabled State */
+  --fw-button-bg-disabled: var(--fw-color-gray-300);
+  --fw-button-color-disabled: var(--fw-color-gray-500);
+  --fw-button-border-disabled: transparent;
+  --fw-button-opacity-disabled: 0.6;
+  --fw-button-cursor-disabled: not-allowed;
+
+  /* Button - Loading State */
+  --fw-button-opacity-loading: 0.7;
+  --fw-button-cursor-loading: wait;
+
+  /* ========================================
+     INPUT COMPONENT
+     ======================================== */
+
+  /* Input - Base */
+  --fw-input-bg: var(--fw-color-white);
+  --fw-input-color: var(--fw-color-gray-900);
+  --fw-input-border: var(--fw-color-gray-300);
+  --fw-input-border-width: 1px;
+  --fw-input-border-radius: var(--fw-radius-md);
+  --fw-input-padding-x: var(--fw-spacing-3);
+  --fw-input-padding-y: var(--fw-spacing-2);
+  --fw-input-font-size: var(--fw-font-size-base);
+  --fw-input-font-weight: var(--fw-font-weight-normal);
+  --fw-input-line-height: var(--fw-line-height-normal);
+  --fw-input-shadow: var(--fw-shadow-sm);
+  --fw-input-transition: var(--fw-transition-base);
+  --fw-input-placeholder-color: var(--fw-color-gray-400);
+
+  /* Input - Hover State */
+  --fw-input-border-hover: var(--fw-color-gray-400);
+  --fw-input-shadow-hover: var(--fw-shadow-md);
+
+  /* Input - Focus State */
+  --fw-input-border-focus: var(--fw-color-primary);
+  --fw-input-outline-focus: 2px solid var(--fw-color-primary);
+  --fw-input-outline-offset-focus: 0px;
+  --fw-input-shadow-focus: var(--fw-shadow-md);
+
+  /* Input - Disabled State */
+  --fw-input-bg-disabled: var(--fw-color-gray-100);
+  --fw-input-color-disabled: var(--fw-color-gray-500);
+  --fw-input-border-disabled: var(--fw-color-gray-200);
+  --fw-input-cursor-disabled: not-allowed;
+  --fw-input-opacity-disabled: 0.6;
+
+  /* Input - Error State */
+  --fw-input-border-error: var(--fw-color-error);
+  --fw-input-outline-error: 2px solid var(--fw-color-error);
+  --fw-input-color-error: var(--fw-color-error);
+
+  /* Input - Success State */
+  --fw-input-border-success: var(--fw-color-success);
+  --fw-input-outline-success: 2px solid var(--fw-color-success);
+  --fw-input-color-success: var(--fw-color-success);
+
+  /* ========================================
+     SELECT COMPONENT
+     ======================================== */
+
+  /* Select - Base (inherits from Input) */
+  --fw-select-bg: var(--fw-input-bg);
+  --fw-select-color: var(--fw-input-color);
+  --fw-select-border: var(--fw-input-border);
+  --fw-select-border-width: var(--fw-input-border-width);
+  --fw-select-border-radius: var(--fw-input-border-radius);
+  --fw-select-padding-x: var(--fw-input-padding-x);
+  --fw-select-padding-y: var(--fw-input-padding-y);
+  --fw-select-font-size: var(--fw-input-font-size);
+  --fw-select-shadow: var(--fw-input-shadow);
+  --fw-select-transition: var(--fw-input-transition);
+
+  /* Select - Icon/Arrow */
+  --fw-select-icon-color: var(--fw-color-gray-500);
+  --fw-select-icon-size: 20px;
+  --fw-select-icon-spacing: var(--fw-spacing-2);
+
+  /* Select - Hover State */
+  --fw-select-border-hover: var(--fw-input-border-hover);
+  --fw-select-shadow-hover: var(--fw-input-shadow-hover);
+
+  /* Select - Focus State */
+  --fw-select-border-focus: var(--fw-input-border-focus);
+  --fw-select-outline-focus: var(--fw-input-outline-focus);
+  --fw-select-shadow-focus: var(--fw-input-shadow-focus);
+
+  /* Select - Disabled State */
+  --fw-select-bg-disabled: var(--fw-input-bg-disabled);
+  --fw-select-color-disabled: var(--fw-input-color-disabled);
+  --fw-select-border-disabled: var(--fw-input-border-disabled);
+  --fw-select-cursor-disabled: var(--fw-input-cursor-disabled);
+
+  /* Select - Dropdown */
+  --fw-select-dropdown-bg: var(--fw-color-white);
+  --fw-select-dropdown-border: var(--fw-color-gray-200);
+  --fw-select-dropdown-border-radius: var(--fw-radius-md);
+  --fw-select-dropdown-shadow: var(--fw-shadow-lg);
+  --fw-select-dropdown-max-height: 300px;
+
+  /* Select - Option */
+  --fw-select-option-padding-x: var(--fw-spacing-3);
+  --fw-select-option-padding-y: var(--fw-spacing-2);
+  --fw-select-option-hover-bg: var(--fw-color-gray-100);
+  --fw-select-option-selected-bg: var(--fw-color-primary-light);
+  --fw-select-option-selected-color: var(--fw-color-white);
+
+  /* ========================================
+     CHECKBOX COMPONENT
+     ======================================== */
+
+  /* Checkbox - Base */
+  --fw-checkbox-size: 20px;
+  --fw-checkbox-bg: var(--fw-color-white);
+  --fw-checkbox-border: var(--fw-color-gray-300);
+  --fw-checkbox-border-width: 2px;
+  --fw-checkbox-border-radius: var(--fw-radius-sm);
+  --fw-checkbox-transition: var(--fw-transition-base);
+  --fw-checkbox-shadow: var(--fw-shadow-sm);
+
+  /* Checkbox - Check Icon */
+  --fw-checkbox-check-color: var(--fw-color-white);
+  --fw-checkbox-check-size: 12px;
+  --fw-checkbox-check-stroke-width: 2px;
+
+  /* Checkbox - Hover State */
+  --fw-checkbox-border-hover: var(--fw-color-gray-400);
+  --fw-checkbox-shadow-hover: var(--fw-shadow-md);
+
+  /* Checkbox - Checked State */
+  --fw-checkbox-bg-checked: var(--fw-color-primary);
+  --fw-checkbox-border-checked: var(--fw-color-primary);
+
+  /* Checkbox - Focus State */
+  --fw-checkbox-outline-focus: 2px solid var(--fw-color-primary);
+  --fw-checkbox-outline-offset-focus: 2px;
+
+  /* Checkbox - Disabled State */
+  --fw-checkbox-bg-disabled: var(--fw-color-gray-100);
+  --fw-checkbox-border-disabled: var(--fw-color-gray-300);
+  --fw-checkbox-cursor-disabled: not-allowed;
+  --fw-checkbox-opacity-disabled: 0.5;
+
+  /* Checkbox - Indeterminate State */
+  --fw-checkbox-bg-indeterminate: var(--fw-color-primary);
+  --fw-checkbox-border-indeterminate: var(--fw-color-primary);
+  --fw-checkbox-icon-indeterminate: var(--fw-color-white);
+
+  /* ========================================
+     RADIO COMPONENT
+     ======================================== */
+
+  /* Radio - Base */
+  --fw-radio-size: 20px;
+  --fw-radio-bg: var(--fw-color-white);
+  --fw-radio-border: var(--fw-color-gray-300);
+  --fw-radio-border-width: 2px;
+  --fw-radio-border-radius: 50%;
+  --fw-radio-transition: var(--fw-transition-base);
+  --fw-radio-shadow: var(--fw-shadow-sm);
+
+  /* Radio - Inner Dot */
+  --fw-radio-dot-size: 10px;
+  --fw-radio-dot-color: var(--fw-color-white);
+
+  /* Radio - Hover State */
+  --fw-radio-border-hover: var(--fw-color-gray-400);
+  --fw-radio-shadow-hover: var(--fw-shadow-md);
+
+  /* Radio - Checked State */
+  --fw-radio-bg-checked: var(--fw-color-primary);
+  --fw-radio-border-checked: var(--fw-color-primary);
+
+  /* Radio - Focus State */
+  --fw-radio-outline-focus: 2px solid var(--fw-color-primary);
+  --fw-radio-outline-offset-focus: 2px;
+
+  /* Radio - Disabled State */
+  --fw-radio-bg-disabled: var(--fw-color-gray-100);
+  --fw-radio-border-disabled: var(--fw-color-gray-300);
+  --fw-radio-cursor-disabled: not-allowed;
+  --fw-radio-opacity-disabled: 0.5;
+
+  /* ========================================
+     SWITCH COMPONENT
+     ======================================== */
+
+  /* Switch - Track (Base) */
+  --fw-switch-track-width: 44px;
+  --fw-switch-track-height: 24px;
+  --fw-switch-track-bg: var(--fw-color-gray-300);
+  --fw-switch-track-border-radius: 12px;
+  --fw-switch-track-transition: var(--fw-transition-base);
+  --fw-switch-track-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Switch - Track Checked State */
+  --fw-switch-track-bg-checked: var(--fw-color-primary);
+
+  /* Switch - Track Hover State */
+  --fw-switch-track-bg-hover: var(--fw-color-gray-400);
+  --fw-switch-track-bg-checked-hover: var(--fw-color-primary-hover);
+
+  /* Switch - Thumb (Handle) */
+  --fw-switch-thumb-size: 20px;
+  --fw-switch-thumb-bg: var(--fw-color-white);
+  --fw-switch-thumb-shadow: var(--fw-shadow-md);
+  --fw-switch-thumb-transition: var(--fw-transition-base);
+  --fw-switch-thumb-offset: 2px;
+
+  /* Switch - Thumb Checked Position */
+  --fw-switch-thumb-translate-checked: 20px;
+
+  /* Switch - Focus State */
+  --fw-switch-outline-focus: 2px solid var(--fw-color-primary);
+  --fw-switch-outline-offset-focus: 2px;
+
+  /* Switch - Disabled State */
+  --fw-switch-track-bg-disabled: var(--fw-color-gray-200);
+  --fw-switch-thumb-bg-disabled: var(--fw-color-gray-300);
+  --fw-switch-cursor-disabled: not-allowed;
+  --fw-switch-opacity-disabled: 0.5;
+
+  /* Switch - Loading State */
+  --fw-switch-opacity-loading: 0.7;
+  --fw-switch-cursor-loading: wait;
+}
+
+/* ========================================
+   DARK MODE OVERRIDES
+   ======================================== */
+
+[data-theme='dark'] {
+  /* Button - Dark Mode */
+  --fw-button-bg: var(--fw-color-primary-dark);
+  --fw-button-bg-hover: var(--fw-color-primary);
+  --fw-button-bg-active: var(--fw-color-primary-hover);
+  --fw-button-bg-disabled: var(--fw-color-gray-700);
+  --fw-button-color-disabled: var(--fw-color-gray-500);
+
+  /* Input - Dark Mode */
+  --fw-input-bg: var(--fw-color-gray-800);
+  --fw-input-color: var(--fw-color-gray-100);
+  --fw-input-border: var(--fw-color-gray-600);
+  --fw-input-bg-disabled: var(--fw-color-gray-900);
+  --fw-input-color-disabled: var(--fw-color-gray-600);
+  --fw-input-border-disabled: var(--fw-color-gray-700);
+
+  /* Select - Dark Mode */
+  --fw-select-bg: var(--fw-input-bg);
+  --fw-select-color: var(--fw-input-color);
+  --fw-select-border: var(--fw-input-border);
+  --fw-select-dropdown-bg: var(--fw-color-gray-800);
+  --fw-select-dropdown-border: var(--fw-color-gray-700);
+  --fw-select-option-hover-bg: var(--fw-color-gray-700);
+  --fw-select-option-selected-bg: var(--fw-color-primary-dark);
+
+  /* Checkbox - Dark Mode */
+  --fw-checkbox-bg: var(--fw-color-gray-800);
+  --fw-checkbox-border: var(--fw-color-gray-600);
+  --fw-checkbox-bg-disabled: var(--fw-color-gray-900);
+  --fw-checkbox-border-disabled: var(--fw-color-gray-700);
+
+  /* Radio - Dark Mode */
+  --fw-radio-bg: var(--fw-color-gray-800);
+  --fw-radio-border: var(--fw-color-gray-600);
+  --fw-radio-bg-disabled: var(--fw-color-gray-900);
+  --fw-radio-border-disabled: var(--fw-color-gray-700);
+
+  /* Switch - Dark Mode */
+  --fw-switch-track-bg: var(--fw-color-gray-700);
+  --fw-switch-track-bg-checked: var(--fw-color-primary-dark);
+  --fw-switch-track-bg-hover: var(--fw-color-gray-600);
+  --fw-switch-track-bg-checked-hover: var(--fw-color-primary);
+  --fw-switch-track-bg-disabled: var(--fw-color-gray-800);
+  --fw-switch-thumb-bg-disabled: var(--fw-color-gray-700);
+}
+
+/* ========================================
+   REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Disable transitions for all components */
+    --fw-button-transition: none;
+    --fw-input-transition: none;
+    --fw-select-transition: none;
+    --fw-checkbox-transition: none;
+    --fw-radio-transition: none;
+    --fw-switch-track-transition: none;
+    --fw-switch-thumb-transition: none;
+
+    /* Disable scale/transform effects */
+    --fw-button-scale-hover: 1;
+    --fw-button-scale-active: 1;
+    --fw-switch-thumb-transition: none;
+  }
+}

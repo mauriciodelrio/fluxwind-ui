@@ -11,11 +11,15 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./tailwind": "./src/tailwind.config.ts"
+    "./tailwind": "./src/tailwind.config.ts",
+    "./variables.css": "./src/variables.css",
+    "./variables-components.css": "./src/variables-components.css"
   },
   "files": [
     "dist",
-    "src/tailwind.config.ts"
+    "src/tailwind.config.ts",
+    "src/variables.css",
+    "src/variables-components.css"
   ],
   "scripts": {
     "build": "tsup",
