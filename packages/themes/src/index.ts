@@ -22,4 +22,8 @@ export * from './themes';
 export * from './variables.utils';
 export * from './types/variables.types';
 
+// Export theme utilities and types
+export * from './theme.utils';
+export * from './types/theme.types';
+
 export type { Config } from 'tailwindcss';

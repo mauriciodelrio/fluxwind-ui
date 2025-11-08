@@ -141,22 +141,22 @@ if (typeof window !== 'undefined') {
   const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
   const reducedTransparencyQuery = window.matchMedia('(prefers-reduced-transparency: reduce)');
 
-  // Istanbul ignore next - Event listener for system preference changes
+  /* v8 ignore next -- @preserve */
   reducedMotionQuery.addEventListener('change', (e) => {
     setPreferences({ reducedMotion: e.matches });
   });
 
-  // Istanbul ignore next - Event listener for system preference changes
+  /* v8 ignore next -- @preserve */
   highContrastQuery.addEventListener('change', (e) => {
     setPreferences({ highContrast: e.matches });
   });
 
-  // Istanbul ignore next - Event listener for system preference changes
+  /* v8 ignore next -- @preserve */
   darkModeQuery.addEventListener('change', (e) => {
     setPreferences({ prefersDark: e.matches });
   });
 
-  // Istanbul ignore next - Event listener for system preference changes
+  /* v8 ignore next -- @preserve */
   reducedTransparencyQuery.addEventListener('change', (e) => {
     setPreferences({ reducedTransparency: e.matches });
   });
