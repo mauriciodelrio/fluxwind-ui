@@ -3,6 +3,26 @@
 <div align="center">
   <h3>A modern, minimal React component library</h3>
   <p>Built on Tailwind CSS with signals-based reactivity for optimal performance</p>
+  
+  <p>
+    <a href="https://github.com/mauriciodelrio/fluxwind-ui/actions/workflows/ci.yml">
+      <img src="https://github.com/mauriciodelrio/fluxwind-ui/workflows/CI/badge.svg" alt="CI Status" />
+    </a>
+    <a href="https://github.com/mauriciodelrio/fluxwind-ui/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
+    </a>
+    <a href="https://github.com/mauriciodelrio/fluxwind-ui">
+      <img src="https://img.shields.io/github/stars/mauriciodelrio/fluxwind-ui?style=social" alt="GitHub stars" />
+    </a>
+  </p>
+  
+  <p>
+    <img src="https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/React-18+-61DAFB?logo=react&logoColor=white" alt="React" />
+    <img src="https://img.shields.io/badge/Tailwind-3.x-38B2AC?logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Vitest-2.x-729B1B?logo=vitest&logoColor=white" alt="Vitest" />
+    <img src="https://img.shields.io/badge/pnpm-9.x-F69220?logo=pnpm&logoColor=white" alt="pnpm" />
+  </p>
 </div>
 
 ---
