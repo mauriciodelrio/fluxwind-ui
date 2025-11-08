@@ -259,6 +259,28 @@
    ======================================== */
 
 [data-theme='dark'] {
+  /* Primary Color - Lighter variants for dark bg */
+  --fw-color-primary: #60a5fa;
+  --fw-color-primary-hover: #3b82f6;
+  --fw-color-primary-active: #2563eb;
+  --fw-color-primary-light: #93c5fd;
+  --fw-color-primary-dark: #1e40af;
+
+  /* Secondary Color */
+  --fw-color-secondary: #a78bfa;
+  --fw-color-secondary-hover: #8b5cf6;
+  --fw-color-secondary-active: #7c3aed;
+
+  /* Semantic Colors - Lighter for contrast */
+  --fw-color-success: #4ade80;
+  --fw-color-success-hover: #22c55e;
+  --fw-color-warning: #fbbf24;
+  --fw-color-warning-hover: #f59e0b;
+  --fw-color-error: #f87171;
+  --fw-color-error-hover: #ef4444;
+  --fw-color-info: #60a5fa;
+  --fw-color-info-hover: #3b82f6;
+
   /* Background Colors */
   --fw-color-bg-primary: var(--fw-color-gray-900);
   --fw-color-bg-secondary: var(--fw-color-gray-800);
@@ -275,6 +297,90 @@
   /* Border Colors */
   --fw-color-border-primary: var(--fw-color-gray-700);
   --fw-color-border-secondary: var(--fw-color-gray-800);
+  --fw-color-border-focus: var(--fw-color-primary);
+  --fw-color-border-error: var(--fw-color-error);
+
+  /* Shadows - Darker for dark theme */
+  --fw-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --fw-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --fw-shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --fw-shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  --fw-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --fw-shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --fw-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --fw-shadow-focus: 0 0 0 3px rgba(96, 165, 250, 0.5);
+  --fw-shadow-focus-error: 0 0 0 3px rgba(248, 113, 113, 0.5);
+}
+
+/* ========================================
+   SEPIA MODE OVERRIDES
+   Warm, eye-friendly theme
+   ======================================== */
+
+[data-theme='sepia'] {
+  /* Primary Color - Warm tones */
+  --fw-color-primary: #d97706;
+  --fw-color-primary-hover: #b45309;
+  --fw-color-primary-active: #92400e;
+  --fw-color-primary-light: #f59e0b;
+  --fw-color-primary-dark: #78350f;
+
+  /* Secondary Color - Purple-brown */
+  --fw-color-secondary: #a16207;
+  --fw-color-secondary-hover: #854d0e;
+  --fw-color-secondary-active: #713f12;
+
+  /* Semantic Colors - Warm palette */
+  --fw-color-success: #65a30d;
+  --fw-color-success-hover: #4d7c0f;
+  --fw-color-warning: #d97706;
+  --fw-color-warning-hover: #b45309;
+  --fw-color-error: #dc2626;
+  --fw-color-error-hover: #b91c1c;
+  --fw-color-info: #0891b2;
+  --fw-color-info-hover: #0e7490;
+
+  /* Background Colors - Sepia tones */
+  --fw-color-bg-primary: #fef3c7; /* amber-100 */
+  --fw-color-bg-secondary: #fde68a; /* amber-200 */
+  --fw-color-bg-tertiary: #fcd34d; /* amber-300 */
+  --fw-color-bg-inverse: #78350f; /* amber-900 */
+
+  /* Text Colors - Dark brown */
+  --fw-color-text-primary: #78350f; /* amber-900 */
+  --fw-color-text-secondary: #92400e; /* amber-800 */
+  --fw-color-text-tertiary: #b45309; /* amber-700 */
+  --fw-color-text-inverse: #fef3c7; /* amber-100 */
+  --fw-color-text-disabled: #d97706; /* amber-600 */
+
+  /* Neutral Colors - Warm grays */
+  --fw-color-gray-50: #fafaf9;
+  --fw-color-gray-100: #f5f5f4;
+  --fw-color-gray-200: #e7e5e4;
+  --fw-color-gray-300: #d6d3d1;
+  --fw-color-gray-400: #a8a29e;
+  --fw-color-gray-500: #78716c;
+  --fw-color-gray-600: #57534e;
+  --fw-color-gray-700: #44403c;
+  --fw-color-gray-800: #292524;
+  --fw-color-gray-900: #1c1917;
+
+  /* Border Colors - Warm tones */
+  --fw-color-border-primary: #d6d3d1; /* stone-300 */
+  --fw-color-border-secondary: #e7e5e4; /* stone-200 */
+  --fw-color-border-focus: var(--fw-color-primary);
+  --fw-color-border-error: var(--fw-color-error);
+
+  /* Shadows - Warm tinted */
+  --fw-shadow-xs: 0 1px 2px 0 rgba(120, 53, 15, 0.1);
+  --fw-shadow-sm: 0 1px 3px 0 rgba(120, 53, 15, 0.15), 0 1px 2px -1px rgba(120, 53, 15, 0.15);
+  --fw-shadow-base: 0 4px 6px -1px rgba(120, 53, 15, 0.15), 0 2px 4px -2px rgba(120, 53, 15, 0.15);
+  --fw-shadow-md: 0 10px 15px -3px rgba(120, 53, 15, 0.15), 0 4px 6px -4px rgba(120, 53, 15, 0.15);
+  --fw-shadow-lg: 0 20px 25px -5px rgba(120, 53, 15, 0.15), 0 8px 10px -6px rgba(120, 53, 15, 0.15);
+  --fw-shadow-xl: 0 25px 50px -12px rgba(120, 53, 15, 0.3);
+  --fw-shadow-inner: inset 0 2px 4px 0 rgba(120, 53, 15, 0.1);
+  --fw-shadow-focus: 0 0 0 3px rgba(217, 119, 6, 0.4);
+  --fw-shadow-focus-error: 0 0 0 3px rgba(220, 38, 38, 0.4);
 }
 
 /* ========================================
