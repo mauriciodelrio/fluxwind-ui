@@ -30,9 +30,9 @@ const DEFAULT_THEME: ThemeNameExtended = 'light';
 /**
  * Local storage adapter (browser environment)
  */
-/* v8 ignore next -- @preserve */
-const localStorageAdapter: ThemeStorageAdapter = {
+const localStorageAdapter = {
   get: (key: string) => {
+    /* v8 ignore next -- @preserve */
     if (typeof window === 'undefined') return null;
     try {
       return localStorage.getItem(key);
@@ -41,6 +41,7 @@ const localStorageAdapter: ThemeStorageAdapter = {
     }
   },
   set: (key: string, value: string) => {
+    /* v8 ignore next -- @preserve */
     if (typeof window === 'undefined') return;
     try {
       localStorage.setItem(key, value);
@@ -49,6 +50,7 @@ const localStorageAdapter: ThemeStorageAdapter = {
     }
   },
   remove: (key: string) => {
+    /* v8 ignore next -- @preserve */
     if (typeof window === 'undefined') return;
     try {
       localStorage.removeItem(key);

@@ -26,4 +26,11 @@ export * from './types/variables.types';
 export * from './theme.utils';
 export * from './types/theme.types';
 
+// Export theme store
+export * from './theme.store';
+
+// Export ThemeProvider and hooks
+export { ThemeProvider, useTheme, useThemeSafe } from './ThemeProvider';
+export type { ThemeProviderProps } from './ThemeProvider';
+
 export type { Config } from 'tailwindcss';
