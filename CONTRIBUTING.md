@@ -494,6 +494,18 @@ The script will:
 
 Simply copy the generated output and paste it into your PR description!
 
+## 💖 Supporting the Project
+
+Fluxwind UI is free and always will be. If you want to support development beyond contributing code:
+
+- ⭐ Star the repository
+- 💝 [Become a sponsor](https://github.com/sponsors/mauriciodelrio)
+- ☕ [Buy me a coffee](https://www.buymeacoffee.com/mauriciodelrio)
+- 📢 Share the project with others
+- 🏢 [Sponsor feature development](./FUNDING.md#-company-sponsorship) (for companies)
+
+See [FUNDING.md](./FUNDING.md) for details about our unique "Sponsored Features, Public Access" model.
+
 ## Questions?
 
 Feel free to open an issue for any questions or concerns!
@@ -501,3 +513,5 @@ Feel free to open an issue for any questions or concerns!
 ## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
+
+**Note:** All contributions remain open source and free for everyone. Even if a feature is sponsored by a company, it becomes part of the public MIT-licensed codebase.

@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 import {
   colorTokens,
-  customColors,
+  fluxwindColors,
   spacingTokens,
   typographyTokens,
   shadowTokens,
@@ -10,11 +10,25 @@ import {
   animationDuration,
   animationEasing,
   animationKeyframes,
+  animationDurations,
+  animationEasings,
+  extendedAnimationKeyframes,
   borderWidth,
   borderRadius,
   breakpointTokens,
   zIndexTokens,
 } from './tokens';
+
+/**
+ * Helper to extract keyframes from extended animation objects
+ */
+const extractKeyframes = (animations: typeof extendedAnimationKeyframes) => {
+  const result: Record<string, Record<string, Record<string, string>>> = {};
+  Object.entries(animations).forEach(([key, value]) => {
+    result[key] = value.keyframes;
+  });
+  return result;
+};
 
 /**
  * Fluxwind UI complete Tailwind configuration
@@ -26,14 +40,8 @@ export const fluxwindConfig: Partial<Config> = {
       // ===== COLORS =====
       colors: {
         ...colorTokens,
-        // Expose custom colors at root level for easier access
-        ocean: customColors.ocean,
-        tangerine: customColors.tangerine,
-        sapphire: customColors.sapphire,
-        mint: customColors.mint,
-        lavender: customColors.lavender,
-        coral: customColors.coral,
-        electric: customColors.electric,
+        // Extended Fluxwind Colors (26 palettes including custom colors)
+        ...fluxwindColors,
       },
 
       // ===== SPACING =====
@@ -68,15 +76,46 @@ export const fluxwindConfig: Partial<Config> = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       zIndex: zIndexTokens as any,
 
+      // ===== CSS VARIABLES MAPPING =====
+      // Map CSS variables to Tailwind utilities for better DX
+      backgroundColor: {
+        'fw-primary': 'var(--fw-color-bg-primary)',
+        'fw-secondary': 'var(--fw-color-bg-secondary)',
+        'fw-tertiary': 'var(--fw-color-bg-tertiary)',
+        'fw-inverse': 'var(--fw-color-bg-inverse)',
+      },
+      textColor: {
+        'fw-primary': 'var(--fw-color-text-primary)',
+        'fw-secondary': 'var(--fw-color-text-secondary)',
+        'fw-tertiary': 'var(--fw-color-text-tertiary)',
+        'fw-inverse': 'var(--fw-color-text-inverse)',
+        'fw-disabled': 'var(--fw-color-text-disabled)',
+      },
+      borderColor: {
+        'fw-primary': 'var(--fw-color-border-primary)',
+        'fw-secondary': 'var(--fw-color-border-secondary)',
+        'fw-focus': 'var(--fw-color-border-focus)',
+        'fw-error': 'var(--fw-color-border-error)',
+      },
+
       // ===== ANIMATIONS =====
-      // Animation durations
-      transitionDuration: animationDuration,
+      // Animation durations (base + extended)
+      transitionDuration: {
+        ...animationDuration,
+        ...animationDurations,
+      },
 
-      // Animation easing
-      transitionTimingFunction: animationEasing,
+      // Animation easing (base + extended)
+      transitionTimingFunction: {
+        ...animationEasing,
+        ...animationEasings,
+      },
 
-      // Keyframe animations
-      keyframes: animationKeyframes,
+      // Keyframe animations (base + extended)
+      keyframes: {
+        ...animationKeyframes,
+        ...extractKeyframes(extendedAnimationKeyframes),
+      },
 
       // Pre-configured animations
       animation: {

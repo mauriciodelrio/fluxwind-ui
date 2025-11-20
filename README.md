@@ -164,9 +164,61 @@ docs: update installation guide
 chore: bump dependencies
 ```
 
-## 📄 License
+## � Support This Project
+
+Fluxwind UI is **completely free and open source** under the MIT license. It will remain free forever with no paid tiers or exclusive features.
+
+If you find it valuable and want to support its continued development, you can:
+
+- ⭐ **Star this repository** - Helps with visibility and motivates development
+- ☕ **Buy me a coffee** - One-time voluntary donation
+- 💝 **Become a sponsor** - Monthly support for ongoing development
+- 🐛 **Report issues** - Help improve quality for everyone
+- 🔀 **Contribute code** - Join the community and add features
+- 📢 **Spread the word** - Share with others who might benefit
+
+<div align="center">
+  <a href="https://github.com/sponsors/mauriciodelrio">
+    <img src="https://img.shields.io/badge/sponsor-GitHub-ea4aaa?style=for-the-badge&logo=github&logoColor=white" alt="Sponsor on GitHub" />
+  </a>
+  <a href="https://www.buymeacoffee.com/mauriciodelrio">
+    <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" />
+  </a>
+</div>
+
+### 🏢 Sponsored Feature Development
+
+**For companies:** If you need specific features or components for your business, you can sponsor their development. Here's how it works:
+
+1. **Contact me** with your feature request
+2. **Negotiate** a fair price for the development work
+3. **I develop** the features according to your needs
+4. **Features are released** to the public under MIT license for everyone to use
+
+**Important:** All sponsored features become part of the free, open-source library. There are no exclusive components or enterprise-only features. This ensures the entire community benefits from your sponsorship.
+
+This model allows companies to:
+
+- ✅ Get features they need faster
+- ✅ Support open source development
+- ✅ Give back to the community
+- ✅ Receive public recognition as a sponsor
+
+### 🎯 Funding Principles
+
+- **No paid tiers** - Everything is free, always
+- **No exclusive features** - All features available to everyone
+- **No recurring support contracts** - One-time sponsorships only
+- **Complete transparency** - All sponsorships acknowledged publicly
+- **MIT forever** - License will never change
+
+---
+
+## 📝 License
 
 MIT © [Mauricio Del Rio](https://github.com/mauriciodelrio)
+
+See [LICENSE](./LICENSE) for details. You are free to use this software for any purpose, commercial or non-commercial.
 
 ## 🙏 Acknowledgments
 
