@@ -7,7 +7,7 @@ import {
   type ExtendedAnimationDuration,
   type ExtendedAnimationEasing,
   type ExtendedAnimationKeyframe,
-} from '../animations-extended';
+} from '@/tokens';
 
 describe('Extended Animation System', () => {
   describe('animationDurations', () => {

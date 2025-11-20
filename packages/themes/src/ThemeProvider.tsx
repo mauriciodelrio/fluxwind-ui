@@ -4,7 +4,7 @@
  */
 
 import { createContext, useContext, useEffect, useRef, type ReactNode } from 'react';
-import { createThemeStore, type ThemeStore, type ThemeStoreConfig } from './theme.store';
+import { createThemeStore, type ThemeStore, type ThemeStoreConfig } from '@/theme.store';
 
 /**
  * Theme context value

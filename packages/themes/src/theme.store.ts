@@ -4,8 +4,8 @@
  */
 
 import { signal, computed, type Signal } from '@preact/signals-core';
-import type { ThemeNameExtended, ThemePreset } from './types/theme.types';
-import { getTheme, applyTheme, getSystemTheme, watchSystemTheme } from './theme.utils';
+import type { ThemeNameExtended, ThemePreset } from '@/types/theme.types';
+import { getTheme, applyTheme, getSystemTheme, watchSystemTheme } from '@/theme.utils';
 
 /**
  * Theme store configuration

@@ -16,7 +16,7 @@ import {
   initTheme,
   toggleTheme,
   mergeThemeVariables,
-} from '../theme.utils';
+} from '@/theme.utils';
 
 describe('Theme Utilities', () => {
   let root: HTMLElement;

@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider, useTheme, useThemeSafe } from '../ThemeProvider';
-import { createThemeStore } from '../theme.store';
+import { createThemeStore } from '@/theme.store';
 
 describe('ThemeProvider', () => {
   let root: HTMLElement;
