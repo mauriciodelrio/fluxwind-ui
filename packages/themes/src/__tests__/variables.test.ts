@@ -11,12 +11,12 @@ import {
   setCSSVariables,
   hasCSSVariable,
   getCSSVariableWithFallback,
-} from '../variables.utils';
+} from '@/variables.utils';
 import type {
   FluxwindCSSVariable,
   ComponentCSSVariable,
   AllCSSVariables,
-} from '../types/variables.types';
+} from '@/types/variables.types';
 
 describe('CSS Variables System', () => {
   let testElement: HTMLDivElement;

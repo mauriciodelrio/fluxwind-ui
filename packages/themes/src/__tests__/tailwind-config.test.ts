@@ -3,8 +3,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { fluxwindConfig } from '../tailwind.config';
-import { fluxwindColors, animationDurations, animationEasings } from '../tokens';
+import { fluxwindConfig } from '@/tailwind.config';
+import { fluxwindColors, animationDurations, animationEasings } from '@/tokens';
 
 describe('Tailwind Configuration Integration', () => {
   describe('Configuration Structure', () => {

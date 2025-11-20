@@ -1,36 +1,101 @@
-/**
- * Fluxwind UI - Themes Package
- *
- * Design tokens and Tailwind configurations
- */
-
-/**
- * Fluxwind UI Themes Package
- * Complete design system with tokens, themes, and Tailwind configuration
- */
-
-// Export Tailwind configuration
-export { fluxwindConfig } from './tailwind.config';
-
-// Export all design tokens
 export * from './tokens';
-
-// Export all themes
+export * from './presets';
 export * from './themes';
+// ============================================================================
+// CSS Variables Utilities
+// ============================================================================
+export {
+  getCSSVariable,
+  setCSSVariable,
+  removeCSSVariable,
+  getCSSVariables,
+  setCSSVariables,
+  hasCSSVariable,
+  getCSSVariableWithFallback,
+  getComponentVariable,
+  setComponentVariable,
+  removeComponentVariable,
+  getComponentVariables,
+  setComponentVariables,
+  hasComponentVariable,
+  getComponentVariableWithFallback,
+  getVariable,
+  setVariable,
+} from './variables.utils';
 
-// Export CSS variables utilities and types
-export * from './variables.utils';
-export * from './types/variables.types';
+// ============================================================================
+// CSS Variables Types
+// ============================================================================
+export type {
+  CSSVariableCategory,
+  FluxwindCSSVariable,
+  ComponentCSSVariable,
+  AllCSSVariables,
+  CSSVariableValue,
+  CSSVariableMap,
+  ComponentVariableMap,
+  GetCSSVariable,
+  SetCSSVariable,
+  GetComponentVariable,
+  SetComponentVariable,
+} from './types/variables.types';
 
-// Export theme utilities and types
-export * from './theme.utils';
-export * from './types/theme.types';
+// ============================================================================
+// Theme Utilities
+// ============================================================================
+export {
+  createTheme,
+  applyTheme,
+  getTheme,
+  removeTheme,
+  saveThemePreference,
+  loadThemePreference,
+  clearThemePreference,
+  getSystemTheme,
+  watchSystemTheme,
+  initTheme,
+  toggleTheme,
+  mergeThemeVariables,
+} from './theme.utils';
 
-// Export theme store
-export * from './theme.store';
+// ============================================================================
+// Theme Types
+// ============================================================================
+export {
+  DEFAULT_THEMES,
+  isDefaultTheme,
+  type ThemeNameExtended,
+  type SystemTheme,
+  type ThemeVariables,
+  type ThemeConfig,
+  type ThemeCategory,
+  type IndustryTag,
+  type ThemePreset,
+  type ApplyThemeOptions,
+  type ThemeChangeEvent,
+  type ThemeWatcherCallback,
+  type ThemeWatcherCleanup,
+  type ThemeStorageAdapter,
+  type DefaultThemeName,
+} from './types/theme.types';
 
-// Export ThemeProvider and hooks
+// ============================================================================
+// Theme Store
+// ============================================================================
+export {
+  createThemeStore,
+  globalThemeStore,
+  type ThemeStoreConfig,
+  type ThemeStore,
+} from './theme.store';
+
+// ============================================================================
+// Theme Provider and Hooks
+// ============================================================================
 export { ThemeProvider, useTheme, useThemeSafe } from './ThemeProvider';
 export type { ThemeProviderProps } from './ThemeProvider';
 
+// ============================================================================
+// External Type Exports
+// ============================================================================
 export type { Config } from 'tailwindcss';

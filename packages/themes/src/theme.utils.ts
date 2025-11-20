@@ -15,7 +15,7 @@ import type {
   ThemeWatcherCleanup,
   ThemeStorageAdapter,
   ThemeVariables,
-} from './types/theme.types';
+} from '@/types/theme.types';
 
 /**
  * Default storage key for theme persistence

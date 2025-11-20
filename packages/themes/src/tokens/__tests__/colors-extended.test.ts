@@ -34,7 +34,7 @@ import {
   type ExtendedColorShade,
   type ExtendedColorPalette,
   type FluxwindColorName,
-} from '../colors-extended';
+} from '@/tokens';
 
 describe('Extended Colors', () => {
   const expectedShades: ExtendedColorShade[] = [

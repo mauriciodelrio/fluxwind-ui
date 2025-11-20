@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { colorTokens, spacingTokens, fluxwindConfig } from './index';
+import { fluxwindConfig } from './tailwind.config';
+import { colorTokens, spacingTokens } from './tokens';
 
 describe('@fluxwind/themes', () => {
   describe('colorTokens', () => {

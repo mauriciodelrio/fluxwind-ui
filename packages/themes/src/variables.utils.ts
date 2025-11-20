@@ -7,7 +7,7 @@ import type {
   ComponentCSSVariable,
   AllCSSVariables,
   CSSVariableValue,
-} from './types/variables.types';
+} from '@/types/variables.types';
 
 /**
  * Get the value of a CSS variable from the document root

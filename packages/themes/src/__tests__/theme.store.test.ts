@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { createThemeStore, globalThemeStore } from '../theme.store';
+import { createThemeStore, globalThemeStore } from '@/theme.store';
 
 describe('Theme Store', () => {
   let root: HTMLElement;
