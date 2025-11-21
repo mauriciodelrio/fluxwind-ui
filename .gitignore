@@ -200,6 +200,7 @@ temp/
 # Test artifacts
 test-results/
 playwright-report/
+playwright-results.json
 .vitest/
 
 #local docs
