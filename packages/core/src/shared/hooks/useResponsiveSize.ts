@@ -8,25 +8,13 @@
  */
 
 import { useMemo } from 'react';
+import { useBreakpoint } from '@fluxwind/a11y';
 import type {
   SizeVariant,
   Breakpoint,
   ComponentConfig,
   SizingMode,
 } from '../../config/schema.types';
-
-// TODO: Import from @fluxwind/a11y once useBreakpoint is available
-// For now, we'll create a minimal implementation
-function useBreakpoint(): Breakpoint {
-  // This is a placeholder - will be replaced with @fluxwind/a11y hook
-  if (typeof window === 'undefined') return 'desktop';
-
-  const width = window.innerWidth;
-  if (width < 768) return 'mobile';
-  if (width < 1024) return 'tablet';
-  return 'desktop';
-}
-
 export interface UseResponsiveSizeOptions {
   /** Component sizing configuration */
   sizingConfig: ComponentConfig['sizing'];
