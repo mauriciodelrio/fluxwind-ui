@@ -23,6 +23,15 @@ export { useFocusTrap } from './hooks/useFocusTrap';
 export { useKeyboard } from './hooks/useKeyboard';
 export { useAriaLive, useAnnouncement } from './hooks/useAriaLive';
 export { useA11yPreferences } from './hooks/useA11yPreferences';
+export {
+  useBreakpoint,
+  useBreakpointMatch,
+  useBreakpointAbove,
+  useBreakpointBelow,
+  getBreakpointValue,
+  BREAKPOINT_VALUES,
+  type Breakpoint,
+} from './hooks/useBreakpoint';
 
 // Components
 export { VisuallyHidden, type VisuallyHiddenProps } from './components/VisuallyHidden';

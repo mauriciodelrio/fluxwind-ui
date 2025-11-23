@@ -27,6 +27,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "validate:configs": "tsx src/scripts/validate-configs.ts",
+    "validate:configs:verbose": "tsx src/scripts/validate-configs.ts --verbose",
     "clean": "rm -rf dist .turbo node_modules"
   },
   "peerDependencies": {
@@ -41,7 +43,8 @@
     "@preact/signals-core": "^1.5.1",
     "class-variance-authority": "0.7.1",
     "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.0"
+    "tailwind-merge": "^2.2.0",
+    "zod": "4.1.12"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
@@ -55,6 +58,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tsup": "^8.0.1",
+    "tsx": "4.20.6",
     "typescript": "^5.3.3",
     "vitest": "^4.0.7"
   },
