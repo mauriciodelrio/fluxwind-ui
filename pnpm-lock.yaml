@@ -218,9 +218,24 @@ importers:
 
   packages/core:
     dependencies:
+      '@fluxwind/a11y':
+        specifier: workspace:*
+        version: link:../a11y
+      '@fluxwind/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@fluxwind/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@fluxwind/themes':
+        specifier: workspace:*
+        version: link:../themes
       '@preact/signals-core':
         specifier: ^1.5.1
         version: 1.12.1
+      class-variance-authority:
+        specifier: 0.7.1
+        version: 0.7.1
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -3499,6 +3514,12 @@ packages:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /class-variance-authority@0.7.1:
+    resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
+    dependencies:
+      clsx: 2.1.1
+    dev: false
 
   /cli-cursor@5.0.0:
     resolution: {integrity: sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw==}
