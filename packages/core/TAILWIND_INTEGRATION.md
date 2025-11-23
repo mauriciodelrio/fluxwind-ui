@@ -38,9 +38,9 @@ const config: Config = {
     // Include core components in content scan
     '../../packages/core/src/**/*.{ts,tsx}',
   ],
-  
+
   presets: [fluxwindConfig as Config],
-  
+
   plugins: [
     fluxwindComponentsPlugin({
       // Point to core components directory
@@ -75,6 +75,7 @@ const config: Config = {
 ### 1. Component Size Utilities
 
 From `Button.config.json`:
+
 ```json
 {
   "sizing": {
@@ -88,6 +89,7 @@ From `Button.config.json`:
 ```
 
 Generates:
+
 ```css
 .button-md {
   height: 40px;
@@ -98,6 +100,7 @@ Generates:
 ### 2. Spacing Utilities
 
 From `Card.config.json`:
+
 ```json
 {
   "spacing": {
@@ -110,6 +113,7 @@ From `Card.config.json`:
 ```
 
 Generates:
+
 ```css
 .card-padding-md {
   padding-left: var(--fluxwind-space-6);
@@ -122,6 +126,7 @@ Generates:
 ### 3. Base Component Styles
 
 For each component:
+
 ```css
 .button {
   display: inline-flex;
@@ -140,6 +145,7 @@ For each component:
 ### 4. Safelist Entries
 
 Prevents Tailwind from purging:
+
 - `button-sm`, `button-md`, `button-lg` (size variants)
 - `button-primary`, `button-secondary` (color schemes)
 - `button-default`, `button-outline` (appearances)
@@ -147,6 +153,7 @@ Prevents Tailwind from purging:
 ### 5. Responsive Sizing Classes
 
 For intelligent sizing mode:
+
 ```css
 /* Mobile: 36px, Tablet+: 40px */
 .button-md {
@@ -155,6 +162,7 @@ For intelligent sizing mode:
 ```
 
 Safelist patterns:
+
 - `h-(7|9|10|11|13|14|15)` with `md`, `lg` variants
 
 ## Component Configuration Examples
@@ -192,14 +200,14 @@ You can extend the plugin by modifying `tailwind-plugin.ts`:
 // Add custom utility extraction
 function extractComponentClasses(config: ComponentConfigWithMetadata) {
   const classes: Record<string, string> = {};
-  
+
   // Your custom logic here
   if (config.customProperty) {
     classes[`${componentName}-custom`] = `
       custom-property: ${config.customProperty};
     `;
   }
-  
+
   return classes;
 }
 ```
@@ -211,7 +219,7 @@ Enable verbose logging:
 ```typescript
 fluxwindComponentsPlugin({
   componentsDir: './src/components',
-})
+});
 
 // Console output:
 // ✅ Loaded 17 component configurations for Tailwind

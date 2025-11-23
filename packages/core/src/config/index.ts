@@ -1,6 +1,6 @@
 /**
  * Configuration System Exports
- * 
+ *
  * @module @fluxwind/core/config
  */
 

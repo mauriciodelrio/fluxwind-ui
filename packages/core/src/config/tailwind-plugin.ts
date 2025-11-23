@@ -1,9 +1,9 @@
 /**
  * Tailwind CSS Plugin for Fluxwind Components
- * 
+ *
  * Dynamically generates utilities based on component configurations.
  * This allows components to use Tailwind classes that map directly to their JSON configs.
- * 
+ *
  * @module @fluxwind/core/config/tailwind-plugin
  */
 
@@ -17,15 +17,15 @@ import type { ComponentConfigWithMetadata } from './schema.types';
  */
 function findAllConfigs(baseDir: string): string[] {
   const configs: string[] = [];
-  
+
   function searchDirectory(dir: string) {
     if (!existsSync(dir)) return;
-    
+
     const entries = readdirSync(dir, { withFileTypes: true });
-    
+
     for (const entry of entries) {
       const fullPath = join(dir, entry.name);
-      
+
       if (entry.isDirectory()) {
         searchDirectory(fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.config.json')) {
@@ -33,7 +33,7 @@ function findAllConfigs(baseDir: string): string[] {
       }
     }
   }
-  
+
   searchDirectory(baseDir);
   return configs;
 }
@@ -57,7 +57,7 @@ function loadConfig(filePath: string): ComponentConfigWithMetadata | null {
 function extractComponentClasses(config: ComponentConfigWithMetadata): Record<string, string> {
   const classes: Record<string, string> = {};
   const componentName = config.metadata.name.toLowerCase();
-  
+
   // Size variants
   if (config.sizing.classic?.values) {
     Object.entries(config.sizing.classic.values).forEach(([size, values]) => {
@@ -70,7 +70,7 @@ function extractComponentClasses(config: ComponentConfigWithMetadata): Record<st
       }
     });
   }
-  
+
   // Spacing utilities
   if (config.spacing.padding) {
     const { x, y } = config.spacing.padding;
@@ -83,7 +83,7 @@ function extractComponentClasses(config: ComponentConfigWithMetadata): Record<st
       `.trim();
     } else if (typeof x === 'object' && typeof y === 'object') {
       // Size-specific padding
-      Object.keys(x).forEach(size => {
+      Object.keys(x).forEach((size) => {
         const xVal = (x as Record<string, string>)[size];
         const yVal = (y as Record<string, string>)[size];
         classes[`${componentName}-padding-${size}`] = `
@@ -95,7 +95,7 @@ function extractComponentClasses(config: ComponentConfigWithMetadata): Record<st
       });
     }
   }
-  
+
   return classes;
 }
 
@@ -104,24 +104,24 @@ function extractComponentClasses(config: ComponentConfigWithMetadata): Record<st
  */
 function generateSafelist(configs: ComponentConfigWithMetadata[]): string[] {
   const safelist: string[] = [];
-  
-  configs.forEach(config => {
+
+  configs.forEach((config) => {
     const componentName = config.metadata.name.toLowerCase();
-    
+
     // Add size variants
     if (config.variants?.size) {
       config.variants.size.forEach((size: string) => {
         safelist.push(`${componentName}-${size}`);
       });
     }
-    
+
     // Add color scheme variants
     if (config.variants?.colorScheme) {
       config.variants.colorScheme.forEach((scheme: string) => {
         safelist.push(`${componentName}-${scheme}`);
       });
     }
-    
+
     // Add appearance variants
     if (config.variants?.appearance) {
       config.variants.appearance.forEach((appearance: string) => {
@@ -129,17 +129,17 @@ function generateSafelist(configs: ComponentConfigWithMetadata[]): string[] {
       });
     }
   });
-  
+
   return safelist;
 }
 
 /**
  * Fluxwind Components Tailwind Plugin
- * 
+ *
  * Usage in tailwind.config.ts:
  * ```typescript
  * import { fluxwindComponentsPlugin } from '@fluxwind/core/config';
- * 
+ *
  * export default {
  *   plugins: [
  *     fluxwindComponentsPlugin({ componentsDir: './src/components' })
@@ -151,46 +151,47 @@ export const fluxwindComponentsPlugin = plugin.withOptions<{
   componentsDir?: string;
 }>(
   (options = {}) => {
-    const {
-      componentsDir = join(__dirname, '../components'),
-    } = options;
-    
+    const { componentsDir = join(__dirname, '../components') } = options;
+
     return ({ addUtilities, addComponents }) => {
       // Find all component configs
       const configPaths = findAllConfigs(componentsDir);
       const configs = configPaths
         .map(loadConfig)
         .filter((c): c is ComponentConfigWithMetadata => c !== null);
-      
+
       console.log(`✅ Loaded ${configs.length} component configurations for Tailwind`);
-      
+
       // Generate component-specific utilities
       const utilities: Record<string, Record<string, string>> = {};
-      
-      configs.forEach(config => {
+
+      configs.forEach((config) => {
         const componentClasses = extractComponentClasses(config);
         Object.entries(componentClasses).forEach(([className, styles]) => {
-          utilities[`.${className}`] = styles.split(';').reduce((acc, style) => {
-            const [prop, value] = style.split(':').map(s => s.trim());
-            if (prop && value) {
-              // Convert kebab-case to camelCase for CSS-in-JS
-              const camelProp = prop.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
-              acc[camelProp] = value;
-            }
-            return acc;
-          }, {} as Record<string, string>);
+          utilities[`.${className}`] = styles.split(';').reduce(
+            (acc, style) => {
+              const [prop, value] = style.split(':').map((s) => s.trim());
+              if (prop && value) {
+                // Convert kebab-case to camelCase for CSS-in-JS
+                const camelProp = prop.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+                acc[camelProp] = value;
+              }
+              return acc;
+            },
+            {} as Record<string, string>
+          );
         });
       });
-      
+
       // Add utilities
       addUtilities(utilities);
-      
+
       // Generate component base styles
       const componentStyles: Record<string, Record<string, string>> = {};
-      
-      configs.forEach(config => {
+
+      configs.forEach((config) => {
         const componentName = config.metadata.name.toLowerCase();
-        
+
         // Base component styles
         componentStyles[`.${componentName}`] = {
           display: 'inline-flex',
@@ -198,7 +199,7 @@ export const fluxwindComponentsPlugin = plugin.withOptions<{
           justifyContent: 'center',
           transition: `all ${config.animations?.transition?.default?.duration || '200ms'} ${config.animations?.transition?.default?.easing || 'ease'}`,
         };
-        
+
         // Disabled state
         if (config.states?.disabled) {
           componentStyles[`.${componentName}:disabled`] = {
@@ -208,23 +209,21 @@ export const fluxwindComponentsPlugin = plugin.withOptions<{
           };
         }
       });
-      
+
       addComponents(componentStyles);
     };
   },
   (options = {}) => {
-    const {
-      componentsDir = join(__dirname, '../components'),
-    } = options;
-    
+    const { componentsDir = join(__dirname, '../components') } = options;
+
     // Extend Tailwind config
     const configPaths = findAllConfigs(componentsDir);
     const configs = configPaths
       .map(loadConfig)
       .filter((c): c is ComponentConfigWithMetadata => c !== null);
-    
+
     const safelist = generateSafelist(configs);
-    
+
     return {
       safelist: [
         ...safelist,
