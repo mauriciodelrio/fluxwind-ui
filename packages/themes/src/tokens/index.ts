@@ -14,3 +14,4 @@ export * from './borders';
 export * from './sizes';
 export * from './breakpoints';
 export * from './zIndex';
+export * from './css-vars';
