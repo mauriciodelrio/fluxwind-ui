@@ -1,0 +1,37 @@
+{
+  "name": "fluxwind-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "type-check": "turbo type-check",
+    "lint:fix": "eslint packages --fix",
+    "storybook": "turbo storybook",
+    "format:check": "prettier --check \"packages/**/*.{ts,tsx,css,json}\"",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,css,json}\"",
+    "clean": "turbo clean",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.30.0",
+    "@eslint/js": "9.39.4",
+    "eslint": "9.39.4",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "prettier": "3.8.3",
+    "prettier-plugin-tailwindcss": "0.7.2",
+    "turbo": "2.9.6",
+    "typescript-eslint": "8.58.2"
+  },
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

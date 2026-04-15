@@ -1,0 +1,68 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+
+# Must run from main only — enforced by the job condition below.
+permissions:
+  contents: write   # push version commit + tags
+  id-token: write   # npm provenance attestation
+
+jobs:
+  publish:
+    name: Version & Publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # PAT with repo write scope — required to push the version commit back.
+          # Add RELEASE_PAT in Settings → Secrets → Actions.
+          token: ${{ secrets.RELEASE_PAT }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Fails fast if there are no pending .changeset/*.md files.
+      # Create changesets locally with `pnpm changeset` and merge to main before publishing.
+      - name: Check pending changesets
+        run: pnpm changeset status
+
+      - name: Run tests
+        run: pnpm --filter "@fluxwind/core" test
+
+      - name: Version packages
+        # Consumes .changeset/*.md files, bumps package.json versions, updates CHANGELOG.md
+        run: pnpm changeset version
+
+      - name: Build
+        run: pnpm build
+
+      - name: Publish to npm
+        # publishConfig.provenance=true in package.json enables npm provenance attestation
+        run: pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push version commit and tags
+        run: git push --follow-tags
