@@ -167,7 +167,6 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
                   } = getLineProps({ line });
 
                   return (
-                     
                     <div
                       key={lineIndex}
                       className={cn(
