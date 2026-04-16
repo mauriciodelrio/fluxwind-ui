@@ -19,14 +19,38 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles": "./dist/styles/index.css",
-    "./styles/themes/health": "./dist/styles/themes/health.css",
-    "./styles/themes/legal": "./dist/styles/themes/legal.css",
-    "./styles/themes/commerce": "./dist/styles/themes/commerce.css",
-    "./styles/themes/finance": "./dist/styles/themes/finance.css",
-    "./styles/themes/creative": "./dist/styles/themes/creative.css",
-    "./styles/themes/education": "./dist/styles/themes/education.css",
-    "./styles/themes/high-contrast": "./dist/styles/themes/high-contrast.css"
+    "./styles": {
+      "style": "./dist/styles/index.css",
+      "default": "./dist/styles/index.css"
+    },
+    "./styles/themes/health": {
+      "style": "./dist/styles/themes/health.css",
+      "default": "./dist/styles/themes/health.css"
+    },
+    "./styles/themes/legal": {
+      "style": "./dist/styles/themes/legal.css",
+      "default": "./dist/styles/themes/legal.css"
+    },
+    "./styles/themes/commerce": {
+      "style": "./dist/styles/themes/commerce.css",
+      "default": "./dist/styles/themes/commerce.css"
+    },
+    "./styles/themes/finance": {
+      "style": "./dist/styles/themes/finance.css",
+      "default": "./dist/styles/themes/finance.css"
+    },
+    "./styles/themes/creative": {
+      "style": "./dist/styles/themes/creative.css",
+      "default": "./dist/styles/themes/creative.css"
+    },
+    "./styles/themes/education": {
+      "style": "./dist/styles/themes/education.css",
+      "default": "./dist/styles/themes/education.css"
+    },
+    "./styles/themes/high-contrast": {
+      "style": "./dist/styles/themes/high-contrast.css",
+      "default": "./dist/styles/themes/high-contrast.css"
+    }
   },
   "sideEffects": [
     "**/*.css"
