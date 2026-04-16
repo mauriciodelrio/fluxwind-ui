@@ -1,8 +1,14 @@
-import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
-import { cn } from '@/lib/cn';
-import { inputVariants, type InputVariants } from './Input.variants';
+import {
+  forwardRef,
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from "react";
+import { cn } from "@/lib/cn";
+import { inputVariants, type InputVariants } from "./Input.variants";
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, InputVariants {
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">, InputVariants {
   /** Visible label — always required for a11y (rendered as <label>). */
   label: string;
   /** Helper text rendered below the input. */
@@ -37,11 +43,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const id = externalId ?? generatedId;
     const hintId = hint ? `${id}-hint` : undefined;
     const errorId = error ? `${id}-error` : undefined;
-    const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+    const describedBy =
+      [hintId, errorId].filter(Boolean).join(" ") || undefined;
 
     return (
       <div className="flex flex-col gap-1.5 w-full">
-        <label htmlFor={id} className="text-sm font-medium text-[var(--color-fw-foreground)]">
+        <label
+          htmlFor={id}
+          className="text-sm font-medium text-[var(--color-fw-foreground)]"
+        >
           {label}
         </label>
 
@@ -62,8 +72,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             aria-describedby={describedBy}
             className={cn(
               inputVariants({ size, radius, transition }),
-              iconLeft ? 'pl-9' : undefined,
-              iconRight ? 'pr-9' : undefined,
+              iconLeft ? "pl-9" : undefined,
+              iconRight ? "pr-9" : undefined,
               className,
             )}
             {...props}
@@ -81,13 +91,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {error ? (
           <span
             id={errorId}
-            role="alert"
-            className="text-xs text-[var(--color-fw-destructive)]"
+            className="text-xs text-[var(--color-fw-destructive-text)]"
           >
             {error}
           </span>
         ) : null}
-        {!error && hint ? (
+        {hint ? (
           <span id={hintId} className="text-xs text-[var(--color-fw-muted)]">
             {hint}
           </span>
@@ -97,6 +106,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
-Input.displayName = 'Input';
+Input.displayName = "Input";
 
 export { Input };

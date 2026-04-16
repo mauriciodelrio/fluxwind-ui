@@ -13,11 +13,11 @@
 //   xl  h-14 → 3.50rem ≈ 56px  ✓  hero-level actions
 
 export const sizeMap = {
-  xs: { height: 'h-7',  px: 'px-2', text: 'text-xs',   icon: 'size-3.5' },
-  sm: { height: 'h-8',  px: 'px-3', text: 'text-sm',   icon: 'size-4'   },
-  md: { height: 'h-10', px: 'px-4', text: 'text-sm',   icon: 'size-4'   },
-  lg: { height: 'h-12', px: 'px-5', text: 'text-base', icon: 'size-5'   },
-  xl: { height: 'h-14', px: 'px-6', text: 'text-lg',   icon: 'size-5'   },
+  xs: { height: "h-7", px: "px-2", text: "text-xs", icon: "size-3.5" },
+  sm: { height: "h-8", px: "px-3", text: "text-sm", icon: "size-4" },
+  md: { height: "h-10", px: "px-4", text: "text-sm", icon: "size-4" },
+  lg: { height: "h-12", px: "px-5", text: "text-base", icon: "size-5" },
+  xl: { height: "h-14", px: "px-6", text: "text-lg", icon: "size-5" },
 } as const;
 
 export type Size = keyof typeof sizeMap;
@@ -25,13 +25,13 @@ export type Size = keyof typeof sizeMap;
 // ─── Radius Tokens ───────────────────────────────────────────────────────────
 
 export const radiusMap = {
-  none:   'rounded-none',
-  sm:     'rounded-sm',
-  md:     'rounded-md',
-  lg:     'rounded-lg',
-  xl:     'rounded-xl',
-  '2xl':  'rounded-2xl',
-  full:   'rounded-full',
+  none: "rounded-none",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  full: "rounded-full",
 } as const;
 
 export type Radius = keyof typeof radiusMap;
@@ -39,11 +39,11 @@ export type Radius = keyof typeof radiusMap;
 // ─── Shadow Tokens ───────────────────────────────────────────────────────────
 
 export const shadowMap = {
-  none: '',
-  sm:   'shadow-sm',
-  md:   'shadow-md',
-  lg:   'shadow-lg',
-  xl:   'shadow-xl',
+  none: "",
+  sm: "shadow-sm",
+  md: "shadow-md",
+  lg: "shadow-lg",
+  xl: "shadow-xl",
 } as const;
 
 export type Shadow = keyof typeof shadowMap;
@@ -53,11 +53,11 @@ export type Shadow = keyof typeof shadowMap;
 // Global CSS enforces prefers-reduced-motion: no animations override.
 
 export const transitionMap = {
-  none:   '',
-  smooth: 'transition-all duration-300 ease-in-out',
-  snappy: 'transition-all duration-150 ease-out',
-  spring: 'transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
-  slow:   'transition-all duration-500 ease-in-out',
+  none: "",
+  smooth: "transition-all duration-300 ease-in-out",
+  snappy: "transition-all duration-150 ease-out",
+  spring: "transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+  slow: "transition-all duration-500 ease-in-out",
 } as const;
 
 export type Transition = keyof typeof transitionMap;
@@ -68,9 +68,11 @@ export type Transition = keyof typeof transitionMap;
 // Apply via focusRingMap[variant] on every interactive element.
 
 export const focusRingMap = {
-  default: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-fw-ring',
-  inset:   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fw-ring',
-  none:    'focus-visible:outline-none',
+  default:
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-fw-ring",
+  inset:
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fw-ring",
+  none: "focus-visible:outline-none",
 } as const;
 
 export type FocusRing = keyof typeof focusRingMap;
@@ -80,8 +82,8 @@ export type FocusRing = keyof typeof focusRingMap;
 // Combine with aria-disabled="true" for screen-reader compatibility.
 
 export const disabledMap = {
-  soft: 'opacity-50 cursor-not-allowed',
-  full: 'opacity-50 cursor-not-allowed pointer-events-none',
+  soft: "opacity-50 cursor-not-allowed",
+  full: "opacity-50 cursor-not-allowed pointer-events-none",
 } as const;
 
 export type Disabled = keyof typeof disabledMap;

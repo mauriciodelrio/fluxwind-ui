@@ -1,0 +1,54 @@
+/* ─── Storybook canvas theming ────────────────────────────────────────────
+   preview.css is plain CSS (not processed by Tailwind @layer), so these
+   rules reliably override @theme tokens regardless of layer ordering.
+─────────────────────────────────────────────────────────────────────────── */
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] #storybook-root {
+  background-color: #ffffff !important;
+  color-scheme: light;
+
+  /* Foreground / text tokens */
+  --color-fw-background: oklch(1 0 0);
+  --color-fw-foreground: oklch(0.145 0 0);
+  --color-fw-border: oklch(0.85 0 0);
+  --color-fw-muted: oklch(0.5 0 0);
+
+  /* Interactive tokens */
+  --color-fw-primary-text: oklch(0.44 0.22 264);
+
+  /* Secondary */
+  --color-fw-secondary: oklch(0.94 0 0);
+  --color-fw-secondary-hover: oklch(0.88 0 0);
+  --color-fw-secondary-fg: oklch(0.2 0 0);
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+html[data-theme="dark"] #storybook-root {
+  background-color: oklch(0.12 0 0) !important;
+  color-scheme: dark;
+
+  /* Foreground / text tokens */
+  --color-fw-background: oklch(0.12 0 0);
+  --color-fw-foreground: oklch(0.94 0 0);
+  --color-fw-border: oklch(0.3 0 0);
+  --color-fw-muted: oklch(0.63 0 0);
+
+  /* Interactive tokens */
+  --color-fw-primary: oklch(0.46 0.2 264);
+  --color-fw-primary-hover: oklch(0.4 0.2 264);
+  --color-fw-primary-text: oklch(0.72 0.18 264);
+
+  /* Secondary */
+  --color-fw-secondary: oklch(0.22 0 0);
+  --color-fw-secondary-hover: oklch(0.28 0 0);
+  --color-fw-secondary-fg: oklch(0.94 0 0);
+
+  /* Semantic text tokens */
+  --color-fw-success-text: oklch(0.72 0.16 145);
+  --color-fw-warning-text: oklch(0.78 0.15 75);
+  --color-fw-destructive-text: oklch(0.75 0.2 25);
+  --color-fw-info-text: oklch(0.7 0.16 210);
+}

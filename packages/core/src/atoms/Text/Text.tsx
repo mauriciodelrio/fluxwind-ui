@@ -1,6 +1,6 @@
-import { forwardRef, type ElementType, type HTMLAttributes } from 'react';
-import { cn } from '@/lib/cn';
-import { textVariants, type TextVariants } from './Text.variants';
+import { forwardRef, type ElementType, type HTMLAttributes } from "react";
+import { cn } from "@/lib/cn";
+import { textVariants, type TextVariants } from "./Text.variants";
 
 // Polymorphic — default renders <p>, can be any text element
 export interface TextProps extends HTMLAttributes<HTMLElement>, TextVariants {
@@ -8,17 +8,23 @@ export interface TextProps extends HTMLAttributes<HTMLElement>, TextVariants {
 }
 
 const Text = forwardRef<HTMLElement, TextProps>(
-  ({ as: Tag = 'p', className, variant, weight, align, truncate, ...props }, ref) => {
+  (
+    { as: Tag = "p", className, variant, weight, align, truncate, ...props },
+    ref,
+  ) => {
     return (
       <Tag
         ref={ref}
-        className={cn(textVariants({ variant, weight, align, truncate }), className)}
+        className={cn(
+          textVariants({ variant, weight, align, truncate }),
+          className,
+        )}
         {...props}
       />
     );
   },
 );
 
-Text.displayName = 'Text';
+Text.displayName = "Text";
 
 export { Text };

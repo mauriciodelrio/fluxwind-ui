@@ -1,12 +1,11 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import { cn } from '@/lib/cn';
-import { buttonVariants, type ButtonVariants } from './Button.variants';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { cn } from "@/lib/cn";
+import { buttonVariants, type ButtonVariants } from "./Button.variants";
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    ButtonVariants {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonVariants {
   /** Accessible label — required when the button contains only an icon. */
-  'aria-label'?: string;
+  "aria-label"?: string;
   /** Icon placed before the button label. */
   iconLeft?: ReactNode;
   /** Icon placed after the button label. */
@@ -82,6 +81,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export { Button };
