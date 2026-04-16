@@ -1,0 +1,140 @@
+/* FluxWind — High Contrast theme (A11y WCAG AAA)
+ * Pensado para usuarios con baja visión severa, sensibilidad al contraste
+ * o sistemas operativos en modo de alto contraste.
+ *
+ * Import after @fluxwind/core/styles:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/high-contrast";
+ *
+ * ─── DIFERENCIAS CLAVE vs temas de rubro ──────────────────────────────────
+ * • Sobreescribe TODOS los tokens (superficie, border, muted, semánticos)
+ * • Dark mode tiene su propia versión (negro puro + amarillo canario)
+ * • Apunta a WCAG AAA (≥7:1) — todos los valores verificados
+ * • Incluye @media (prefers-contrast: more) para activación automática con OS
+ *
+ * ─── Light mode ───────────────────────────────────────────────────────────
+ * Fondo blanco puro / texto negro puro (∞:1) / primary azul oscuro (≥10:1)
+ *
+ * ─── Dark mode ────────────────────────────────────────────────────────────
+ * Fondo negro puro / texto blanco puro (∞:1) / primary amarillo canario (≈19:1)
+ * El amarillo sobre negro es el estándar cognitivo de OS desde Windows 3.1.
+ */
+
+/* ── Light mode ─────────────────────────────────────────────────────────── */
+
+:root {
+  /* Superficie */
+  --color-fw-background: oklch(1 0 0); /* blanco puro */
+  --color-fw-foreground: oklch(0 0 0); /* negro puro — ∞:1 */
+  --color-fw-surface: oklch(1 0 0); /* blanco puro */
+  --color-fw-border: oklch(0 0 0); /* negro puro — bordes siempre visibles */
+  --color-fw-muted: oklch(0.15 0 0); /* casi negro — muted text ≥14:1 */
+  --color-fw-muted-foreground: oklch(
+    0.2 0 0
+  ); /* texto secundario ≥12:1 sobre blanco */
+
+  /* Primary — azul oscuro de alto contraste ≥10:1 en blanco */
+  --color-fw-primary: oklch(0.25 0.2 264);
+  --color-fw-primary-hover: oklch(0.18 0.2 264); /* aún más oscuro en hover */
+  --color-fw-primary-fg: oklch(1 0 0); /* blanco sobre azul muy oscuro ✓ */
+  --color-fw-primary-text: oklch(
+    0.25 0.2 264
+  ); /* link — ≥10:1 en fondo blanco */
+  --color-fw-ring: oklch(0 0 0); /* focus ring negro — máximo contraste */
+
+  /* Secondary */
+  --color-fw-secondary: oklch(1 0 0); /* blanco puro */
+  --color-fw-secondary-hover: oklch(0.92 0 0); /* gris muy claro en hover */
+  --color-fw-secondary-fg: oklch(0 0 0); /* negro sobre blanco ∞:1 */
+
+  /* Semánticos — ajustados a ≥7:1 sobre blanco */
+  --color-fw-success-text: oklch(0.28 0.14 145); /* verde muy oscuro */
+  --color-fw-warning-text: oklch(0.3 0.13 75); /* naranja muy oscuro */
+  --color-fw-destructive-text: oklch(0.32 0.2 25); /* rojo muy oscuro */
+  --color-fw-info-text: oklch(0.28 0.15 210); /* azul muy oscuro */
+}
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+
+[data-theme="dark"],
+.dark {
+  /* Superficie */
+  --color-fw-background: oklch(0 0 0); /* negro puro */
+  --color-fw-foreground: oklch(1 0 0); /* blanco puro — ∞:1 */
+  --color-fw-surface: oklch(0 0 0); /* negro puro */
+  --color-fw-border: oklch(1 0 0); /* blanco puro — bordes visibles */
+  --color-fw-muted: oklch(0.85 0 0); /* gris muy claro — muted text ≥8:1 */
+  --color-fw-muted-foreground: oklch(
+    0.8 0 0
+  ); /* texto secundario ≥7:1 sobre negro */
+
+  /* Primary — amarillo canario (estándar Windows High Contrast Black) ≈19:1 */
+  --color-fw-primary: oklch(0.92 0.18 95); /* amarillo brillante */
+  --color-fw-primary-hover: oklch(
+    0.96 0.12 95
+  ); /* casi blanco-amarillo en hover */
+  --color-fw-primary-fg: oklch(0 0 0); /* negro sobre amarillo ✓ */
+  --color-fw-primary-text: oklch(
+    0.92 0.18 95
+  ); /* link — ≈19:1 en fondo negro */
+  --color-fw-ring: oklch(1 0 0); /* focus ring blanco — máximo contraste */
+
+  /* Secondary */
+  --color-fw-secondary: oklch(0 0 0); /* negro puro */
+  --color-fw-secondary-hover: oklch(0.12 0 0); /* gris muy oscuro en hover */
+  --color-fw-secondary-fg: oklch(1 0 0); /* blanco sobre negro ∞:1 */
+
+  /* Semánticos — ajustados a ≥7:1 sobre negro puro */
+  --color-fw-success-text: oklch(0.82 0.18 145); /* verde brillante */
+  --color-fw-warning-text: oklch(0.88 0.17 75); /* ámbar brillante */
+  --color-fw-destructive-text: oklch(0.85 0.22 25); /* rojo brillante */
+  --color-fw-info-text: oklch(0.8 0.18 210); /* cian brillante */
+}
+
+/* ── Activación automática si el OS tiene alto contraste habilitado ─────── */
+/* Requiere que el dev haya importado este archivo — sin import, no aplica. */
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-fw-background: oklch(1 0 0);
+    --color-fw-foreground: oklch(0 0 0);
+    --color-fw-surface: oklch(1 0 0);
+    --color-fw-border: oklch(0 0 0);
+    --color-fw-muted: oklch(0.15 0 0);
+    --color-fw-muted-foreground: oklch(0.2 0 0);
+    --color-fw-primary: oklch(0.25 0.2 264);
+    --color-fw-primary-hover: oklch(0.18 0.2 264);
+    --color-fw-primary-fg: oklch(1 0 0);
+    --color-fw-primary-text: oklch(0.25 0.2 264);
+    --color-fw-ring: oklch(0 0 0);
+    --color-fw-secondary: oklch(1 0 0);
+    --color-fw-secondary-hover: oklch(0.92 0 0);
+    --color-fw-secondary-fg: oklch(0 0 0);
+    --color-fw-success-text: oklch(0.28 0.14 145);
+    --color-fw-warning-text: oklch(0.3 0.13 75);
+    --color-fw-destructive-text: oklch(0.32 0.2 25);
+    --color-fw-info-text: oklch(0.28 0.15 210);
+  }
+
+  [data-theme="dark"],
+  .dark {
+    --color-fw-background: oklch(0 0 0);
+    --color-fw-foreground: oklch(1 0 0);
+    --color-fw-surface: oklch(0 0 0);
+    --color-fw-border: oklch(1 0 0);
+    --color-fw-muted: oklch(0.85 0 0);
+    --color-fw-muted-foreground: oklch(0.8 0 0);
+    --color-fw-primary: oklch(0.92 0.18 95);
+    --color-fw-primary-hover: oklch(0.96 0.12 95);
+    --color-fw-primary-fg: oklch(0 0 0);
+    --color-fw-primary-text: oklch(0.92 0.18 95);
+    --color-fw-ring: oklch(1 0 0);
+    --color-fw-secondary: oklch(0 0 0);
+    --color-fw-secondary-hover: oklch(0.12 0 0);
+    --color-fw-secondary-fg: oklch(1 0 0);
+    --color-fw-success-text: oklch(0.82 0.18 145);
+    --color-fw-warning-text: oklch(0.88 0.17 75);
+    --color-fw-destructive-text: oklch(0.85 0.22 25);
+    --color-fw-info-text: oklch(0.8 0.18 210);
+  }
+}

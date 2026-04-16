@@ -1,0 +1,26 @@
+/* FluxWind — Commerce theme
+ * Amber/gold (hue 46) — e-commerce, retail, marketplace, tiendas.
+ *
+ * Import after @fluxwind/core/styles to apply the commerce brand palette:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/commerce";
+ *
+ * Dark mode is invariant — this theme only affects light-mode primary tokens.
+ *
+ * ⚠️ SPECIAL CASE: primary-fg uses dark text (oklch(0.12 0 0)) because
+ * amber at this lightness (L=0.78) is too bright for white text to pass WCAG.
+ * Hue 70 + L 0.78 stays in sRGB gamut — previous values (hue 46, L 0.55)
+ * clipped to red-orange outside gamut, breaking the dark-fg contrast check.
+ */
+
+:root {
+  --color-fw-primary: oklch(
+    0.78 0.17 70
+  ); /* amber/gold — in-gamut, commerce brand */
+  --color-fw-primary-hover: oklch(0.71 0.18 68); /* deeper amber on hover */
+  --color-fw-primary-fg: oklch(0.12 0 0); /* dark text on amber ✓ ≥7:1 */
+  --color-fw-primary-text: oklch(
+    0.42 0.18 65
+  ); /* deep amber text — ≥4.5:1 on white */
+  --color-fw-ring: oklch(0.78 0.17 70); /* focus ring */
+}

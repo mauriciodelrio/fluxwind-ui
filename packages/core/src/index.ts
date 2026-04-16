@@ -4,6 +4,9 @@ export * from "./atoms";
 // Molecules
 export * from "./molecules";
 
+// Organisms
+export * from "./organisms";
+
 // Tokens
 export * from "./tokens";
 

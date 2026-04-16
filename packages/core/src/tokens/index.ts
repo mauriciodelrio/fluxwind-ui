@@ -87,3 +87,35 @@ export const disabledMap = {
 } as const;
 
 export type Disabled = keyof typeof disabledMap;
+
+// ─── Organism Layout Tokens ───────────────────────────────────────────────────
+// Tokens for organism-level layout: container widths and bar heights.
+// Shared across organisms (Navbar, HeroSection, Footer, etc.) to enforce a
+// consistent page layout scale.
+
+/** Max-width of page-level containers. */
+export const containerMaxWidthMap = {
+  sm: "max-w-3xl",
+  md: "max-w-5xl",
+  lg: "max-w-7xl",
+  full: "max-w-full",
+} as const;
+
+export type ContainerMaxWidth = keyof typeof containerMaxWidthMap;
+
+/** Height of sticky/fixed bars (Navbar, SubNav, etc.). */
+export const barHeightMap = {
+  md: "h-16", // 64px — standard nav bar
+  lg: "h-20", // 80px — taller / hero nav
+} as const;
+
+export type BarHeight = keyof typeof barHeightMap;
+
+/** Vertical padding for page-level sections (HeroSection, FeatureGrid, CTA, etc.). */
+export const sectionPaddingMap = {
+  sm: "py-12 sm:py-16",
+  md: "py-16 sm:py-24",
+  lg: "py-24 sm:py-32",
+} as const;
+
+export type SectionPadding = keyof typeof sectionPaddingMap;

@@ -11,7 +11,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles": "./dist/styles/index.css"
+    "./styles": "./dist/styles/index.css",
+    "./styles/themes/health": "./dist/styles/themes/health.css",
+    "./styles/themes/legal": "./dist/styles/themes/legal.css",
+    "./styles/themes/commerce": "./dist/styles/themes/commerce.css",
+    "./styles/themes/finance": "./dist/styles/themes/finance.css",
+    "./styles/themes/creative": "./dist/styles/themes/creative.css",
+    "./styles/themes/education": "./dist/styles/themes/education.css",
+    "./styles/themes/high-contrast": "./dist/styles/themes/high-contrast.css"
   },
   "sideEffects": [
     "**/*.css"
@@ -24,7 +31,8 @@
     "provenance": true
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && pnpm run copy:themes",
+    "copy:themes": "mkdir -p dist/styles/themes && cp src/styles/themes/*.css dist/styles/themes/",
     "dev": "vite build --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

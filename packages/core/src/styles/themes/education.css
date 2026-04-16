@@ -1,0 +1,18 @@
+/* FluxWind — Education theme
+ * Cyan/teal (hue 185) — EdTech, LMS, academias, cursos, tutoriales.
+ *
+ * Import after @fluxwind/core/styles to apply the education brand palette:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/education";
+ *
+ * Dark mode is invariant — this theme only affects light-mode primary tokens.
+ * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
+ */
+
+:root {
+  --color-fw-primary: oklch(0.44 0.18 185); /* cyan/teal — ≥4.5:1 on white */
+  --color-fw-primary-hover: oklch(0.38 0.18 185); /* darker cyan on hover */
+  --color-fw-primary-fg: oklch(1 0 0); /* white text on cyan ✓ */
+  --color-fw-primary-text: oklch(0.44 0.18 185); /* link color on white bg */
+  --color-fw-ring: oklch(0.44 0.18 185); /* focus ring */
+}

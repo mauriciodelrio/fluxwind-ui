@@ -1,0 +1,18 @@
+/* FluxWind — Creative theme
+ * Rose/magenta (hue 340) — agencias, diseño, media, fotografía, arte.
+ *
+ * Import after @fluxwind/core/styles to apply the creative brand palette:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/creative";
+ *
+ * Dark mode is invariant — this theme only affects light-mode primary tokens.
+ * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
+ */
+
+:root {
+  --color-fw-primary: oklch(0.44 0.24 340); /* rose/magenta — ≥4.5:1 on white */
+  --color-fw-primary-hover: oklch(0.38 0.24 340); /* darker rose on hover */
+  --color-fw-primary-fg: oklch(1 0 0); /* white text on rose ✓ */
+  --color-fw-primary-text: oklch(0.44 0.22 340); /* link color on white bg */
+  --color-fw-ring: oklch(0.44 0.24 340); /* focus ring */
+}

@@ -1,0 +1,18 @@
+/* FluxWind — Legal theme
+ * Deep navy blue (hue 238) — legal, compliance, institucional, notarías.
+ *
+ * Import after @fluxwind/core/styles to apply the legal brand palette:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/legal";
+ *
+ * Dark mode is invariant — this theme only affects light-mode primary tokens.
+ * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
+ */
+
+:root {
+  --color-fw-primary: oklch(0.37 0.18 238); /* deep navy — ≥5:1 on white */
+  --color-fw-primary-hover: oklch(0.31 0.18 238); /* darker navy on hover */
+  --color-fw-primary-fg: oklch(1 0 0); /* white text on navy ✓ */
+  --color-fw-primary-text: oklch(0.37 0.18 238); /* link color on white bg */
+  --color-fw-ring: oklch(0.44 0.18 238); /* focus ring */
+}

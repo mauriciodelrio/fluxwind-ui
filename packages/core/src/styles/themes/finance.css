@@ -1,0 +1,20 @@
+/* FluxWind — Finance theme
+ * Forest green (hue 145) — fintech, banca, inversión, seguros.
+ *
+ * Import after @fluxwind/core/styles to apply the finance brand palette:
+ *   import "@fluxwind/core/styles";
+ *   import "@fluxwind/core/styles/themes/finance";
+ *
+ * Dark mode is invariant — this theme only affects light-mode primary tokens.
+ * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
+ */
+
+:root {
+  --color-fw-primary: oklch(0.44 0.18 145); /* forest green — ≥4.5:1 on white */
+  --color-fw-primary-hover: oklch(0.38 0.18 145); /* darker green on hover */
+  --color-fw-primary-fg: oklch(1 0 0); /* white text on dark green ✓ */
+  --color-fw-primary-text: oklch(
+    0.38 0.16 145
+  ); /* darker green — safe ≥5:1 on white */
+  --color-fw-ring: oklch(0.44 0.18 145); /* focus ring */
+}
