@@ -1,0 +1,20 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}",
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": true,
+    "requireBranch": "main"
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}",
+    "releaseNotes": "cat .release-notes.md"
+  },
+  "hooks": {
+    "after:bump": "node scripts/generate-release-notes.mjs ${version} && git add CHANGELOG.md",
+    "after:release": "pnpm publish --no-git-checks --provenance"
+  }
+}

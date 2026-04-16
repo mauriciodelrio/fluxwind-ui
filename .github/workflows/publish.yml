@@ -2,6 +2,16 @@ name: Publish to npm
 
 on:
   workflow_dispatch:
+    inputs:
+      release-type:
+        description: "Release type (passed to release-it)"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
 
 # Must run from main only — enforced by the job condition below.
 permissions:
@@ -43,26 +53,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Fails fast if there are no pending .changeset/*.md files.
-      # Create changesets locally with `pnpm changeset` and merge to main before publishing.
-      - name: Check pending changesets
-        run: pnpm changeset status
-
       - name: Run tests
         run: pnpm --filter "@fluxwind/core" test
-
-      - name: Version packages
-        # Consumes .changeset/*.md files, bumps package.json versions, updates CHANGELOG.md
-        run: pnpm changeset version
 
       - name: Build
         run: pnpm build
 
-      - name: Publish to npm
-        # publishConfig.provenance=true in package.json enables npm provenance attestation
-        run: pnpm changeset publish
+      - name: Run release-it
+        working-directory: packages/core
+        run: npx release-it ${{ inputs.release-type }} --ci
         env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push version commit and tags
-        run: git push --follow-tags
+          GH_MODELS_TOKEN: ${{ secrets.GH_MODELS_TOKEN }}
