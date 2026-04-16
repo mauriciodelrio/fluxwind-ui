@@ -3,3 +3,4 @@ export * from "./HeroSection";
 export * from "./FeatureGrid";
 export * from "./CTASection";
 export * from "./Footer";
+export * from "./ComponentShowcase";
