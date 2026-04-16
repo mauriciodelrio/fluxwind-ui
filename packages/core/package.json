@@ -4,6 +4,14 @@
   "description": "FluxWind UI — Extensible design system with atomic components, WCAG 2.2 AA, theming, and transitions.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mauriciodelrio/fluxwind-ui"
+  },
+  "homepage": "https://github.com/mauriciodelrio/fluxwind-ui#readme",
+  "bugs": {
+    "url": "https://github.com/mauriciodelrio/fluxwind-ui/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
