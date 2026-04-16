@@ -11,8 +11,7 @@ import "./preview.css";
  * Production consumers import the theme CSS directly (no decorator needed).
  */
 const withFluxWindTheme: Decorator = (StoryFn, context) => {
-  const fwTheme =
-    (context.globals.fwTheme as string | undefined) ?? "default";
+  const fwTheme = (context.globals.fwTheme as string | undefined) ?? "default";
 
   storybookEffect(() => {
     const html = document.documentElement;
