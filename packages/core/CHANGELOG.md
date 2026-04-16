@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.2.1...v0.2.2) (2026-04-16)
+
+In version 0.2.2, users will benefit from a crucial bug fix that ensures the proper export of package styles, enhancing the overall stability and usability of the components. This update reinforces our commitment to providing a seamless experience while maintaining strict TypeScript standards and accessibility compliance.
+
+### Pull Requests
+
+- [#2](https://github.com/mauriciodelrio/fluxwind-ui/pull/2) Fix/package styles export
+
 ## [0.2.1](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.2.0...v0.2.1) (2026-04-16)
 
 _No pull requests found for this release._
