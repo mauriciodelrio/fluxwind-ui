@@ -50,6 +50,34 @@
     "./styles/themes/high-contrast": {
       "style": "./dist/styles/themes/high-contrast.css",
       "default": "./dist/styles/themes/high-contrast.css"
+    },
+    "./themes/health": {
+      "style": "./dist/styles/themes/health.css",
+      "default": "./dist/styles/themes/health.css"
+    },
+    "./themes/legal": {
+      "style": "./dist/styles/themes/legal.css",
+      "default": "./dist/styles/themes/legal.css"
+    },
+    "./themes/commerce": {
+      "style": "./dist/styles/themes/commerce.css",
+      "default": "./dist/styles/themes/commerce.css"
+    },
+    "./themes/finance": {
+      "style": "./dist/styles/themes/finance.css",
+      "default": "./dist/styles/themes/finance.css"
+    },
+    "./themes/creative": {
+      "style": "./dist/styles/themes/creative.css",
+      "default": "./dist/styles/themes/creative.css"
+    },
+    "./themes/education": {
+      "style": "./dist/styles/themes/education.css",
+      "default": "./dist/styles/themes/education.css"
+    },
+    "./themes/high-contrast": {
+      "style": "./dist/styles/themes/high-contrast.css",
+      "default": "./dist/styles/themes/high-contrast.css"
     }
   },
   "sideEffects": [
