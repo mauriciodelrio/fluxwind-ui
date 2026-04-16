@@ -1,4 +1,8 @@
-# 🌬️ FluxWind UI
+<p align="center">
+  <img src="assets/logo.svg" alt="FluxWind UI" width="110" />
+</p>
+
+<h1 align="center">FluxWind UI</h1>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENCE)
 [![npm](https://img.shields.io/npm/v/@fluxwind/core)](https://www.npmjs.com/package/@fluxwind/core)
