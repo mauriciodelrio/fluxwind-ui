@@ -1,1 +1,8 @@
-pnpm test
+# 1. Format + lint only staged files (fast)
+pnpm lint-staged
+
+# 2. Full test suite with coverage enforcement (thresholds: >=90%)
+pnpm --filter "@fluxwind/core" test:coverage
+
+# 3. Build verification
+pnpm --filter "@fluxwind/core" build

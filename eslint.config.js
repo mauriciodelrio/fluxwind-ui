@@ -41,7 +41,11 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         // Resolves the nearest tsconfig.json automatically per package.
-        projectService: true,
+        projectService: {
+          allowDefaultProject: [
+            'packages/core/.storybook/*.ts',
+          ],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -136,6 +140,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
       'no-console': 'off',
     },
   },

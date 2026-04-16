@@ -13,7 +13,17 @@
     "format:check": "prettier --check \"packages/**/*.{ts,tsx,css,json}\"",
     "format": "prettier --write \"packages/**/*.{ts,tsx,css,json}\"",
     "clean": "turbo clean",
+    "test:coverage": "turbo test:coverage",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "packages/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "packages/**/*.{css,json,md}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@changesets/cli": "2.30.0",
