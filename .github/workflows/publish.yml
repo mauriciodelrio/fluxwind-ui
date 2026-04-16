@@ -29,9 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # PAT with repo write scope — required to push the version commit back.
-          # Add RELEASE_PAT in Settings → Secrets → Actions.
-          token: ${{ secrets.RELEASE_PAT }}
+          token: ${{ secrets.RELEASE_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
