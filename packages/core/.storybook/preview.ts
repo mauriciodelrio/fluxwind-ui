@@ -2,6 +2,13 @@ import type { Preview, Decorator } from "@storybook/react-vite";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import { useEffect as storybookEffect } from "storybook/preview-api";
 import "../src/styles/index.css";
+import "../src/styles/themes/creative.css";
+import "../src/styles/themes/commerce.css";
+import "../src/styles/themes/education.css";
+import "../src/styles/themes/finance.css";
+import "../src/styles/themes/health.css";
+import "../src/styles/themes/legal.css";
+import "../src/styles/themes/high-contrast.css";
 import "./preview.css";
 
 /**
