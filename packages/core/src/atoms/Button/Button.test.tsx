@@ -47,4 +47,38 @@ describe("Button", () => {
     const results = await axe.run(container);
     expect(results.violations).toHaveLength(0);
   });
+
+  describe("asChild", () => {
+    it("renders as an anchor tag when asChild is used with <a>", () => {
+      render(
+        <Button asChild>
+          <a href="/explore">Explore</a>
+        </Button>,
+      );
+      const link = screen.getByRole("link", { name: "Explore" });
+      expect(link).toBeInTheDocument();
+      expect(link.tagName).toBe("A");
+      expect(link).toHaveAttribute("href", "/explore");
+    });
+
+    it("applies button variant styles to the child element", () => {
+      render(
+        <Button asChild variant="primary">
+          <a href="/explore">Explore</a>
+        </Button>,
+      );
+      const link = screen.getByRole("link", { name: "Explore" });
+      expect(link.className).toMatch(/bg-\[var\(--color-fw-primary\)\]/);
+    });
+
+    it("has no WCAG violations when rendered as anchor", async () => {
+      const { container } = render(
+        <Button asChild>
+          <a href="/explore">Explore</a>
+        </Button>,
+      );
+      const results = await axe.run(container);
+      expect(results.violations).toHaveLength(0);
+    });
+  });
 });

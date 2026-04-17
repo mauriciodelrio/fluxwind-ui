@@ -2,6 +2,8 @@ export * from "./Button";
 export * from "./Badge";
 export * from "./Text";
 export * from "./Icon";
+export * from "./Link";
+export * from "./Logo";
 export * from "./Input";
 export * from "./Spinner";
 export * from "./Avatar";
