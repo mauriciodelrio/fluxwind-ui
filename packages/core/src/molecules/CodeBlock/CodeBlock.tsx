@@ -155,7 +155,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
             }) => (
               <pre
                 className={cn(codeBlockPreVariants(), preClassName)}
-                style={{ ...style, background: "transparent" }}
+                style={{ ...style, backgroundColor: "transparent" }}
               >
                 {tokens.map((line, lineIndex) => {
                   const lineNumber = lineIndex + 1;
