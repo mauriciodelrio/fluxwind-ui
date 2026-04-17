@@ -9,7 +9,8 @@
  * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
  */
 
-:root {
+:root,
+[data-fw-theme="finance"] {
   --color-fw-primary: oklch(0.44 0.18 145); /* forest green — ≥4.5:1 on white */
   --color-fw-primary-hover: oklch(0.38 0.18 145); /* darker green on hover */
   --color-fw-primary-fg: oklch(1 0 0); /* white text on dark green ✓ */

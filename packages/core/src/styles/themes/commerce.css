@@ -13,7 +13,8 @@
  * clipped to red-orange outside gamut, breaking the dark-fg contrast check.
  */
 
-:root {
+:root,
+[data-fw-theme="commerce"] {
   --color-fw-primary: oklch(
     0.78 0.17 70
   ); /* amber/gold — in-gamut, commerce brand */
