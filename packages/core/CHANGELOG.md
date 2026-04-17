@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.5](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.3.4...v0.3.5) (2026-04-17)
+
+In version 0.3.5, we addressed a console warning related to theme switching in the CodeBlock component by ensuring consistent use of the `backgroundColor` property instead of mixing it with shorthand CSS. This improvement enhances the overall stability and user experience when toggling between light and dark modes.
+
+### Pull Requests
+
+- [#6](https://github.com/mauriciodelrio/fluxwind-ui/pull/6) fix(core): use backgroundColor longhand in CodeBlock to fix theme-switch warning
+
 ## [0.3.4](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.3.3...v0.3.4) (2026-04-17)
 
 In version 0.3.4, the build output now correctly includes the essential `dist/styles/index.css` file, ensuring that all base design tokens are available for use. This fix addresses a previous oversight where the file was missing despite being declared in the package configuration, enhancing the overall usability and accessibility of the components.
