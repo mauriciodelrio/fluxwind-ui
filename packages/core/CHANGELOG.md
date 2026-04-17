@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.1](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.3.0...v0.3.1) (2026-04-17)
+
+_No pull requests found for this release._
+
 ## [0.3.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.2.2...v0.3.0) (2026-04-17)
 
 In version 0.3.0, new components have been introduced, including the Logo and Link atoms, enhancing the design system's versatility. The Button component now features an `asChild` prop that allows for seamless integration with other elements while maintaining valid HTML structure. Additionally, accessibility improvements have been made, ensuring that all new components meet WCAG 2.2 AA standards.
