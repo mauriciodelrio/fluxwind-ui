@@ -1,6 +1,6 @@
 {
   "name": "@fluxwind/core",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "FluxWind UI — Extensible design system with atomic components, WCAG 2.2 AA, theming, and transitions.",
   "type": "module",
   "license": "MIT",
