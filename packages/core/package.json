@@ -1,6 +1,6 @@
 {
   "name": "@fluxwind/core",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "FluxWind UI — Extensible design system with atomic components, WCAG 2.2 AA, theming, and transitions.",
   "type": "module",
   "license": "MIT",
@@ -91,8 +91,8 @@
     "provenance": true
   },
   "scripts": {
-    "build": "vite build && pnpm run copy:styles",
-    "copy:styles": "mkdir -p dist/styles/themes && cp src/styles/index.css dist/styles/index.css && cp src/styles/themes/*.css dist/styles/themes/",
+    "build": "vite build && pnpm run compile:styles",
+    "compile:styles": "mkdir -p dist/styles/themes && tailwindcss --input src/styles/index.css --output dist/styles/index.css --minify && cp src/styles/themes/*.css dist/styles/themes/",
     "dev": "vite build --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -129,6 +129,7 @@
     "@storybook/addon-docs": "10.3.5",
     "@storybook/addon-themes": "10.3.5",
     "@storybook/react-vite": "10.3.5",
+    "@tailwindcss/cli": "4.2.2",
     "@tailwindcss/vite": "4.2.2",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
