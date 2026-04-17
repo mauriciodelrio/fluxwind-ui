@@ -44,6 +44,7 @@ export default tseslint.config(
         projectService: {
           allowDefaultProject: [
             'packages/core/.storybook/*.ts',
+            'packages/core/.storybook/*.tsx',
           ],
         },
         tsconfigRootDir: import.meta.dirname,
