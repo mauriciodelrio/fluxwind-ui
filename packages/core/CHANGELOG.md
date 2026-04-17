@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.4](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.4.2...v0.4.4) (2026-04-17)
+
+In version 0.4.4, we improved the handling of industry themes by fixing the CSS cascade, ensuring that theme tokens are correctly scoped via attribute selectors. This enhancement prevents conflicts when multiple themes are imported, allowing for a more predictable and consistent styling experience. Additionally, we have shipped pre-compiled CSS to streamline the integration process for users.
+
+### Pull Requests
+
+- [#9](https://github.com/mauriciodelrio/fluxwind-ui/pull/9) fix(core): scope industry themes via attribute selector and ship pre-compiled CSS
+
 ## [0.4.2](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.4.0...v0.4.2) (2026-04-17)
 
 In version 0.4.2, we improved the developer experience by refining the industry theme CSS files to eliminate the use of `:root` selectors, ensuring that styles are now scoped exclusively via `[data-fw-theme]`. This change resolves CSS cascade conflicts that previously required users to manage import order, allowing for a more seamless integration of multiple themes without unexpected overrides.
