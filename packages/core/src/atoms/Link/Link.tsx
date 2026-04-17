@@ -43,10 +43,12 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
       >
         {children}
-        {external ? <ExternalLink
+        {external ? (
+          <ExternalLink
             aria-hidden="true"
             className={cn("shrink-0", iconClass)}
-          /> : null}
+          />
+        ) : null}
       </a>
     );
   },
