@@ -91,8 +91,8 @@
     "provenance": true
   },
   "scripts": {
-    "build": "vite build && pnpm run copy:themes",
-    "copy:themes": "mkdir -p dist/styles/themes && cp src/styles/themes/*.css dist/styles/themes/",
+    "build": "vite build && pnpm run copy:styles",
+    "copy:styles": "mkdir -p dist/styles/themes && cp src/styles/index.css dist/styles/index.css && cp src/styles/themes/*.css dist/styles/themes/",
     "dev": "vite build --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
