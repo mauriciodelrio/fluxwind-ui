@@ -9,7 +9,6 @@
  * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
  */
 
-:root,
 [data-fw-theme="education"] {
   --color-fw-primary: oklch(0.44 0.18 185); /* cyan/teal — ≥4.5:1 on white */
   --color-fw-primary-hover: oklch(0.38 0.18 185); /* darker cyan on hover */

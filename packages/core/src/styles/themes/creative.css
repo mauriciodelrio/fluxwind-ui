@@ -9,7 +9,6 @@
  * All values verified ≥ 4.5:1 contrast ratio (WCAG 2.2 AA).
  */
 
-:root,
 [data-fw-theme="creative"] {
   --color-fw-primary: oklch(0.44 0.24 340); /* rose/magenta — ≥4.5:1 on white */
   --color-fw-primary-hover: oklch(0.38 0.24 340); /* darker rose on hover */

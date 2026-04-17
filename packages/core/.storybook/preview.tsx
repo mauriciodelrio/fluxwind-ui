@@ -1,19 +1,29 @@
-import type { Preview, Decorator } from "@storybook/react-vite";
+import type {
+  Preview,
+  Decorator,
+  StoryFn,
+  StoryContext,
+} from "@storybook/react-vite";
+import { useEffect } from "react";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
-import { useEffect as storybookEffect } from "storybook/preview-api";
 import "../src/styles/index.css";
+import "../src/styles/themes/creative.css";
+import "../src/styles/themes/commerce.css";
+import "../src/styles/themes/education.css";
+import "../src/styles/themes/finance.css";
+import "../src/styles/themes/health.css";
+import "../src/styles/themes/legal.css";
+import "../src/styles/themes/high-contrast.css";
 import "./preview.css";
 
-/**
- * Applies the selected FluxWind brand theme by setting data-fw-theme on <html>.
- * Uses Storybook's useEffect (storybook/preview-api) — NOT React's useEffect —
- * so the decorator properly re-runs when the toolbar global changes.
- * Production consumers import the theme CSS directly (no decorator needed).
- */
-const withFluxWindTheme: Decorator = (StoryFn, context) => {
-  const fwTheme = (context.globals.fwTheme as string | undefined) ?? "default";
-
-  storybookEffect(() => {
+function BrandThemeWrapper({
+  fwTheme,
+  Story,
+}: {
+  fwTheme: string;
+  Story: StoryFn;
+}) {
+  useEffect(() => {
     const html = document.documentElement;
     if (!fwTheme || fwTheme === "default") {
       html.removeAttribute("data-fw-theme");
@@ -25,7 +35,15 @@ const withFluxWindTheme: Decorator = (StoryFn, context) => {
     };
   }, [fwTheme]);
 
-  return StoryFn(context);
+  return <Story />;
+}
+
+const withFluxWindTheme: Decorator = (
+  Story: StoryFn,
+  context: StoryContext,
+) => {
+  const fwTheme = (context.globals.fwTheme as string | undefined) ?? "default";
+  return <BrandThemeWrapper fwTheme={fwTheme} Story={Story} />;
 };
 
 const preview: Preview = {
