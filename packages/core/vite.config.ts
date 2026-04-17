@@ -25,8 +25,15 @@ export default defineConfig({
       fileName: "index",
     },
     rollupOptions: {
-      // React and react-dom are peer deps — never bundle them
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      // React, react-dom, and other peer deps — never bundle them.
+      // @radix-ui/react-slot must be external so bundlers (e.g. Turbopack)
+      // can resolve its ESM entry directly instead of a bundled CJS shim.
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "@radix-ui/react-slot",
+      ],
       output: {
         // CSS output path — consumers import '@fluxwind-ui/core/styles'
         assetFileNames: "styles/[name][extname]",

@@ -106,12 +106,17 @@
     "release": "release-it"
   },
   "peerDependencies": {
+    "@radix-ui/react-slot": ">=1.0.0",
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
   },
+  "peerDependenciesMeta": {
+    "@radix-ui/react-slot": {
+      "optional": false
+    }
+  },
   "dependencies": {
     "@preact/signals-react": "3.10.0",
-    "@radix-ui/react-slot": "1.2.4",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "prism-react-renderer": "2.4.1",
