@@ -1,4 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/cn";
 import { buttonVariants, type ButtonVariants } from "./Button.variants";
 
@@ -12,6 +13,12 @@ export interface ButtonProps
   iconRight?: ReactNode;
   /** Shows a loading spinner and sets aria-busy. */
   loading?: boolean;
+  /**
+   * When true, the button merges its props and styles onto its immediate child
+   * element instead of rendering a `<button>`. Useful for rendering the button
+   * styles on an `<a>` or a framework Link component.
+   */
+  asChild?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -27,20 +34,34 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight,
       loading = false,
       disabled,
+      asChild = false,
       children,
       ...props
     },
     ref,
   ) => {
+    const variantClass = cn(
+      buttonVariants({ variant, size, radius, transition, fullWidth }),
+      className,
+    );
+
+    // asChild: merge styles onto the single child element via Radix Slot.
+    // Loading and icon slots are intentionally unavailable in this mode —
+    // the child element owns its own content.
+    if (asChild) {
+      return (
+        <Slot ref={ref} className={variantClass} {...props}>
+          {children}
+        </Slot>
+      );
+    }
+
     return (
       <button
         ref={ref}
         disabled={disabled === true || loading}
         aria-busy={loading ? true : undefined}
-        className={cn(
-          buttonVariants({ variant, size, radius, transition, fullWidth }),
-          className,
-        )}
+        className={variantClass}
         {...props}
       >
         {loading ? (

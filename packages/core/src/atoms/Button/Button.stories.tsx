@@ -124,6 +124,17 @@ const meta: Meta<typeof Button> = {
         defaultValue: { summary: "undefined" },
       },
     },
+    asChild: {
+      description:
+        "When `true`, the button merges its styles onto its immediate child element via Radix `Slot`. " +
+        "Use it to render button styles on an `<a>` tag or a framework `Link` component without nesting a `<button>` inside an `<a>`.\n\n" +
+        "> **Note:** `loading`, `iconLeft`, and `iconRight` are unavailable in `asChild` mode — the child owns its own content.",
+      control: "boolean",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
     "aria-label": {
       description:
         "**Required when the button contains only an icon** (no visible children). Provides an accessible name for screen readers.",
@@ -234,4 +245,32 @@ export const FullWidth: Story = {
       },
     },
   },
+};
+
+export const AsChild: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "When `asChild` is `true`, the button merges its styles onto the single child element using Radix `Slot`. " +
+          "This lets you use an `<a>` or a framework `Link` as the rendered element without invalid HTML nesting (`<button><a>`).",
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap gap-3 items-center">
+      <Button asChild variant="primary">
+        <a href="/explore">Primary link</a>
+      </Button>
+      <Button asChild variant="secondary">
+        <a href="/explore">Secondary link</a>
+      </Button>
+      <Button asChild variant="outline">
+        <a href="/explore">Outline link</a>
+      </Button>
+      <Button asChild variant="ghost">
+        <a href="/explore">Ghost link</a>
+      </Button>
+    </div>
+  ),
 };
