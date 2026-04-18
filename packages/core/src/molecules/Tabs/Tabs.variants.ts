@@ -2,15 +2,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 // ─── Tab List container ───────────────────────────────────────────────────────
 
-export const tabsListVariants = cva(["flex items-center"], {
-  variants: {
-    variant: {
-      line: "border-b border-[var(--color-fw-border)]",
-      pill: "gap-1 p-1 bg-[var(--color-fw-surface)] rounded-lg",
+export const tabsListVariants = cva(
+  [
+    "flex items-center",
+    // Horizontal scroll on small screens; triggers already use whitespace-nowrap
+    "overflow-x-auto",
+    // Hide scrollbar visually while keeping it functional
+    "[scrollbar-width:none]", // Firefox
+    "[&::-webkit-scrollbar]:hidden", // Chrome / Safari / Edge
+  ],
+  {
+    variants: {
+      variant: {
+        line: "border-b border-[var(--color-fw-border)]",
+        pill: "gap-1 p-1 bg-[var(--color-fw-surface)] rounded-lg",
+      },
     },
+    defaultVariants: { variant: "line" },
   },
-  defaultVariants: { variant: "line" },
-});
+);
 
 // ─── Tab Trigger ─────────────────────────────────────────────────────────────
 
