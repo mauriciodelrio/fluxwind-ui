@@ -4,16 +4,25 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import dts from "vite-plugin-dts";
 
+// Storybook sets STORYBOOK=true — skip dts in that context since
+// vite-plugin-dts (with rollupTypes) needs dist/index.d.ts from a prior
+// library build, which does not exist in a clean Storybook build env.
+const isStorybookBuild = process.env.STORYBOOK === "true";
+
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    dts({
-      include: ["src"],
-      exclude: ["src/**/*.test.*", "src/**/*.stories.*", "src/test"],
-      rollupTypes: true,
-      insertTypesEntry: true,
-    }),
+    ...(isStorybookBuild
+      ? []
+      : [
+          dts({
+            include: ["src"],
+            exclude: ["src/**/*.test.*", "src/**/*.stories.*", "src/test"],
+            rollupTypes: true,
+            insertTypesEntry: true,
+          }),
+        ]),
   ],
   resolve: {
     alias: { "@": resolve(__dirname, "src") },
