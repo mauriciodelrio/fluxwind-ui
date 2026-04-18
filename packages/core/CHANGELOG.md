@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.4.4...v0.5.0) (2026-04-18)
+
+In version 0.5.0, two new components have been introduced: the List atom and the Modal organism, enhancing the design system's atomic structure. The List component allows for flexible rendering of ordered and unordered lists, complete with customizable item variants and size options. Additionally, the Modal organism provides a robust solution for creating accessible dialog windows, further improving user experience and interaction.
+
+### Pull Requests
+
+- [#10](https://github.com/mauriciodelrio/fluxwind-ui/pull/10) feat(core): add List atom and Modal organism
+
 ## [0.4.4](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.4.2...v0.4.4) (2026-04-17)
 
 In version 0.4.4, we improved the handling of industry themes by fixing the CSS cascade, ensuring that theme tokens are correctly scoped via attribute selectors. This enhancement prevents conflicts when multiple themes are imported, allowing for a more predictable and consistent styling experience. Additionally, we have shipped pre-compiled CSS to streamline the integration process for users.
