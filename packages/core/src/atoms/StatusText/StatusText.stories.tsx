@@ -314,7 +314,7 @@ export const AsElement: Story = {
       </StatusText>
     </div>
   ),
-  play: ({ canvasElement }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const allStatus = canvas.getAllByRole("status");
     await expect(allStatus).toHaveLength(3);
