@@ -20,3 +20,4 @@ export * from "./Chip";
 export * from "./StatusDot";
 export * from "./List";
 export * from "./StatusText";
+export * from "./Accordion";
