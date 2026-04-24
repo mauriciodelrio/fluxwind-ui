@@ -7,3 +7,4 @@ export * from "./Tabs";
 export * from "./Card";
 export * from "./CodeBlock";
 export * from "./Pagination";
+export * from "./FieldGroup";
