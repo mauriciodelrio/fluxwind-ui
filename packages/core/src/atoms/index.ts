@@ -21,3 +21,4 @@ export * from "./StatusDot";
 export * from "./List";
 export * from "./StatusText";
 export * from "./Accordion";
+export * from "./Gauge";
