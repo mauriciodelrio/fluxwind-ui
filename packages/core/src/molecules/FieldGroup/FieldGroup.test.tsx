@@ -87,11 +87,10 @@ describe("FieldGroup", () => {
 
   // ─── required ───────────────────────────────────────────────────────────────
 
-  it("sets aria-required when required prop is true", () => {
+  it("does not set aria-required on fieldset (not valid on group role)", () => {
     const { container } = render(<FieldGroup legend="Preferences" required />);
-    expect(container.querySelector("fieldset")).toHaveAttribute(
+    expect(container.querySelector("fieldset")).not.toHaveAttribute(
       "aria-required",
-      "true",
     );
   });
 
@@ -99,13 +98,6 @@ describe("FieldGroup", () => {
     render(<FieldGroup legend="Preferences" required />);
     // The aria-hidden span with * should be present
     expect(document.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
-  });
-
-  it("does not set aria-required when required is false", () => {
-    const { container } = render(<FieldGroup legend="Preferences" />);
-    expect(container.querySelector("fieldset")).not.toHaveAttribute(
-      "aria-required",
-    );
   });
 
   // ─── disabled ───────────────────────────────────────────────────────────────

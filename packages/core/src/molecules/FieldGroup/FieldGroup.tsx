@@ -23,7 +23,7 @@ export interface FieldGroupProps
    * Sets `aria-invalid="true"` and `aria-describedby` on the `<fieldset>`.
    */
   error?: string;
-  /** Adds a `*` indicator next to the legend and `aria-required` on the fieldset. */
+  /** Adds a `*` indicator next to the legend. Individual controls inside should set their own `required` attribute. */
   required?: boolean;
   /**
    * Layout direction for the children container.
@@ -86,7 +86,6 @@ export function FieldGroup({
       disabled={disabled}
       aria-describedby={describedBy}
       aria-invalid={hasError || undefined}
-      aria-required={required || undefined}
       {...props}
     >
       {/* Legend — provides the accessible group name */}
