@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.6.0...v0.6.1) (2026-04-25)
+
+In version 0.6.1, the `Combobox` component has been enhanced to support multi-select functionality, allowing users to select multiple options, create new entries, and group selections, all while maintaining backward compatibility with single-select use. This update introduces a more versatile user experience with dismissable `Chip` atoms for selected values, ensuring a seamless interface for managing selections.
+
+### Pull Requests
+
+- [#17](https://github.com/mauriciodelrio/fluxwind-ui/pull/17) feat(combobox): add multi-select, groups, creatable and maxSelections
+
 ## [0.6.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.5.1...v0.6.0) (2026-04-25)
 
 In version 0.6.0, new components enhance the design system's functionality and accessibility. The addition of the `FieldGroup` molecule provides a semantic wrapper for related form controls, while the `Accordion` atom introduces a collapsible disclosure feature using native elements. Users can now utilize the `Gauge` atom for semantic measurement and the `StatusText` atom for live region announcements, improving user experience for screen reader users. Additionally, the deployment process for Storybook has been streamlined with manual deployment capabilities to Vercel.
