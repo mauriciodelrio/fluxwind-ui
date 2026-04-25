@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { Combobox } from "./Combobox";
-import type { ComboboxOption } from "./Combobox";
+import type { ComboboxOption, ComboboxMultiProps } from "./Combobox";
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -383,6 +383,456 @@ describe("Combobox – a11y", () => {
       <Combobox label="Fruit" options={FRUITS} searchable={false} />,
     );
     await user.click(screen.getByRole("combobox"));
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
+  });
+});
+
+// ─── Multi-select — fixtures ──────────────────────────────────────────────────
+
+const LANGS: ComboboxOption[] = [
+  { value: "ts", label: "TypeScript" },
+  { value: "js", label: "JavaScript" },
+  { value: "py", label: "Python" },
+  { value: "go", label: "Go", disabled: true },
+];
+
+// ─── Multi-select — structure ─────────────────────────────────────────────────
+
+describe("Combobox – multi-select – structure", () => {
+  it("listbox has aria-multiselectable=true when multiple", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Languages" options={LANGS} multiple />);
+    await user.click(screen.getByRole("combobox"));
+    expect(screen.getByRole("listbox")).toHaveAttribute(
+      "aria-multiselectable",
+      "true",
+    );
+  });
+
+  it("shows placeholder when no selections", () => {
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        placeholder="Pick languages"
+      />,
+    );
+    expect(screen.getByText("Pick languages")).toBeInTheDocument();
+  });
+
+  it("renders Chips for each selected value", () => {
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+      />,
+    );
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+    expect(screen.getByText("JavaScript")).toBeInTheDocument();
+  });
+
+  it("does not show placeholder when selections present", () => {
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts"]}
+        placeholder="Pick languages"
+      />,
+    );
+    expect(screen.queryByText("Pick languages")).not.toBeInTheDocument();
+  });
+
+  it("each option has explicit aria-selected (true or false) in multi mode", async () => {
+    const user = userEvent.setup();
+    render(
+      <Combobox label="Languages" options={LANGS} multiple value={["ts"]} />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    const opts = screen.getAllByRole("option");
+    for (const opt of opts) {
+      expect(
+        opt.getAttribute("aria-selected") === "true" ||
+          opt.getAttribute("aria-selected") === "false",
+      ).toBe(true);
+    }
+  });
+
+  it("trigger announces selection count via aria-label", () => {
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+      />,
+    );
+    expect(screen.getByRole("combobox")).toHaveAttribute(
+      "aria-label",
+      "Languages, 2 items selected",
+    );
+  });
+
+  it("trigger aria-label uses singular 'item' for 1 selection", () => {
+    render(
+      <Combobox label="Languages" options={LANGS} multiple value={["ts"]} />,
+    );
+    expect(screen.getByRole("combobox")).toHaveAttribute(
+      "aria-label",
+      "Languages, 1 item selected",
+    );
+  });
+
+  it("sets displayName on the Combobox (multi smoke)", () => {
+    expect(Combobox.displayName).toBe("Combobox");
+  });
+});
+
+// ─── Multi-select — interactions ─────────────────────────────────────────────
+
+describe("Combobox – multi-select – interactions", () => {
+  it("toggles option on click — adds then removes", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /TypeScript/i }));
+    expect(onChange).toHaveBeenLastCalledWith(["ts"]);
+
+    // Dropdown stays open in multi mode — deselect directly
+    await user.click(screen.getByRole("option", { name: /TypeScript/i }));
+    expect(onChange).toHaveBeenLastCalledWith([]);
+  });
+
+  it("dropdown stays open after selecting in multi mode", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Languages" options={LANGS} multiple />);
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /TypeScript/i }));
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+  });
+
+  it("dismissing a Chip removes that value", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        onChange={onChange}
+      />,
+    );
+    const dismissBtn = screen.getByRole("button", {
+      name: /Remove TypeScript/i,
+    });
+    await user.click(dismissBtn);
+    expect(onChange).toHaveBeenCalledWith(["js"]);
+  });
+
+  it("clear-all removes all selected values", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: /Clear all/i }));
+    expect(onChange).toHaveBeenCalledWith([]);
+  });
+
+  it("does not select disabled options in multi mode", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /Go/i }));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("uncontrolled multi: manages internal state", async () => {
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        defaultValue={["py"]}
+      />,
+    );
+    expect(screen.getByText("Python")).toBeInTheDocument();
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /TypeScript/i }));
+    // Close dropdown so chip text is unambiguous
+    await user.keyboard("{Escape}");
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+    expect(screen.getByText("Python")).toBeInTheDocument();
+  });
+});
+
+// ─── Multi-select — maxSelections ────────────────────────────────────────────
+
+describe("Combobox – multi-select – maxSelections", () => {
+  it("marks unselected options aria-disabled when max reached", async () => {
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        maxSelections={2}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    const pythonOpt = screen.getByRole("option", { name: /Python/i });
+    expect(pythonOpt).toHaveAttribute("aria-disabled", "true");
+  });
+
+  it("does not add options beyond maxSelections", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        maxSelections={2}
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /Python/i }));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("allows deselecting when max reached", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        maxSelections={2}
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /TypeScript/i }));
+    expect(onChange).toHaveBeenCalledWith(["js"]);
+  });
+});
+
+// ─── Multi-select — keyboard ──────────────────────────────────────────────────
+
+describe("Combobox – multi-select – keyboard", () => {
+  it("Backspace on empty search removes last selected Chip", async () => {
+    const onChange = vi.fn<ComboboxMultiProps["onChange"]>();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+        onChange={onChange}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    // Click searchbox explicitly — requestAnimationFrame doesn't run in tests
+    await user.click(screen.getByRole("searchbox"));
+    await user.keyboard("{Backspace}");
+    expect(onChange).toHaveBeenCalledWith(["ts"]);
+  });
+});
+
+// ─── Groups ───────────────────────────────────────────────────────────────────
+
+const GROUPED: ComboboxOption[] = [
+  { value: "ts", label: "TypeScript", group: "Frontend" },
+  { value: "react", label: "React", group: "Frontend" },
+  { value: "go", label: "Go", group: "Backend" },
+  { value: "rust", label: "Rust", group: "Backend" },
+  { value: "sql", label: "SQL" }, // ungrouped — should appear first
+];
+
+describe("Combobox – groups", () => {
+  it("renders group headers for grouped options", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Tech" options={GROUPED} />);
+    await user.click(screen.getByRole("combobox"));
+    expect(screen.getByText("Frontend")).toBeInTheDocument();
+    expect(screen.getByText("Backend")).toBeInTheDocument();
+  });
+
+  it("ungrouped options appear before grouped sections", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Tech" options={GROUPED} />);
+    await user.click(screen.getByRole("combobox"));
+    const opts = screen.getAllByRole("option");
+    expect(opts[0]).toHaveTextContent("SQL");
+  });
+
+  it("group headers are not role=option (not selectable)", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Tech" options={GROUPED} />);
+    await user.click(screen.getByRole("combobox"));
+    const opts = screen.getAllByRole("option");
+    const labels = opts.map((o) => o.textContent);
+    expect(labels).not.toContain("Frontend");
+    expect(labels).not.toContain("Backend");
+  });
+
+  it("can select an option from a group", async () => {
+    const onChange = vi.fn();
+    const user = userEvent.setup();
+    render(<Combobox label="Tech" options={GROUPED} onChange={onChange} />);
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: /^Go$/i }));
+    expect(onChange).toHaveBeenCalledWith("go");
+  });
+});
+
+// ─── Creatable ────────────────────────────────────────────────────────────────
+
+describe("Combobox – creatable", () => {
+  it("shows Create option when search has no matches", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" options={FRUITS} creatable />);
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "mango");
+    expect(screen.getByText(/Create/i)).toBeInTheDocument();
+    expect(screen.getByText(/mango/i)).toBeInTheDocument();
+  });
+
+  it("shows Create option in addition to partial results", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" options={FRUITS} creatable />);
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "an");
+    // "Banana" matches; Create "an" also appears
+    expect(screen.getByRole("option", { name: /Banana/i })).toBeInTheDocument();
+    expect(screen.getByText(/Create/i)).toBeInTheDocument();
+  });
+
+  it("does not show Create option when query is empty", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" options={FRUITS} creatable />);
+    await user.click(screen.getByRole("combobox"));
+    expect(screen.queryByText(/Create/i)).not.toBeInTheDocument();
+  });
+
+  it("calls onCreateOption with the trimmed query", async () => {
+    const onCreateOption = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Fruit"
+        options={FRUITS}
+        creatable
+        onCreateOption={onCreateOption}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "mango");
+    await user.click(screen.getByText(/Create/i));
+    expect(onCreateOption).toHaveBeenCalledWith("mango");
+  });
+
+  it("closes dropdown after creating", async () => {
+    const user = userEvent.setup();
+    render(
+      <Combobox
+        label="Fruit"
+        options={FRUITS}
+        creatable
+        onCreateOption={() => {}}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "kiwi");
+    await user.click(screen.getByText(/Create/i));
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  it("does not show Create option when creatable is false (default)", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" options={FRUITS} />);
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "zzz");
+    expect(screen.queryByText(/Create/i)).not.toBeInTheDocument();
+  });
+});
+
+// ─── Multi + Accessibility (axe) ─────────────────────────────────────────────
+
+describe("Combobox – multi-select – a11y", () => {
+  it("has no axe violations when closed (multi)", async () => {
+    const { container } = render(
+      <Combobox label="Languages" options={LANGS} multiple />,
+    );
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it("has no axe violations when open with selections (multi)", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <Combobox
+        label="Languages"
+        options={LANGS}
+        multiple
+        value={["ts", "js"]}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it("has no axe violations with grouped options", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<Combobox label="Tech" options={GROUPED} />);
+    await user.click(screen.getByRole("combobox"));
+    const results = await axe.run(container);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it("has no axe violations with creatable open and query", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <Combobox label="Fruit" options={FRUITS} creatable />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("searchbox"), "mango");
     const results = await axe.run(container);
     expect(results.violations).toHaveLength(0);
   });
