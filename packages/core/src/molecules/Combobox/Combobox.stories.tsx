@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState, type ComponentPropsWithoutRef } from "react";
+import { expect } from "storybook/test";
+import { userEvent, within } from "storybook/test";
 import { Combobox } from "./Combobox";
 import type { ComboboxOption } from "./Combobox";
 
@@ -259,6 +261,291 @@ export const AsyncFiltering: Story = {
           "When `onFilter` is provided the component delegates filtering to the caller. " +
           "Use this for server-side search — swap out `options` as results arrive. " +
           "In this demo the filtering is simulated client-side.",
+      },
+    },
+  },
+};
+
+// ─── Multi-select fixtures ────────────────────────────────────────────────────
+
+const SKILLS: ComboboxOption[] = [
+  { value: "ts", label: "TypeScript" },
+  { value: "react", label: "React" },
+  { value: "node", label: "Node.js" },
+  { value: "go", label: "Go" },
+  { value: "rust", label: "Rust" },
+  { value: "python", label: "Python" },
+  { value: "graphql", label: "GraphQL" },
+  { value: "docker", label: "Docker" },
+];
+
+const GROUPED_TECH: ComboboxOption[] = [
+  { value: "react", label: "React", group: "Frontend" },
+  { value: "vue", label: "Vue", group: "Frontend" },
+  { value: "svelte", label: "Svelte", group: "Frontend" },
+  { value: "node", label: "Node.js", group: "Backend" },
+  { value: "go", label: "Go", group: "Backend" },
+  { value: "rust", label: "Rust", group: "Backend" },
+  { value: "pg", label: "PostgreSQL", group: "Database" },
+  { value: "mongo", label: "MongoDB", group: "Database" },
+  { value: "docker", label: "Docker" }, // ungrouped
+];
+
+// ─── Multi-select (uncontrolled) ──────────────────────────────────────────────
+
+function MultiSelectWrapper(args: ComponentPropsWithoutRef<typeof Combobox>) {
+  const [selected, setSelected] = useState<string[]>([]);
+  return (
+    <div className="flex flex-col gap-4 max-w-xs">
+      <Combobox
+        {...args}
+        multiple
+        value={selected}
+        onChange={(v) => {
+          setSelected(v);
+        }}
+      />
+      <p className="text-xs text-[var(--color-fw-muted)]">
+        Selected:{" "}
+        <span className="font-medium text-[var(--color-fw-foreground)]">
+          {selected.length > 0 ? selected.join(", ") : "none"}
+        </span>
+      </p>
+    </div>
+  );
+}
+
+export const MultiSelect: Story = {
+  render: (args) => <MultiSelectWrapper {...args} />,
+  args: {
+    label: "Skills",
+    options: SKILLS,
+    placeholder: "Select skills…",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Multi-select mode: selected options are displayed as **Chips** in the trigger. " +
+          "Click the × on a chip to deselect. The dropdown stays open after each selection.",
+      },
+    },
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole("combobox");
+
+    // Open and select two options
+    await userEvent.click(trigger);
+    await userEvent.click(canvas.getByRole("option", { name: /TypeScript/i }));
+    await userEvent.click(canvas.getByRole("option", { name: /React/i }));
+
+    // Chips appear in trigger
+    await expect(canvas.getByText("TypeScript")).toBeInTheDocument();
+    await expect(canvas.getByText("React")).toBeInTheDocument();
+
+    // Dismiss "TypeScript" chip
+    const dismissBtn = canvas.getByRole("button", {
+      name: /Remove TypeScript/i,
+    });
+    await userEvent.click(dismissBtn);
+    await expect(canvas.queryByText("TypeScript")).not.toBeInTheDocument();
+    await expect(canvas.getByText("React")).toBeInTheDocument();
+  },
+};
+
+// ─── Multi-select controlled ──────────────────────────────────────────────────
+
+function ControlledMulti(args: ComponentPropsWithoutRef<typeof Combobox>) {
+  const [values, setValues] = useState<string[]>(["react", "ts"]);
+
+  return (
+    <div className="flex flex-col gap-4 max-w-sm">
+      <Combobox
+        {...args}
+        multiple
+        value={values}
+        onChange={(v) => {
+          setValues(v);
+        }}
+      />
+      <p className="text-xs text-[var(--color-fw-muted)]">
+        Controlled state:{" "}
+        <code className="font-mono">
+          [{values.map((v) => `"${v}"`).join(", ")}]
+        </code>
+      </p>
+    </div>
+  );
+}
+
+export const MultiControlled: Story = {
+  render: (args) => <ControlledMulti {...args} />,
+  args: {
+    label: "Skills",
+    options: SKILLS,
+    placeholder: "Select skills…",
+  },
+};
+
+// ─── Multi with maxSelections ─────────────────────────────────────────────────
+
+function MultiWithMaxSelectionsWrapper(
+  args: ComponentPropsWithoutRef<typeof Combobox>,
+) {
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <div className="flex flex-col gap-4 max-w-xs">
+      <Combobox
+        {...args}
+        multiple
+        value={values}
+        maxSelections={3}
+        onChange={(v) => {
+          setValues(v);
+        }}
+      />
+      <p className="text-xs text-[var(--color-fw-muted)]">
+        {values.length}/3 selected
+      </p>
+    </div>
+  );
+}
+
+export const MultiWithMaxSelections: Story = {
+  render: (args) => <MultiWithMaxSelectionsWrapper {...args} />,
+  args: {
+    label: "Top skills (max 3)",
+    options: SKILLS,
+    placeholder: "Select up to 3 skills…",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `maxSelections={3}`, once 3 options are selected the remaining unselected " +
+          "options become `aria-disabled` and cannot be added. Already-selected options can " +
+          "still be deselected.",
+      },
+    },
+  },
+};
+
+// ─── Grouped options ──────────────────────────────────────────────────────────
+
+export const WithGroups: Story = {
+  args: {
+    label: "Technology",
+    options: GROUPED_TECH,
+    placeholder: "Select a technology…",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Add a `group` field to any `ComboboxOption` to render categorized sections " +
+          "with accessible group headers. Options without a `group` appear first. " +
+          'Group headers are `role="presentation"` — they are not focusable or selectable.',
+      },
+    },
+  },
+};
+
+// ─── Grouped multi-select ─────────────────────────────────────────────────────
+
+function WithGroupsMultiWrapper(
+  args: ComponentPropsWithoutRef<typeof Combobox>,
+) {
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <div className="max-w-sm">
+      <Combobox
+        {...args}
+        multiple
+        value={values}
+        onChange={(v) => {
+          setValues(v);
+        }}
+      />
+    </div>
+  );
+}
+
+export const WithGroupsMulti: Story = {
+  render: (args) => <WithGroupsMultiWrapper {...args} />,
+  args: {
+    label: "Stack",
+    options: GROUPED_TECH,
+    placeholder: "Select your stack…",
+  },
+};
+
+// ─── Creatable ────────────────────────────────────────────────────────────────
+
+function CreatableCombobox(args: ComponentPropsWithoutRef<typeof Combobox>) {
+  const [options, setOptions] = useState<ComboboxOption[]>(FRAMEWORKS);
+  const [value, setValue] = useState<string>("");
+
+  return (
+    <div className="flex flex-col gap-3 max-w-xs">
+      <Combobox
+        {...args}
+        options={options}
+        value={value}
+        creatable
+        onChange={(v) => {
+          setValue(v);
+        }}
+        onCreateOption={(q) => {
+          const newOpt: ComboboxOption = {
+            value: q.toLowerCase().replace(/\s+/g, "-"),
+            label: q,
+          };
+          setOptions((prev) => [...prev, newOpt]);
+          setValue(newOpt.value);
+        }}
+      />
+      <p className="text-xs text-[var(--color-fw-muted)]">
+        Options: {options.length} · Selected: {value || "—"}
+      </p>
+    </div>
+  );
+}
+
+export const Creatable: Story = {
+  render: (args) => <CreatableCombobox {...args} />,
+  args: {
+    label: "Framework",
+    placeholder: "Select or create…",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `creatable`, when the search query produces no full match a " +
+          '`Create "…"` option appears. Selecting it fires `onCreateOption(query)`. ' +
+          "The caller is responsible for adding the new option to `options` — " +
+          "in this demo a new entry is appended to the local array.",
+      },
+    },
+  },
+};
+
+// ─── Single preserved (backward compat smoke) ────────────────────────────────
+
+export const SinglePreserved: Story = {
+  args: {
+    label: "Framework (single — backward compat)",
+    options: FRAMEWORKS,
+    placeholder: "Select a framework…",
+    defaultValue: "react",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Smoke-test that the original single-select API is unchanged. " +
+          "All existing stories (`Default`, `Controlled`, `Async`, etc.) continue to work.",
       },
     },
   },
