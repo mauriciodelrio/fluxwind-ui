@@ -24,3 +24,4 @@ export * from "./Accordion";
 export * from "./Gauge";
 export * from "./CalendarSlotCell";
 export * from "./CalendarDayCell";
+export * from "./PhoneInput";
