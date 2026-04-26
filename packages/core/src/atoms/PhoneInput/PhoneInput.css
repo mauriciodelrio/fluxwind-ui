@@ -1,0 +1,125 @@
+/*
+ * PhoneInput.css
+ * Overrides react-phone-input-2 defaults to align with FluxWind DS tokens.
+ * Scoped under .fw-phone-input to avoid polluting global styles.
+ *
+ * Usage: imported by PhoneInput.tsx so consumers get these styles automatically.
+ * Vite handles CSS imports in JS/TS — the output is included in the component bundle.
+ */
+
+/* ─── Base reset — remove all library chrome ─────────────────────────────── */
+.fw-phone-input .react-tel-input {
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+}
+
+/* The actual <input> — library sets width/height/border inline, override all */
+.fw-phone-input .react-tel-input .form-control {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: transparent !important;
+  color: var(--color-fw-foreground) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  line-height: 1.5 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.fw-phone-input .react-tel-input .form-control::placeholder {
+  color: var(--color-fw-muted);
+}
+
+/* Flag dropdown button */
+.fw-phone-input .react-tel-input .flag-dropdown {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  border-right: 1px solid var(--color-fw-border) !important;
+  border-radius: 0 !important;
+}
+
+.fw-phone-input .react-tel-input .selected-flag {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background: transparent !important;
+  border-radius: 0;
+}
+
+.fw-phone-input .react-tel-input .selected-flag:hover,
+.fw-phone-input .react-tel-input .selected-flag:focus,
+.fw-phone-input .react-tel-input .flag-dropdown.open .selected-flag {
+  background: var(--color-fw-surface) !important;
+}
+
+/* Dropdown list */
+.fw-phone-input .react-tel-input .country-list {
+  background: var(--color-fw-background) !important;
+  border: 1px solid var(--color-fw-border) !important;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  margin: 0 !important;
+  padding: 4px 0 !important;
+  max-height: 220px !important;
+  width: 280px !important;
+}
+
+.fw-phone-input .react-tel-input .country-list .country {
+  padding: 8px 12px !important;
+  color: var(--color-fw-foreground) !important;
+  background: transparent !important;
+}
+
+.fw-phone-input .react-tel-input .country-list .country:hover,
+.fw-phone-input .react-tel-input .country-list .country.highlight {
+  background: var(--color-fw-surface) !important;
+}
+
+.fw-phone-input .react-tel-input .country-list .country-name {
+  margin-left: 8px;
+  font-size: 0.875rem;
+  color: var(--color-fw-foreground);
+}
+
+.fw-phone-input .react-tel-input .country-list .dial-code {
+  color: var(--color-fw-muted) !important;
+}
+
+/* Search box inside dropdown */
+.fw-phone-input .react-tel-input .country-list .search {
+  padding: 6px 12px !important;
+  background: var(--color-fw-background) !important;
+  position: sticky;
+  top: 0;
+}
+
+.fw-phone-input .react-tel-input .country-list .search-box {
+  width: 100% !important;
+  background: var(--color-fw-surface) !important;
+  color: var(--color-fw-foreground) !important;
+  border: 1px solid var(--color-fw-border) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  font-size: 0.875rem !important;
+  outline: none !important;
+}
+
+/* Disabled state on the wrapper */
+.fw-phone-input[data-disabled="true"] .react-tel-input .form-control {
+  cursor: not-allowed;
+}
+
+.fw-phone-input[data-disabled="true"] .react-tel-input .flag-dropdown {
+  pointer-events: none;
+}
