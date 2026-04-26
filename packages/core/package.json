@@ -107,12 +107,16 @@
   },
   "peerDependencies": {
     "@radix-ui/react-slot": ">=1.0.0",
+    "@tabler/icons-react": ">=3.0.0",
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
   },
   "peerDependenciesMeta": {
     "@radix-ui/react-slot": {
       "optional": false
+    },
+    "@tabler/icons-react": {
+      "optional": true
     }
   },
   "dependencies": {
@@ -141,6 +145,7 @@
     "@vitest/coverage-v8": "4.1.4",
     "axe-core": "4.11.3",
     "jsdom": "29.0.2",
+    "@tabler/icons-react": "3.41.1",
     "lucide-react": "1.8.0",
     "react": "19.2.5",
     "react-dom": "19.2.5",
