@@ -5,3 +5,4 @@ export * from "./CTASection";
 export * from "./Footer";
 export * from "./ComponentShowcase";
 export * from "./Modal";
+export * from "./CalendarManager";

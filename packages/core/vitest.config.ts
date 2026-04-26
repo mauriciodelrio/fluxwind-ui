@@ -17,6 +17,8 @@ export default defineConfig({
         "src/test/**",
         "src/index.ts",
         "src/atoms/*/index.ts",
+        "src/molecules/*/index.ts",
+        "src/organisms/*/index.ts",
         "src/tokens/index.ts",
       ],
       thresholds: {
