@@ -8,7 +8,6 @@
 [![npm](https://img.shields.io/npm/v/@fluxwind/core)](https://www.npmjs.com/package/@fluxwind/core)
 [![Sponsor](https://img.shields.io/badge/Sponsor-💖-pink)](FUNDING.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Tests](https://img.shields.io/badge/tests-939%20passing-brightgreen)](packages/core)
 [![Coverage](https://img.shields.io/badge/coverage-90%25%2B-brightgreen)](packages/core/coverage)
 [![WCAG](https://img.shields.io/badge/a11y-WCAG%202.2%20AA-blue)](https://www.w3.org/TR/WCAG22/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
