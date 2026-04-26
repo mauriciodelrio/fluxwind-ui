@@ -52,11 +52,13 @@ vi.mock("react-phone-input-2", async () => {
               {country.toUpperCase()}
             </button>
           )}
-          {disableDropdown ? <span
+          {disableDropdown ? (
+            <span
               aria-hidden="true"
               data-testid="country-display"
               data-country={country.toUpperCase()}
-            /> : null}
+            />
+          ) : null}
           <input
             {...restInputProps}
             ref={inputRef as React.RefObject<HTMLInputElement>}
