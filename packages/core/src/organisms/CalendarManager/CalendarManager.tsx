@@ -135,25 +135,26 @@ export function CalendarManager({
           )}
         </div>
 
-        <Divider orientation="vertical" spacing="none" />
+        {/* Right: divider + form panel (wrapped so grid sees only 2 children) */}
+        <div className="flex">
+          <Divider orientation="vertical" spacing="none" />
+          <div className="w-80 px-5 py-5 flex flex-col gap-4 bg-[var(--color-fw-surface)]">
+            <div className="flex flex-col gap-0.5">
+              <Text variant="label" weight="semibold">
+                Agregar bloque
+              </Text>
+              <Text variant="caption">
+                Modo: {attendanceMode === "in-person" ? "Presencial" : "Remoto"}
+              </Text>
+            </div>
 
-        {/* Right: form panel (always visible) */}
-        <div className="w-80 px-5 py-5 flex flex-col gap-4 bg-[var(--color-fw-surface)]">
-          <div className="flex flex-col gap-0.5">
-            <Text variant="label" weight="semibold">
-              Agregar bloque
-            </Text>
-            <Text variant="caption">
-              Modo: {attendanceMode === "in-person" ? "Presencial" : "Remoto"}
-            </Text>
+            <CalendarBlockForm
+              key={key}
+              attendanceMode={attendanceMode}
+              existingBlocks={blocks}
+              onSubmit={handleAdd}
+            />
           </div>
-
-          <CalendarBlockForm
-            key={key}
-            attendanceMode={attendanceMode}
-            existingBlocks={blocks}
-            onSubmit={handleAdd}
-          />
         </div>
       </div>
     </section>
