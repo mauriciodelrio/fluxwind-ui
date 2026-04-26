@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.7.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.6.1...v0.7.0) (2026-04-26)
+
+In version 0.7.0, the library expands its component inventory to a total of 49, introducing new atoms, molecules, and organisms, including the CalendarBooking and CalendarManager features for enhanced scheduling capabilities. Notable additions include the CalendarDayCell and CalendarMonthPicker, which provide users with a more robust calendar interface. Additionally, the README has been updated to reflect these changes, ensuring users have the latest information on available components.
+
+### Pull Requests
+
+- [#18](https://github.com/mauriciodelrio/fluxwind-ui/pull/18) feat(core): add CalendarManager organism
+- [#19](https://github.com/mauriciodelrio/fluxwind-ui/pull/19) feat(core): add CalendarBooking organism with 3-step modal flow
+- [#20](https://github.com/mauriciodelrio/fluxwind-ui/pull/20) docs(readme): update component inventory to 49 components
+
 ## [0.6.1](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.6.0...v0.6.1) (2026-04-25)
 
 In version 0.6.1, the `Combobox` component has been enhanced to support multi-select functionality, allowing users to select multiple options, create new entries, and group selections, all while maintaining backward compatibility with single-select use. This update introduces a more versatile user experience with dismissable `Chip` atoms for selected values, ensuring a seamless interface for managing selections.
