@@ -45,7 +45,8 @@ export function CalendarBookingStep1({
           {labels.title ?? "Selecciona un día"}
         </Text>
         <Text variant="caption">
-          {labels.subtitle ?? "Los días con disponibilidad están marcados en azul."}
+          {labels.subtitle ??
+            "Los días con disponibilidad están marcados en azul."}
         </Text>
       </div>
 

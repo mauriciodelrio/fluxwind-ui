@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { CalendarBookingStep1 } from "./CalendarBookingStep1";
 
 const AVAILABLE_DAYS = ["2026-05-12", "2026-05-19", "2026-05-26"];
@@ -55,7 +54,11 @@ describe("CalendarBookingStep1", () => {
         minDate="2026-05-01"
       />,
     );
-    expect(screen.getByRole("button", { name: /mes anterior/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /mes siguiente/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /mes anterior/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /mes siguiente/i }),
+    ).toBeInTheDocument();
   });
 });

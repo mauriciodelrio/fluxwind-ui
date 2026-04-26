@@ -134,7 +134,9 @@ describe("CalendarBookingStep3", () => {
         selectedDate="2026-05-28"
         selectedSlot={SLOT}
         infoContent={INFO}
-        onConfirm={vi.fn(async () => { throw new Error("Fallo del servidor"); })}
+        onConfirm={vi.fn(
+          (): Promise<void> => Promise.reject(new Error("Fallo del servidor")),
+        )}
         onBack={vi.fn()}
       />,
     );

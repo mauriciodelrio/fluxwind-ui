@@ -85,7 +85,13 @@ export function CalendarSlotList({
           <CalendarSlotCell
             label={formatSlotLabel(slot)}
             status={slot.status}
-            onClick={slot.status === "available" ? () => { onSlotSelect(slot); } : undefined}
+            onClick={
+              slot.status === "available"
+                ? () => {
+                    onSlotSelect(slot);
+                  }
+                : undefined
+            }
             aria-label={`${formatSlotLabel(slot)}${slot.status !== "available" ? `, ${slot.status === "booked" ? "ocupado" : "protegido"}` : ""}`}
           />
         </li>

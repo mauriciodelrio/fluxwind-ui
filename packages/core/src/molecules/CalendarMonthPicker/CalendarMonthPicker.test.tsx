@@ -38,8 +38,12 @@ describe("CalendarMonthPicker", () => {
         initialMonth="2026-05"
       />,
     );
-    expect(screen.getByRole("button", { name: /mes anterior/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /mes siguiente/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /mes anterior/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /mes siguiente/i }),
+    ).toBeInTheDocument();
   });
 
   it("navigates to previous month on prev click", async () => {
@@ -135,7 +139,22 @@ describe("CalendarMonthPicker", () => {
         availableDays={[]}
         onDaySelect={vi.fn()}
         initialMonth="2026-05"
-        labels={{ monthNames: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] }}
+        labels={{
+          monthNames: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+        }}
       />,
     );
     expect(screen.getByText(/May 2026/i)).toBeInTheDocument();

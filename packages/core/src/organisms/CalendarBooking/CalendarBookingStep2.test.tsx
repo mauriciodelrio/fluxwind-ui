@@ -70,7 +70,9 @@ describe("CalendarBookingStep2", () => {
         onRetry={onRetry}
       />,
     );
-    expect(screen.getByRole("button", { name: /reintentar/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /reintentar/i }),
+    ).toBeInTheDocument();
   });
 
   it("calls onRetry when retry button is clicked", async () => {
@@ -130,6 +132,8 @@ describe("CalendarBookingStep2", () => {
         labels={{ back: "Regresar" }}
       />,
     );
-    expect(screen.getByRole("button", { name: /regresar/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /regresar/i }),
+    ).toBeInTheDocument();
   });
 });

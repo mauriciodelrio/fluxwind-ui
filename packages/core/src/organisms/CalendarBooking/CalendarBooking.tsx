@@ -1,14 +1,19 @@
-import { useState, useRef, useEffect, useId, type ReactElement, type ReactNode, type RefObject } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useId,
+  type ReactElement,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { cn } from "@/lib/cn";
 import { Text } from "@/atoms/Text";
 import { Modal } from "@/organisms/Modal";
 import { CalendarBookingStep1 } from "./CalendarBookingStep1";
 import { CalendarBookingStep2 } from "./CalendarBookingStep2";
 import { CalendarBookingStep3 } from "./CalendarBookingStep3";
-import type {
-  CalendarBookingStep1Labels,
-  CalendarBookingStep1Props,
-} from "./CalendarBookingStep1";
+import type { CalendarBookingStep1Labels } from "./CalendarBookingStep1";
 import type { CalendarBookingStep2Labels } from "./CalendarBookingStep2";
 import type { CalendarBookingStep3Labels } from "./CalendarBookingStep3";
 import type { TimeSlot, Booking } from "@/__fixtures__/calendar";
@@ -93,16 +98,24 @@ export function CalendarBooking({
   labels = {},
 }: CalendarBookingProps): ReactNode {
   const [step, setStep] = useState<Step>(1);
-  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(
+    undefined,
+  );
   const [slots, setSlots] = useState<TimeSlot[]>([]);
-  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | undefined>(undefined);
+  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | undefined>(
+    undefined,
+  );
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [slotError, setSlotError] = useState<string | undefined>(undefined);
 
   const stepHeadingRef = useRef<HTMLHeadingElement>(null);
   const liveRegionId = useId();
 
-  const DEFAULT_INDICATORS: [string, string, string] = ["Paso 1 de 3", "Paso 2 de 3", "Paso 3 de 3"];
+  const DEFAULT_INDICATORS: [string, string, string] = [
+    "Paso 1 de 3",
+    "Paso 2 de 3",
+    "Paso 3 de 3",
+  ];
   const stepIndicators = labels.stepIndicators ?? DEFAULT_INDICATORS;
 
   // Move focus to step heading on step change (AC-14)
@@ -192,11 +205,7 @@ export function CalendarBooking({
       <Modal.Header closeLabel={labels.closeLabel ?? "Cerrar"}>
         <div className="flex flex-col gap-0.5">
           {/* Live region for step announcements (AC-14) */}
-          <span
-            id={liveRegionId}
-            aria-live="polite"
-            className="sr-only"
-          >
+          <span id={liveRegionId} aria-live="polite" className="sr-only">
             {stepIndicators[step - 1]}
           </span>
           <Text
@@ -220,7 +229,9 @@ export function CalendarBooking({
           <CalendarBookingStep1
             availableDays={availableDays}
             selectedDate={selectedDate}
-            onDaySelect={(date) => { void handleDaySelect(date); }}
+            onDaySelect={(date) => {
+              void handleDaySelect(date);
+            }}
             minDate={minDate}
             initialMonth={initialMonth}
             labels={labels.step1}
@@ -235,12 +246,16 @@ export function CalendarBooking({
             error={slotError}
             onSlotSelect={handleSlotSelect}
             onBack={handleBackToStep1}
-            onRetry={() => { void fetchSlotsForDate(selectedDate); }}
+            onRetry={() => {
+              void fetchSlotsForDate(selectedDate);
+            }}
             labels={labels.step2}
           />
         ) : null}
 
-        {step === 3 && selectedDate !== undefined && selectedSlot !== undefined ? (
+        {step === 3 &&
+        selectedDate !== undefined &&
+        selectedSlot !== undefined ? (
           <CalendarBookingStep3
             selectedDate={selectedDate}
             selectedSlot={selectedSlot}

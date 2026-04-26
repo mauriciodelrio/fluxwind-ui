@@ -8,7 +8,9 @@ import type { TimeSlot } from "@/__fixtures__/calendar";
 // ─── jsdom dialog mock ────────────────────────────────────────────────────────
 
 function defineDialogMethods() {
-  if (!Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, "showModal")) {
+  if (
+    !Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, "showModal")
+  ) {
     Object.defineProperty(HTMLDialogElement.prototype, "showModal", {
       writable: true,
       configurable: true,
@@ -31,10 +33,14 @@ function defineDialogMethods() {
 
 beforeEach(() => {
   defineDialogMethods();
-  vi.spyOn(HTMLDialogElement.prototype, "showModal").mockImplementation(function (this: HTMLDialogElement) {
-    this.setAttribute("open", "");
-  });
-  vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (this: HTMLDialogElement) {
+  vi.spyOn(HTMLDialogElement.prototype, "showModal").mockImplementation(
+    function (this: HTMLDialogElement) {
+      this.setAttribute("open", "");
+    },
+  );
+  vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (
+    this: HTMLDialogElement,
+  ) {
     this.removeAttribute("open");
     this.dispatchEvent(new Event("close"));
   });
@@ -50,8 +56,10 @@ function renderBooking(
   overrides: Partial<React.ComponentProps<typeof CalendarBooking>> = {},
 ) {
   const onClose = vi.fn();
-  const onDaySelect = vi.fn(async (): Promise<TimeSlot[]> => mockTimeSlots);
-  const onConfirm = vi.fn(async () => {});
+  const onDaySelect = vi.fn(
+    (): Promise<TimeSlot[]> => Promise.resolve(mockTimeSlots),
+  );
+  const onConfirm = vi.fn((): Promise<void> => Promise.resolve());
 
   const result = render(
     <CalendarBooking
@@ -81,7 +89,9 @@ describe("CalendarBooking – initial render (step 1)", () => {
   it("renders step 1 of 3 indicator", () => {
     renderBooking();
     // Text appears in both an sr-only span and a visible Text element
-    expect(screen.getAllByText(/paso 1 de 3/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/paso 1 de 3/i).length).toBeGreaterThanOrEqual(
+      1,
+    );
   });
 
   it("renders month picker grid in step 1", () => {
@@ -107,11 +117,15 @@ describe("CalendarBooking – step navigation", () => {
     const user = userEvent.setup();
     const { onDaySelect } = renderBooking();
 
-    await user.click(screen.getByRole("button", { name: /^26 de mayo de 2026$/i }));
+    await user.click(
+      screen.getByRole("button", { name: /^26 de mayo de 2026$/i }),
+    );
 
     await waitFor(() => {
       expect(onDaySelect).toHaveBeenCalled();
-      expect(screen.getAllByText(/paso 2 de 3/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/paso 2 de 3/i).length).toBeGreaterThanOrEqual(
+        1,
+      );
     });
   });
 
@@ -119,7 +133,9 @@ describe("CalendarBooking – step navigation", () => {
     const user = userEvent.setup();
     renderBooking();
 
-    await user.click(screen.getByRole("button", { name: /^26 de mayo de 2026$/i }));
+    await user.click(
+      screen.getByRole("button", { name: /^26 de mayo de 2026$/i }),
+    );
 
     // Wait for slots to load
     await waitFor(() => {
@@ -129,7 +145,9 @@ describe("CalendarBooking – step navigation", () => {
     await user.click(screen.getByText("09:00 – 10:00"));
 
     await waitFor(() => {
-      expect(screen.getAllByText(/paso 3 de 3/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/paso 3 de 3/i).length).toBeGreaterThanOrEqual(
+        1,
+      );
     });
   });
 
@@ -137,21 +155,29 @@ describe("CalendarBooking – step navigation", () => {
     const user = userEvent.setup();
     renderBooking();
 
-    await user.click(screen.getByRole("button", { name: /^26 de mayo de 2026$/i }));
+    await user.click(
+      screen.getByRole("button", { name: /^26 de mayo de 2026$/i }),
+    );
 
     await waitFor(() => {
-      expect(screen.getAllByText(/paso 2 de 3/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/paso 2 de 3/i).length).toBeGreaterThanOrEqual(
+        1,
+      );
     });
 
     await user.click(screen.getByRole("button", { name: /volver/i }));
-    expect(screen.getAllByText(/paso 1 de 3/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/paso 1 de 3/i).length).toBeGreaterThanOrEqual(
+      1,
+    );
   });
 });
 
 describe("CalendarBooking – step 3 confirmation", () => {
   async function reachStep3(user: ReturnType<typeof userEvent.setup>) {
     // Step 1 → click day 26 (available in mockAvailableDays)
-    await user.click(screen.getByRole("button", { name: /^26 de mayo de 2026$/i }));
+    await user.click(
+      screen.getByRole("button", { name: /^26 de mayo de 2026$/i }),
+    );
     // Wait for slots
     await waitFor(() => {
       expect(screen.getByText("09:00 – 10:00")).toBeInTheDocument();
@@ -195,10 +221,14 @@ describe("CalendarBooking – error handling", () => {
   it("shows error when onDaySelect rejects", async () => {
     const user = userEvent.setup();
     renderBooking({
-      onDaySelect: vi.fn(async () => { throw new Error("Sin red"); }),
+      onDaySelect: vi.fn(
+        (): Promise<TimeSlot[]> => Promise.reject(new Error("Sin red")),
+      ),
     });
 
-    await user.click(screen.getByRole("button", { name: /^26 de mayo de 2026$/i }));
+    await user.click(
+      screen.getByRole("button", { name: /^26 de mayo de 2026$/i }),
+    );
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toBeInTheDocument();

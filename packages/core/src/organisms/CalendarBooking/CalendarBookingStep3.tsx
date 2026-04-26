@@ -1,4 +1,10 @@
-import { useState, type ReactElement, type ReactNode, type FormEvent, type ChangeEvent } from "react";
+import {
+  useState,
+  type ReactElement,
+  type ReactNode,
+  type SyntheticEvent,
+  type ChangeEvent,
+} from "react";
 import { cn } from "@/lib/cn";
 import { Text } from "@/atoms/Text";
 import { Input } from "@/atoms/Input";
@@ -45,19 +51,38 @@ interface FormErrors {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const MONTH_NAMES_ES = [
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
 ];
 
 const DAY_NAMES_ES = [
-  "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado",
+  "domingo",
+  "lunes",
+  "martes",
+  "miércoles",
+  "jueves",
+  "viernes",
+  "sábado",
 ];
 
 function formatDate(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const date = new Date(y ?? 0, (m ?? 1) - 1, d ?? 1);
-  const dayName = DAY_NAMES_ES[date.getDay()] ?? "";
-  const monthName = MONTH_NAMES_ES[(m ?? 1) - 1] ?? "";
+  const parts = dateStr.split("-").map(Number);
+  const y = parts[0];
+  const m = parts[1];
+  const d = parts[2];
+  const date = new Date(y, m - 1, d);
+  const dayName = DAY_NAMES_ES[date.getDay()];
+  const monthName = MONTH_NAMES_ES[m - 1];
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   return `${cap(dayName)} ${String(d)} de ${monthName} de ${String(y)}`;
 }
@@ -94,7 +119,10 @@ export function CalendarBookingStep3({
   className,
   labels = {},
 }: CalendarBookingStep3Props): ReactNode {
-  const [values, setValues] = useState<FormState>({ clientName: "", clientEmail: "" });
+  const [values, setValues] = useState<FormState>({
+    clientName: "",
+    clientEmail: "",
+  });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | undefined>(undefined);
@@ -107,7 +135,7 @@ export function CalendarBookingStep3({
     };
   }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const validation = validateForm(values);
     if (Object.keys(validation).length > 0) {
@@ -120,7 +148,11 @@ export function CalendarBookingStep3({
       await onConfirm(values.clientName.trim(), values.clientEmail.trim());
       setSuccess(true);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Ocurrió un error. Intenta nuevamente.");
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : "Ocurrió un error. Intenta nuevamente.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -128,7 +160,13 @@ export function CalendarBookingStep3({
 
   if (success) {
     return (
-      <div className={cn("flex flex-col gap-4 items-center py-8 text-center", className)} role="status">
+      <div
+        className={cn(
+          "flex flex-col gap-4 items-center py-8 text-center",
+          className,
+        )}
+        role="status"
+      >
         <svg
           aria-hidden="true"
           className="size-12 text-[var(--color-fw-primary)]"
@@ -137,13 +175,18 @@ export function CalendarBookingStep3({
           stroke="currentColor"
           strokeWidth={1.5}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
         <Text variant="label" weight="semibold">
           {labels.successMessage ?? "¡Cita confirmada!"}
         </Text>
         <Text variant="caption">
-          {formatDate(selectedDate)} · {selectedSlot.startTime} – {selectedSlot.endTime}
+          {formatDate(selectedDate)} · {selectedSlot.startTime} –{" "}
+          {selectedSlot.endTime}
         </Text>
       </div>
     );
@@ -159,7 +202,11 @@ export function CalendarBookingStep3({
 
       {/* Booking summary */}
       <div className="rounded-lg border border-[var(--color-fw-border)] bg-[var(--color-fw-surface)] p-4 flex flex-col gap-1">
-        <Text variant="small" weight="medium" className="text-[var(--color-fw-muted)]">
+        <Text
+          variant="small"
+          weight="medium"
+          className="text-[var(--color-fw-muted)]"
+        >
           {labels.summaryLabel ?? "Resumen"}
         </Text>
         <Text variant="small" weight="semibold">
@@ -176,49 +223,38 @@ export function CalendarBookingStep3({
       </div>
 
       {/* Client form */}
-      <form onSubmit={(e) => { void handleSubmit(e); }} className="flex flex-col gap-4" noValidate>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="clientName" className="text-sm font-medium text-[var(--color-fw-foreground)]">
-            {labels.clientNameLabel ?? "Nombre"}
-          </label>
-          <Input
-            id="clientName"
-            type="text"
-            placeholder={labels.clientNamePlaceholder ?? "Tu nombre completo"}
-            value={values.clientName}
-            onChange={handleChange("clientName")}
-            aria-invalid={errors.clientName !== undefined ? true : undefined}
-            aria-describedby={errors.clientName !== undefined ? "error-clientName" : undefined}
-          />
-          {errors.clientName !== undefined ? (
-            <p id="error-clientName" role="alert" className="text-xs text-[var(--color-fw-destructive)]">
-              {errors.clientName}
-            </p>
-          ) : null}
-        </div>
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(e);
+        }}
+        className="flex flex-col gap-4"
+        noValidate
+      >
+        <Input
+          id="clientName"
+          type="text"
+          label={labels.clientNameLabel ?? "Nombre"}
+          placeholder={labels.clientNamePlaceholder ?? "Tu nombre completo"}
+          value={values.clientName}
+          onChange={handleChange("clientName")}
+          error={errors.clientName}
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="clientEmail" className="text-sm font-medium text-[var(--color-fw-foreground)]">
-            {labels.clientEmailLabel ?? "Email"}
-          </label>
-          <Input
-            id="clientEmail"
-            type="email"
-            placeholder={labels.clientEmailPlaceholder ?? "tu@email.com"}
-            value={values.clientEmail}
-            onChange={handleChange("clientEmail")}
-            aria-invalid={errors.clientEmail !== undefined ? true : undefined}
-            aria-describedby={errors.clientEmail !== undefined ? "error-clientEmail" : undefined}
-          />
-          {errors.clientEmail !== undefined ? (
-            <p id="error-clientEmail" role="alert" className="text-xs text-[var(--color-fw-destructive)]">
-              {errors.clientEmail}
-            </p>
-          ) : null}
-        </div>
+        <Input
+          id="clientEmail"
+          type="email"
+          label={labels.clientEmailLabel ?? "Email"}
+          placeholder={labels.clientEmailPlaceholder ?? "tu@email.com"}
+          value={values.clientEmail}
+          onChange={handleChange("clientEmail")}
+          error={errors.clientEmail}
+        />
 
         {submitError !== undefined ? (
-          <p role="alert" className="text-xs text-[var(--color-fw-destructive)]">
+          <p
+            role="alert"
+            className="text-xs text-[var(--color-fw-destructive)]"
+          >
             {submitError}
           </p>
         ) : null}

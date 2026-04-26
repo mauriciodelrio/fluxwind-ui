@@ -15,7 +15,9 @@ type Story = StoryObj<typeof CalendarMonthPicker>;
 export const WithAvailableDays: Story = {
   args: {
     availableDays: mockAvailableDays,
-    onDaySelect: (date: string) => { console.log("Selected:", date); },
+    onDaySelect: (date: string) => {
+      console.log("Selected:", date);
+    },
     initialMonth: "2026-05",
     minDate: "2026-05-01",
   },
@@ -24,7 +26,9 @@ export const WithAvailableDays: Story = {
 export const AllBooked: Story = {
   args: {
     availableDays: [],
-    onDaySelect: (date: string) => { console.log("Selected:", date); },
+    onDaySelect: (date: string) => {
+      console.log("Selected:", date);
+    },
     initialMonth: "2026-05",
     minDate: "2026-05-01",
   },
@@ -33,7 +37,9 @@ export const AllBooked: Story = {
 export const EmptyMonth: Story = {
   args: {
     availableDays: [],
-    onDaySelect: (date: string) => { console.log("Selected:", date); },
+    onDaySelect: (date: string) => {
+      console.log("Selected:", date);
+    },
     initialMonth: "2026-06",
     minDate: "2026-06-01",
   },
@@ -43,7 +49,9 @@ export const WithSelectedDay: Story = {
   args: {
     availableDays: mockAvailableDays,
     selectedDate: "2026-05-12",
-    onDaySelect: (date: string) => { console.log("Selected:", date); },
+    onDaySelect: (date: string) => {
+      console.log("Selected:", date);
+    },
     initialMonth: "2026-05",
     minDate: "2026-05-01",
   },

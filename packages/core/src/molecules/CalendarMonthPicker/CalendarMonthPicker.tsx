@@ -63,7 +63,7 @@ function toDateString(year: number, month: number, day: number): string {
 function parseYearMonth(ym: string): { year: number; month: number } {
   const parts = ym.split("-").map(Number);
   const year = parts[0];
-  const month = (parts[1]) - 1;
+  const month = parts[1] - 1;
   return { year, month };
 }
 

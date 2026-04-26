@@ -35,19 +35,38 @@ export interface CalendarBookingStep2Labels {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const MONTH_NAMES_ES = [
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
 ];
 
 const DAY_NAMES_ES = [
-  "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado",
+  "domingo",
+  "lunes",
+  "martes",
+  "miércoles",
+  "jueves",
+  "viernes",
+  "sábado",
 ];
 
 function formatDate(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const date = new Date(y ?? 0, (m ?? 1) - 1, d ?? 1);
-  const dayName = DAY_NAMES_ES[date.getDay()] ?? "";
-  const monthName = MONTH_NAMES_ES[(m ?? 1) - 1] ?? "";
+  const parts = dateStr.split("-").map(Number);
+  const y = parts[0];
+  const m = parts[1];
+  const d = parts[2];
+  const date = new Date(y, m - 1, d);
+  const dayName = DAY_NAMES_ES[date.getDay()];
+  const monthName = MONTH_NAMES_ES[m - 1];
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   return `${cap(dayName)} ${String(d)} de ${monthName} de ${String(y)}`;
 }

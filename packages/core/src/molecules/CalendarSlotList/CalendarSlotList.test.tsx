@@ -10,7 +10,11 @@ describe("CalendarSlotList", () => {
     const { container } = render(
       <CalendarSlotList slots={[]} loading onSlotSelect={vi.fn()} />,
     );
-    expect(container.querySelectorAll(".animate-pulse, [class*='skeleton'], .rounded-md").length).toBeGreaterThan(0);
+    expect(
+      container.querySelectorAll(
+        ".animate-pulse, [class*='skeleton'], .rounded-md",
+      ).length,
+    ).toBeGreaterThan(0);
   });
 
   it("has aria-busy=true when loading", () => {
@@ -29,9 +33,7 @@ describe("CalendarSlotList", () => {
   });
 
   it("renders all slots", () => {
-    render(
-      <CalendarSlotList slots={mockTimeSlots} onSlotSelect={vi.fn()} />,
-    );
+    render(<CalendarSlotList slots={mockTimeSlots} onSlotSelect={vi.fn()} />);
     expect(screen.getByText("09:00 – 10:00")).toBeInTheDocument();
     expect(screen.getByText("10:00 – 11:00")).toBeInTheDocument();
   });

@@ -5,10 +5,17 @@ import {
   type CalendarDayCellVariants,
 } from "./CalendarDayCell.variants";
 
-export type CalendarDayCellState = "default" | "available" | "selected" | "disabled" | "today";
+export type CalendarDayCellState =
+  | "default"
+  | "available"
+  | "selected"
+  | "disabled"
+  | "today";
 
-export interface CalendarDayCellProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+export interface CalendarDayCellProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> {
   /** Day number to display (1–31). */
   day: number;
   /** Visual state of the day cell. */
@@ -59,7 +66,10 @@ const CalendarDayCell = forwardRef<HTMLButtonElement, CalendarDayCellProps>(
         aria-pressed={state === "selected" ? true : undefined}
         aria-current={state === "today" ? "date" : undefined}
         className={cn(
-          calendarDayCellVariants({ state: isDisabled ? "disabled" : state, transition }),
+          calendarDayCellVariants({
+            state: isDisabled ? "disabled" : state,
+            transition,
+          }),
           className,
         )}
         {...props}
