@@ -22,3 +22,4 @@ export * from "./List";
 export * from "./StatusText";
 export * from "./Accordion";
 export * from "./Gauge";
+export * from "./CalendarSlotCell";
