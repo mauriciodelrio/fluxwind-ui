@@ -12,6 +12,18 @@ import {
   Home,
 } from "lucide-react";
 import {
+  IconMapPin,
+  IconStar,
+  IconHeart,
+  IconSearch,
+  IconBell,
+  IconHome,
+  IconSettings,
+  IconUser,
+  IconInfoCircle,
+  IconAlertCircle,
+} from "@tabler/icons-react";
+import {
   siGithub,
   siNpm,
   siReact,
@@ -29,12 +41,14 @@ const meta: Meta<typeof Icon> = {
     docs: {
       description: {
         component:
-          "Thin SVG wrapper with three usage modes:\n\n" +
+          "Thin SVG wrapper with four usage modes:\n\n" +
           "**Mode 1 — Lucide** (`icon` prop): pass any `lucide-react` icon component. " +
           "Renders a consistent, stroke-based UI icon. Best for navigation, actions, and status.\n\n" +
           "**Mode 2 — Brand** (`simpleIcon` prop): pass a `simple-icons` icon object. " +
           "Embeds the SVG path inline — zero fetch, fully tree-shakeable. Best for tech logos.\n\n" +
           "**Mode 3 — Custom** (`children`): bring-your-own SVG paths. Backward-compatible escape hatch.\n\n" +
+          '**Mode 4 — Tabler** (`icon` + `library="tabler"`): pass any `@tabler/icons-react` component. ' +
+          "Optional peer dependency — only needed if you use this mode.\n\n" +
           '**Accessibility:** pass `label` to make the icon meaningful (`role="img" aria-label`). ' +
           'Omit `label` for decorative icons (`aria-hidden="true"`).',
       },
@@ -188,5 +202,137 @@ export const CustomChildren: Story = {
     <Icon label="Custom star">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     </Icon>
+  ),
+};
+
+// ─── Mode 4: Tabler ───────────────────────────────────────────────────────────
+
+export const TablerDecorative: Story = {
+  name: "Tabler — Decorative",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Pass any `@tabler/icons-react` component via `icon` + `library="tabler"`. ' +
+          'No `label` → `aria-hidden="true"`. Same size tokens as Lucide.',
+      },
+    },
+  },
+  render: () => <Icon icon={IconMapPin} library="tabler" />,
+};
+
+export const TablerWithLabel: Story = {
+  name: "Tabler — With label",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Setting `label` adds `role="img"` + `aria-label` for screen readers.',
+      },
+    },
+  },
+  render: () => (
+    <Icon icon={IconMapPin} library="tabler" label="Location pin" />
+  ),
+};
+
+export const TablerStrokeWidth: Story = {
+  name: "Tabler — strokeWidth",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Control stroke weight via `strokeWidth`. Tabler default is `2`.",
+      },
+    },
+  },
+  render: () => (
+    <div className="flex items-end gap-6">
+      {([1, 1.5, 2, 3] as const).map((sw) => (
+        <div key={sw} className="flex flex-col items-center gap-1">
+          <Icon
+            icon={IconStar}
+            library="tabler"
+            size="lg"
+            label={`strokeWidth ${String(sw)}`}
+            strokeWidth={sw}
+          />
+          <span className="text-xs text-[var(--color-fw-muted)]">{sw}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const TablerSizeComparison: Story = {
+  name: "Tabler — Sizes",
+  render: () => (
+    <div className="flex items-end gap-4">
+      {(["xs", "sm", "md", "lg", "xl"] as const).map((s) => (
+        <div key={s} className="flex flex-col items-center gap-1">
+          <Icon
+            icon={IconHeart}
+            library="tabler"
+            size={s}
+            label={`${s} icon`}
+          />
+          <span className="text-xs text-[var(--color-fw-muted)]">{s}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const TablerShowcase: Story = {
+  name: "Tabler — Showcase",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A sample of Tabler UI icons at `md` size. Same visual weight as Lucide counterparts.",
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap items-center gap-4">
+      {[
+        { Ic: IconSearch, name: "Search" },
+        { Ic: IconBell, name: "Bell" },
+        { Ic: IconHome, name: "Home" },
+        { Ic: IconSettings, name: "Settings" },
+        { Ic: IconUser, name: "User" },
+        { Ic: IconInfoCircle, name: "Info" },
+        { Ic: IconAlertCircle, name: "Alert" },
+      ].map(({ Ic, name }) => (
+        <div key={name} className="flex flex-col items-center gap-1">
+          <Icon icon={Ic} library="tabler" label={name} />
+          <span className="text-xs text-[var(--color-fw-muted)]">{name}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const LucideVsTabler: Story = {
+  name: "Lucide vs Tabler",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Side-by-side comparison of the same icon from Lucide and Tabler using identical props.",
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap items-start gap-8">
+      <div className="flex flex-col items-center gap-1">
+        <Icon icon={Star} label="Lucide Star" />
+        <span className="text-xs text-[var(--color-fw-muted)]">Lucide</span>
+      </div>
+      <div className="flex flex-col items-center gap-1">
+        <Icon icon={IconStar} library="tabler" label="Tabler Star" />
+        <span className="text-xs text-[var(--color-fw-muted)]">Tabler</span>
+      </div>
+    </div>
   ),
 };
