@@ -1,8 +1,16 @@
 "use client";
 
-import { forwardRef, useId } from "react";
-import ReactPhoneInput from "react-phone-input-2";
+import { forwardRef, useId, useImperativeHandle, useRef } from "react";
+import _ReactPhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
+// react-phone-input-2 ships as CommonJS. Vite/Storybook can wrap the default
+// export in a module object { default: fn }. Resolve whichever is callable.
+type PhoneInputModule = typeof _ReactPhoneInput & {
+  default?: typeof _ReactPhoneInput;
+};
+const ReactPhoneInput: typeof _ReactPhoneInput =
+  (_ReactPhoneInput as unknown as PhoneInputModule).default ?? _ReactPhoneInput;
 import { cn } from "@/lib/cn";
 import {
   phoneInputWrapperVariants,
@@ -69,6 +77,18 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   ) => {
     const generatedId = useId();
     const id = externalId ?? generatedId;
+
+    // react-phone-input-2 is a class component that does `inputProps.ref.current = node`
+    // internally. In React 19, the forwarded ref is null when no parent provides one,
+    // which causes "Cannot set properties of null (setting 'current')".
+    // Fix: always pass a stable object ref to inputProps, and expose it imperatively.
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    useImperativeHandle(ref, () => {
+      const { current } = inputRef;
+      if (current === null)
+        throw new Error("[PhoneInput] input ref not attached");
+      return current;
+    });
     const hintId = hint ? `${id}-hint` : undefined;
     const errorId = error ? `${id}-error` : undefined;
     const describedBy =
@@ -116,7 +136,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             inputProps={{
               id,
               name,
-              ref,
+              ref: inputRef,
               "aria-invalid": error ? "true" : undefined,
               "aria-describedby": describedBy,
             }}
