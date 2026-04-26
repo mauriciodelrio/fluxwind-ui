@@ -38,8 +38,18 @@ export interface CalendarMonthPickerLabels {
 const DEFAULT_WEEK_DAYS = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
 
 const DEFAULT_MONTH_NAMES = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -51,8 +61,10 @@ function toDateString(year: number, month: number, day: number): string {
 }
 
 function parseYearMonth(ym: string): { year: number; month: number } {
-  const [y, m] = ym.split("-").map(Number);
-  return { year: y ?? new Date().getFullYear(), month: (m ?? new Date().getMonth() + 1) - 1 };
+  const parts = ym.split("-").map(Number);
+  const year = parts[0];
+  const month = (parts[1]) - 1;
+  return { year, month };
 }
 
 /** Returns "YYYY-MM" string from a Date. */
@@ -154,15 +166,22 @@ export function CalendarMonthPicker({
   }
 
   // Build grid cells: leading empty cells + day cells
-  const cells: Array<{ isEmpty: true } | { isEmpty: false; day: number }> = [
+  const cells: ({ isEmpty: true } | { isEmpty: false; day: number })[] = [
     ...Array.from({ length: offset }, () => ({ isEmpty: true as const })),
-    ...Array.from({ length: totalDays }, (_, i) => ({ isEmpty: false as const, day: i + 1 })),
+    ...Array.from({ length: totalDays }, (_, i) => ({
+      isEmpty: false as const,
+      day: i + 1,
+    })),
   ];
 
   const headingId = useId();
 
   return (
-    <div className={cn("flex flex-col gap-4", className)} role="group" aria-labelledby={headingId}>
+    <div
+      className={cn("flex flex-col gap-4", className)}
+      role="group"
+      aria-labelledby={headingId}
+    >
       {/* Month navigation header */}
       <div className="flex items-center justify-between gap-2">
         <button
@@ -176,8 +195,19 @@ export function CalendarMonthPicker({
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-fw-primary)]",
           )}
         >
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="size-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="size-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
 
@@ -200,8 +230,19 @@ export function CalendarMonthPicker({
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-fw-primary)]",
           )}
         >
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="size-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="size-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </button>
       </div>
@@ -218,29 +259,46 @@ export function CalendarMonthPicker({
         ))}
       </div>
 
-      {/* Day grid */}
-      <div className="grid grid-cols-7 gap-1" role="grid" aria-label={`${monthNames[month]} ${String(year)}`}>
-        {cells.map((cell, idx) => {
-          if (cell.isEmpty) {
-            return <div key={`empty-${String(idx)}`} role="gridcell" aria-hidden="true" className="size-10" />;
-          }
-          const { day } = cell;
-          const state = getDayState(day);
-          const dateStr = toDateString(year, month, day);
-          const hasAvailability = availableSet.has(dateStr);
+      {/* Day grid — ARIA: grid > row > gridcell */}
+      <div
+        className="grid grid-cols-7 gap-1"
+        role="grid"
+        aria-label={`${monthNames[month]} ${String(year)}`}
+      >
+        {Array.from({ length: Math.ceil(cells.length / 7) }, (_, rowIdx) => (
+          <div key={`row-${String(rowIdx)}`} role="row" className="contents">
+            {cells.slice(rowIdx * 7, rowIdx * 7 + 7).map((cell, colIdx) => {
+              if (cell.isEmpty) {
+                return (
+                  <div
+                    key={`empty-${String(rowIdx)}-${String(colIdx)}`}
+                    role="gridcell"
+                    aria-hidden="true"
+                    className="size-10"
+                  />
+                );
+              }
+              const { day } = cell;
+              const state = getDayState(day);
+              const dateStr = toDateString(year, month, day);
+              const hasAvailability = availableSet.has(dateStr);
 
-          return (
-            <div key={dateStr} role="gridcell">
-              <CalendarDayCell
-                day={day}
-                state={state}
-                hasAvailability={hasAvailability}
-                aria-label={`${String(day)} de ${monthNames[month]} de ${String(year)}`}
-                onClick={() => { handleDayClick(day); }}
-              />
-            </div>
-          );
-        })}
+              return (
+                <div key={dateStr} role="gridcell">
+                  <CalendarDayCell
+                    day={day}
+                    state={state}
+                    hasAvailability={hasAvailability}
+                    aria-label={`${String(day)} de ${monthNames[month]} de ${String(year)}`}
+                    onClick={() => {
+                      handleDayClick(day);
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );
