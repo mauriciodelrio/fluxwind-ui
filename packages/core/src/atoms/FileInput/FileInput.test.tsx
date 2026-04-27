@@ -17,14 +17,14 @@ beforeAll(() => {
     };
 
     get files(): FileList {
-      const dt = this;
+      const filesCopy = this._files;
       return {
-        length: dt._files.length,
-        item: (i: number) => dt._files[i] ?? null,
+        length: filesCopy.length,
+        item: (i: number) => filesCopy[i] ?? null,
         [Symbol.iterator]: function* () {
-          yield* dt._files;
+          yield* filesCopy;
         },
-        ...Object.fromEntries(dt._files.map((f, i) => [i, f])),
+        ...Object.fromEntries(filesCopy.map((f, i) => [i, f])),
       } as unknown as FileList;
     }
   }
@@ -94,7 +94,9 @@ describe("FileInput", () => {
 
   it("does not set aria-invalid when no error", () => {
     render(<FileInput label="Upload" id="fi-ok" />);
-    expect(document.getElementById("fi-ok")).not.toHaveAttribute("aria-invalid");
+    expect(document.getElementById("fi-ok")).not.toHaveAttribute(
+      "aria-invalid",
+    );
   });
 
   it("links error via aria-describedby", () => {
@@ -213,7 +215,9 @@ describe("FileInput", () => {
 
   it("calls onChange on file drop", () => {
     const handler = vi.fn();
-    render(<FileInput label="Upload" draggable id="fi-drop" onChange={handler} />);
+    render(
+      <FileInput label="Upload" draggable id="fi-drop" onChange={handler} />,
+    );
     const zone = screen.getByRole("button", {
       name: /drag files here or click to browse/i,
     });
@@ -274,7 +278,9 @@ describe("FileInput", () => {
     render(<FileInput label="Upload" id="fi-arlist" />);
     const input = document.getElementById("fi-arlist") as HTMLInputElement;
     triggerFileChange(input, [makeFile("cv.pdf")]);
-    expect(screen.getByRole("list", { name: "Selected files" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("list", { name: "Selected files" }),
+    ).toBeInTheDocument();
   });
 
   it("remove button has accessible name for each file", () => {

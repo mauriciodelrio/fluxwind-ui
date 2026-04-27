@@ -19,12 +19,17 @@ import {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+const BYTE_UNITS = ["B", "KB", "MB", "GB"] as const;
+
 function formatBytes(bytes: number): string {
   if (bytes === 0) return "0 B";
   const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+  const i = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(k)),
+    BYTE_UNITS.length - 1,
+  );
+  const unit = BYTE_UNITS[i];
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${unit}`;
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -91,7 +96,8 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const inputRef = useRef<HTMLInputElement | null>(null);
     useImperativeHandle(ref, () => {
       const { current } = inputRef;
-      if (current === null) throw new Error("[FileInput] input ref not attached");
+      if (current === null)
+        throw new Error("[FileInput] input ref not attached");
       return current;
     });
 
@@ -189,9 +195,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           aria-label="Selected files"
           className="flex flex-col gap-1 mt-2 w-full"
         >
-          {files.map((file, i) => (
+          {files.map((file) => (
             <li
-              key={`${file.name}-${file.size}-${i}`}
+              key={`${file.name}-${String(file.size)}-${String(file.lastModified)}`}
               className="flex items-center justify-between gap-2 px-3 py-1.5 rounded-md bg-[var(--color-fw-surface)] text-sm"
             >
               <span className="truncate text-[var(--color-fw-foreground)]">
@@ -203,7 +209,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               <button
                 type="button"
                 aria-label={`Remove ${file.name}`}
-                onClick={() => handleRemove(i)}
+                onClick={() => handleRemove(files.indexOf(file))}
                 disabled={disabled}
                 className="shrink-0 text-[var(--color-fw-muted)] hover:text-[var(--color-fw-destructive)] transition-colors"
               >

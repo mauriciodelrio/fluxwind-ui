@@ -29,7 +29,10 @@ const meta: Meta<typeof FileInput> = {
       description:
         "Switches the input to a drag-and-drop zone. Default `false`.",
       control: "boolean",
-      table: { type: { summary: "boolean" }, defaultValue: { summary: "false" } },
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     dropZoneText: {
       description:
@@ -50,7 +53,7 @@ const meta: Meta<typeof FileInput> = {
     },
     accept: {
       description:
-        "Comma-separated MIME types or file extensions, e.g. `\"image/*,.pdf\"`.",
+        'Comma-separated MIME types or file extensions, e.g. `"image/*,.pdf"`.',
       control: "text",
       table: {
         type: { summary: "string" },
@@ -60,22 +63,35 @@ const meta: Meta<typeof FileInput> = {
     multiple: {
       description: "Allow selecting multiple files. Default `true`.",
       control: "boolean",
-      table: { type: { summary: "boolean" }, defaultValue: { summary: "true" } },
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
     },
     hint: {
       description: "Helper text below the input.",
       control: "text",
-      table: { type: { summary: "string" }, defaultValue: { summary: "undefined" } },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "undefined" },
+      },
     },
     error: {
-      description: "Error message. Sets `aria-invalid` and links via `aria-describedby`.",
+      description:
+        "Error message. Sets `aria-invalid` and links via `aria-describedby`.",
       control: "text",
-      table: { type: { summary: "string" }, defaultValue: { summary: "undefined" } },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "undefined" },
+      },
     },
     disabled: {
       description: "Disables the input and remove buttons.",
       control: "boolean",
-      table: { type: { summary: "boolean" }, defaultValue: { summary: "false" } },
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
     },
     radius: {
       description: "Border radius via `radiusMap` token.",
@@ -133,8 +149,7 @@ export const WithAcceptFilter: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "`accept=\"image/*\"` restricts the native picker to image files.",
+        story: '`accept="image/*"` restricts the native picker to image files.',
       },
     },
   },
@@ -198,7 +213,8 @@ export const DraggableWithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Draggable zone with an error state — border turns destructive-colored.",
+        story:
+          "Draggable zone with an error state — border turns destructive-colored.",
       },
     },
   },
