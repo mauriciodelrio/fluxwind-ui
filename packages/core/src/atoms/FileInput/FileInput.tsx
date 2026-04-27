@@ -209,7 +209,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               <button
                 type="button"
                 aria-label={`Remove ${file.name}`}
-                onClick={() => { handleRemove(files.indexOf(file)); }}
+                onClick={() => {
+                  handleRemove(files.indexOf(file));
+                }}
                 disabled={disabled}
                 className="shrink-0 text-[var(--color-fw-muted)] hover:text-[var(--color-fw-destructive)] transition-colors"
               >
