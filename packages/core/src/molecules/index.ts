@@ -13,3 +13,4 @@ export * from "./CalendarBlockList";
 export * from "./CalendarMonthPicker";
 export * from "./CalendarSlotList";
 export * from "./DatePicker";
+export * from "./Carousel";
