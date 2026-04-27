@@ -25,3 +25,4 @@ export * from "./Gauge";
 export * from "./CalendarSlotCell";
 export * from "./CalendarDayCell";
 export * from "./PhoneInput";
+export * from "./FileInput";
