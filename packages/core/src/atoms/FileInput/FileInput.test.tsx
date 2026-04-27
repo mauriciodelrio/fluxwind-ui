@@ -144,7 +144,7 @@ describe("FileInput", () => {
     render(<FileInput label="Upload" id="fi-size" />);
     const input = document.getElementById("fi-size") as HTMLInputElement;
     triggerFileChange(input, [makeFile("doc.pdf", 2048)]);
-    expect(screen.getByText("2 KB")).toBeInTheDocument();
+    expect(screen.getByText("2.0 KB")).toBeInTheDocument();
   });
 
   it("accumulates files on multiple selections when multiple=true", () => {
