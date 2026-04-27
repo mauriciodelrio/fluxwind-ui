@@ -29,7 +29,7 @@ function formatBytes(bytes: number): string {
     BYTE_UNITS.length - 1,
   );
   const unit = BYTE_UNITS[i];
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${unit}`;
+  return `${(bytes / Math.pow(k, i)).toFixed(1)} ${unit}`;
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -209,7 +209,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               <button
                 type="button"
                 aria-label={`Remove ${file.name}`}
-                onClick={() => handleRemove(files.indexOf(file))}
+                onClick={() => { handleRemove(files.indexOf(file)); }}
                 disabled={disabled}
                 className="shrink-0 text-[var(--color-fw-muted)] hover:text-[var(--color-fw-destructive)] transition-colors"
               >

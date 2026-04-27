@@ -21,7 +21,7 @@ beforeAll(() => {
       return {
         length: filesCopy.length,
         item: (i: number) => filesCopy[i] ?? null,
-        [Symbol.iterator]: function* () {
+        *[Symbol.iterator]() {
           yield* filesCopy;
         },
         ...Object.fromEntries(filesCopy.map((f, i) => [i, f])),
@@ -46,7 +46,7 @@ function triggerFileChange(input: HTMLElement, files: File[]) {
     value: {
       length: files.length,
       item: (i: number) => files[i] ?? null,
-      [Symbol.iterator]: function* () {
+      *[Symbol.iterator]() {
         yield* files;
       },
       ...Object.fromEntries(files.map((f, i) => [i, f])),

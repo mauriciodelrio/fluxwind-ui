@@ -168,7 +168,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
 
                   return (
                     <div
-                      key={lineIndex}
+                      key={lineNumber}
                       className={cn(
                         codeBlockLineVariants({ highlighted: isHighlighted }),
                         lineClassName,
