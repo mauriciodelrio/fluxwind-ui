@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.7.0...v0.8.0) (2026-04-27)
+
+In version 0.8.0, users can explore new components including a fully accessible Carousel molecule, a zero-dependency DatePicker, and versatile FileInput and PhoneInput atoms, enhancing form functionality and user interaction. The Carousel features keyboard navigation and autoplay capabilities, while the DatePicker offers a comprehensive calendar interface with robust accessibility features. Additionally, support for Tabler icons has been integrated into the Icon component, allowing for greater customization without breaking existing functionality.
+
+### Pull Requests
+
+- [#21](https://github.com/mauriciodelrio/fluxwind-ui/pull/21) feat(icon): add Tabler icons support (Mode 4)
+- [#22](https://github.com/mauriciodelrio/fluxwind-ui/pull/22) feat(phone-input): add PhoneInput atom (#22)
+- [#23](https://github.com/mauriciodelrio/fluxwind-ui/pull/23) feat(atoms): FileInput — button & drag-and-drop modes
+- [#24](https://github.com/mauriciodelrio/fluxwind-ui/pull/24) feat(date-picker): add DatePicker molecule
+- [#25](https://github.com/mauriciodelrio/fluxwind-ui/pull/25) feat(carousel): add Carousel molecule
+
 ## [0.7.0](https://github.com/mauriciodelrio/fluxwind-ui/compare/v0.6.1...v0.7.0) (2026-04-26)
 
 In version 0.7.0, the library expands its component inventory to a total of 49, introducing new atoms, molecules, and organisms, including the CalendarBooking and CalendarManager features for enhanced scheduling capabilities. Notable additions include the CalendarDayCell and CalendarMonthPicker, which provide users with a more robust calendar interface. Additionally, the README has been updated to reflect these changes, ensuring users have the latest information on available components.
