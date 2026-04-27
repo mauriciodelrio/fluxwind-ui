@@ -12,3 +12,4 @@ export * from "./CalendarBlockForm";
 export * from "./CalendarBlockList";
 export * from "./CalendarMonthPicker";
 export * from "./CalendarSlotList";
+export * from "./DatePicker";
